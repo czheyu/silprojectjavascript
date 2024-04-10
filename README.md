@@ -120,19 +120,31 @@ if we decide just to initiate, but not assign.
 A quick google search results in this as the top response:
 
 JavaScript has 8 Datatypes
-: String.
-: Number.
-: Bigint.
-: Boolean.
-: Undefined.
-: Null.
-: Symbol.
-: Object.
+- String
+- Number
+- Bigint
+- Boolean
+- Undefined
+- Null
+- Symbol
+- Object
 
 As some of these seem new and weird i have decided to only focus on 3 for now, String, Number and Boolean.
 
 
 ### If Else Logic
+
+A core element of code is conditional statements. 
+In js the syntax for a if else statement is this:
+
+
+```javascript
+if (true){
+  console.log("condition is true")
+} else {
+  console.log("condition is false")
+}
+```
 
 
 ## Simple conditional program
