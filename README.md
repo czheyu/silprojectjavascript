@@ -64,7 +64,7 @@ print("hi")
 ```
 
 While javascript(the language of node.js) is a different language, the syntax is similar, unlike lower level languages like C++.
-In js(javascript), outputing a value to the console is as simple as calling the "console.log()" method:
+In js(javascript), outputing a value to the console is as simple as calling the `"console.log()"` method:
 
 ```javascript
 console.log("hi");
@@ -82,10 +82,10 @@ After doing research and browsing several web pages, i have come to understand w
 
 What i learnt:
 
-There are 3 keywords used in initializing a variable, *var*, *let*, and *const*.
-- var creates a *global*, or functional sometimes (important) variable.
-- let creates a variable that can be changed and accessed in the scope it was initialized in.
-- const creats a *constant* variable(as suggested by its name) that cannot be changed, only accessed.
+There are 3 keywords used in initializing a variable, `var`, `let`, and `const`.
+- `var` creates a *global*, or functional sometimes (important) variable.
+- `let` creates a variable that can be changed and accessed in the scope it was initialized in.
+- `const` creats a *constant* variable(as suggested by its name) that cannot be changed, only accessed.
 
 A (very)helpful table i found on [www.geeksforgeeks.org](https://www.geeksforgeeks.org/difference-between-var-let-and-const-keywords-in-javascript/) below:
 
@@ -95,7 +95,7 @@ A (very)helpful table i found on [www.geeksforgeeks.org](https://www.geeksforgee
 |It can be updated and re-declared in the same scope.|	It can be updated but cannot be re-declared in the same scope.|	It can neither be updated or re-declared in any scope.|
 |It can be declared without initialization.|	It can be declared without initialization.|	It cannot be declared without initialization.|
 |It can be accessed without initialization as its default value is “undefined”.|	It cannot be accessed without initialization otherwise it will give ‘referenceError’.|	It cannot be accessed without initialization, as it cannot be declared without initialization.|
-|These variables are hoisted.|	These variables are hoisted but stay in the temporal dead zone untill the initialization.|	These variables are hoisted but stays in the temporal dead zone until the initialization.|
+|These variables are hoisted.|	These variables are hoisted but stay in the temporal dead zone until the initialization.|	These variables are hoisted but stays in the temporal dead zone until the initialization.|
 
 from [www.geeksforgeeks.org](https://www.geeksforgeeks.org/difference-between-var-let-and-const-keywords-in-javascript/) too:
 > Note: Sometimes, users face problems while working with the var variable as they change its value of it in a particular block. So, users should use the let and const keywords to declare a variable in JavaScript. 
