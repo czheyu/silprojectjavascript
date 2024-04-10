@@ -1,15 +1,15 @@
-# *Node.js* Sil
+# Node.js Sil
 ---
-# *Goals* for Sil {goals}
+# Goals for Sil 
 ## Items to be achieved:
 - [ ] Learn the *basics* of Node.js
 - [ ] Learn the *background and origin* of Node.js
 - [ ] Learn the *pros and cons* of Node.js
 - [ ] learn *intermediate concepts* of Node.js
 - [ ] Create a simple *project*
-- [ ] tbd
+- [ ] tbd 
 ---
-# My understanding of Node.js {understanding}
+# My understanding of Node.js
 
 ## What is node.js
 According to [Wikipedia](https://en.wikipedia.org/wiki/Node.js)
@@ -24,20 +24,25 @@ According to [miquido](https://www.miquido.com/blog/why-use-node-js/), node.js i
 Learning node.js can also carry over into many different frameworks and applications. 
 
 ---
-# Learning the basics {basics}
+# Learning the basics
 ## Logging, Variables, and If Else Logic
 One of the most important building blocks of code and programs are *Logging, Variables, and If Else Logic* 
 While writing code with these in them may seem easy, i think mastering the use of them efficiently may need some practice.
 ### Logging
 As i have prior experience in [Python](https://www.python.org/), this instantly makes me think of:
-´´´ruby
+```python
 print("hi")
-´´´
+```
+
 While javascript(the language of node.js) is a different language, the syntax is similar, lower level languages like C++.
 In js(javascript), outputing a value to the console is as simple as calling the "console.log()" method:
-´´´ruby
+```javascript
 console.log("hi");
-´´´
+```
+
+### Variables
+
+
 
 
 
