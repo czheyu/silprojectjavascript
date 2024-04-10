@@ -9,7 +9,18 @@
 - [ ] learn *intermediate concepts* of Node.js
 - [ ] Create a simple *project*
 - [ ] tbd
- 
+      
+### Helpful resources
+overall just helpful:
+- [node.js](https://nodejs.org/en/learn/getting-started/introduction-to-nodejs)
+- [mdndocs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [w3schools](https://www.w3schools.com/jsref/)
+- [geeksforgeeks](https://www.geeksforgeeks.org/)
+
+helpful in editing this readme.md:
+- [markdownguide](https://www.markdownguide.org/extended-syntax/)
+
+
 ---
 # My understanding of Node.js
 
