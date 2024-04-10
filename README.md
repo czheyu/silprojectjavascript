@@ -1,6 +1,6 @@
 # Node.js Sil
 ---
-## Goals for Sil 
+## Goals for Student Initiated Learning (2024)
 ### Items to be achieved:
 
 - [ ] Learn the *basics* of Node.js
@@ -93,9 +93,9 @@ const variablethree = ["one","two","three"];
 ```
 
 where the format is 
-<keyword> <variablename> = <value>;
+keyword variablename = value;
 or
-<keyword> <variablename>;
+keyword variablename;
 if we decide just to initiate, but not assign.
 
 ### Types
