@@ -1,6 +1,6 @@
 # *Node.js* Sil
 ---
-# *Goals* for Sil {#goals}
+# *Goals* for Sil {goals}
 ## Items to be achieved:
 - [ ] Learn the *basics* of Node.js
 - [ ] Learn the *background and origin* of Node.js
@@ -9,7 +9,7 @@
 - [ ] Create a simple *project*
 - [ ] tbd
 ---
-# My understanding of Node.js {#understanding}
+# My understanding of Node.js {understanding}
 
 ## What is node.js
 According to [Wikipedia](https://en.wikipedia.org/wiki/Node.js)
@@ -24,7 +24,7 @@ According to [miquido](https://www.miquido.com/blog/why-use-node-js/), node.js i
 Learning node.js can also carry over into many different frameworks and applications. 
 
 ---
-# Learning the basics {#basics}
+# Learning the basics {basics}
 ## Logging, Variables, and If Else Logic
 One of the most important building blocks of code and programs are *Logging, Variables, and If Else Logic* 
 While writing code with these in them may seem easy, i think mastering the use of them efficiently may need some practice.
