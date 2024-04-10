@@ -46,10 +46,10 @@ Variables are even in math, physics and in block coding apps.
 Accessing and changing a variable in js is almost identical to python's syntax but initializing one is something i have to keep in mind.
 After doing research and browsing several web pages, i have come to understand what different initializing keywords achieve and what situations are best fitted for them.
 #### What i learnt
-: There are 3 keywords used in initializing a variable, *var*, *let*, and *const*.
-: var creates a *global*, or functional sometimes (important) variable.
-: let creates a variable that can be changed and accessed in the scope it was initialized in.
-: const creats a *constant* variable(as suggested by its name) that cannot be changed, only accessed.
+There are 3 keywords used in initializing a variable, *var*, *let*, and *const*.
+- var creates a *global*, or functional sometimes (important) variable.
+- let creates a variable that can be changed and accessed in the scope it was initialized in.
+- const creats a *constant* variable(as suggested by its name) that cannot be changed, only accessed.
 
 A (very)helpful table i found on [www.geeksforgeeks.org](https://www.geeksforgeeks.org/difference-between-var-let-and-const-keywords-in-javascript/) below:
 
