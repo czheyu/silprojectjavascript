@@ -1,6 +1,10 @@
 # Node.js Sil
 ---
+
+
 ## Goals for Student Initiated Learning (2024)
+
+
 ### Items to be achieved:
 
 - [ ] Learn the *basics* of Node.js
@@ -9,6 +13,7 @@
 - [ ] learn *intermediate concepts* of Node.js
 - [ ] Create a simple *project*
 - [ ] tbd
+
       
 ### Helpful resources
 overall just helpful:
@@ -22,7 +27,10 @@ helpful in editing this readme.md:
 
 
 ---
+
+
 # My understanding of Node.js
+
 
 ## What is node.js
 According to [Wikipedia](https://en.wikipedia.org/wiki/Node.js)
@@ -30,16 +38,22 @@ According to [Wikipedia](https://en.wikipedia.org/wiki/Node.js)
 
 From what I understand from reading up, Javascript is mostly used in making interactive and dynamic websites. While node.js is a console focused, back-end runtime that lets you run server-side JavaScript outside of a web browser. I think that it is important to differenciate node.js from pure js, as they ["serve different purposes in the web development ecosystem."](https://reintech.io/blog/difference-between-nodejs-and-javascript) 
 
+
 ## Why use node.js
 According to [miquido](https://www.miquido.com/blog/why-use-node-js/), node.js is not only scalable, fast, efficient, cross-platform adaptable, high performance and easy to learn. The node.js community is also huge, allowing for many innovative creations, tutorials, blogs, and creative codebases.
 Learning node.js can also carry over into many different frameworks and applications. 
 
 ---
+
+
 # Learning the basics
+
+
 ## Logging, Variables, Types, and If Else Logic
 
 One of the most important building blocks of code and programs are *Logging, Variables, Types, and If Else Logic* 
 While writing code with these in them may seem easy, i think mastering the use of them efficiently may need some practice.
+
 
 ### Logging
 
@@ -57,6 +71,7 @@ console.log("hi");
 ```
 > important to put the semicolon as it signifies the end of a line for the interpreter
 
+
 ### Variables
 
 Variables is one of the most well-known concepts related to programming, and so did not need a introduction to this.
@@ -64,7 +79,8 @@ Variables are even in math, physics and in block coding apps.
 Accessing and changing a variable in js is almost identical to python's syntax but initializing one is something i have to keep in mind.
 After doing research and browsing several web pages, i have come to understand what different initializing keywords achieve and what situations are best fitted for them.
 
-#### What i learnt
+
+What i learnt:
 
 There are 3 keywords used in initializing a variable, *var*, *let*, and *const*.
 - var creates a *global*, or functional sometimes (important) variable.
@@ -98,6 +114,7 @@ or
 keyword variablename;
 if we decide just to initiate, but not assign.
 
+
 ### Types
 
 A quick google search results in this as the top response:
@@ -114,7 +131,9 @@ JavaScript has 8 Datatypes
 
 As some of these seem new and weird i have decided to only focus on 3 for now, String, Number and Boolean.
 
+
 ### If Else Logic
+
 
 ## Simple conditional program
 
