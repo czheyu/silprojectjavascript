@@ -160,7 +160,7 @@ if (true){
 
 After going through the basics i feel like i am ready to create a simple program.
 
-I created a index.js file in SIL-code/Simple_logics [here](SIL-code/Simple_logics/index.js)
+I created a index.js file in SIL-code/Simple_logics [here](SIL-code/Simple_Logics/index.js)
 I also connected this github repo to a Replit repl so i can more efficiently write, test, and update code
 ![screenshotofreplit](images/replitscreenshot.png)
 
