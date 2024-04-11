@@ -146,13 +146,122 @@ if (true){
 }
 ```
 
+^Quite easy to understand.
+
+> I actually like this curlybracket and bracket style as it makes the code more readable.
+
 
 ## Simple conditional program
 
+After going through the basics i feel like i am ready to create a simple program.
+
+I created a index.js file in SIL-code/Simple_logics [here](SIL-code/Simple_logics/index.js)
+I also connected this github repo to a Replit repl so i can more efficiently write, test, and update code
+![screenshotofreplit](images/replitscreenshot.png)
+
+After installing a input node.js module, ´npm install prompt-sync´ I got this code from the internet.
+
+```javascript
+const prompt = require('prompt-sync')();
+
+const name = prompt('What is your name?');
+console.log(`Hey there ${name}`);
+```
+Simple code but we can build and change it into a interesting math game.
+
+```javascript
+const prompt = require("prompt-sync")();
+
+let firstnumber = 2;
+let secondnumber = 3;
+let result = String(firstnumber + secondnumber);
+
+let response = prompt(`What is ${firstnumber} + ${secondnumber}?: `);
+
+if (response == result) {
+  console.log("Yes you got it correct");
+} else {
+  console.log("No you got it wrong");
+}
+```
+Where the user is asked a simple math math question, 2+3 and the program, using if else statements 
+Lets improve it by using Math.random() to generate a randome addition problem, and also make it a loop where the progam will keep asking for input until the user gets it right.
+
+```javascript
 
 
+const prompt = require("prompt-sync")();
 
 
+function getRandomIntInclusive(min, max) {
+  const minCeiled = Math.ceil(min);
+  const maxFloored = Math.floor(max);
+  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // The maximum is inclusive and the minimum is inclusive
+}
 
 
+let firstnumber = getRandomIntInclusive(1, 30);
+let secondnumber = getRandomIntInclusive(1, 30);
+let result = String(firstnumber + secondnumber);
+let correctanswer = false
+let response;
 
+while (correctanswer == false){
+  response = prompt(`What is ${firstnumber} + ${secondnumber}?: `);
+
+  if (response == result) {
+    console.log("Yes you got it correct");
+    correctanswer = true
+  } else {
+    console.log("No you got it wrong");
+  }
+}
+```
+
+output:
+```shell
+What is 26 + 30?: 22
+No you got it wrong
+What is 26 + 30?: 1234154151
+No you got it wrong
+What is 26 + 30?: 57442124141212421532513124122413
+No you got it wrong
+What is 26 + 30?: 123
+No you got it wrong
+What is 26 + 30?: 235253241
+No you got it wrong
+What is 26 + 30?: 66
+No you got it wrong
+What is 26 + 30?: 56
+Yes you got it correct
+```
+It seems to work. 
+
+Improving the code:
+```shell
+What is 1 * 12?: 12
+Yes you got it correct
+What is 11 + 27?: 38
+Yes you got it correct
+What is 4 * 15?: 60
+Yes you got it correct
+What is 18 * 3?: 46
+No you got it wrong
+What is 18 * 3?: 56
+No you got it wrong
+What is 18 * 3?: 54
+Yes you got it correct
+What is 26 + 8?: 34
+Yes you got it correct
+What is 13 + 15?: 28
+Yes you got it correct
+What is 9 + 6?: 15
+Yes you got it correct
+What is 30 - 25?: 5
+Yes you got it correct
+What is 21 * 25?: 525
+Yes you got it correct
+What is 13 - 26?: -13
+Yes you got it correct
+Your score is 2589
+```
