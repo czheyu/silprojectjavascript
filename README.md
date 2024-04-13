@@ -404,5 +404,158 @@ You won!
 Characters guessed h,g,o,p,d,r,b,l,k
 Word: book
 ```
+spent ~15 min cleaning things: 
+- reworking things
+- `checkIfWon` is now recursive
+- list of words is now in a external json file
+- all cleaned up into functions
+- playagain(y/n) feature
+- displaying now can display ` ` as ` ` instead of `_`, but still no 2 word phrases,(maybe later)
 
-I think i am satisfied for this simple hangman program, though the code is messy and therefore i will be cleaning it up.
+```shell
+Characters guessed 
+Word: ____
+Guess a letter: b
+you guessed b
+Characters guessed b
+Word: b___
+Guess a letter: o
+you guessed o
+Characters guessed b,o
+Word: boo_
+Guess a letter: k
+you guessed k
+Characters guessed b,o,k
+Word: book
+You won!
+Play again?(y/n): 
+Play again?(y/n): 
+y
+Characters guessed 
+Word: ___
+Guess a letter: c
+you guessed c
+Characters guessed c
+Word: ___
+Guess a letter: b
+you guessed b
+Characters guessed c,b
+Word: ___
+Guess a letter: p
+you guessed p
+Characters guessed c,b,p
+Word: p__
+Guess a letter: e
+you guessed e
+Characters guessed c,b,p,e
+Word: pe_
+Guess a letter: n
+you guessed n
+Characters guessed c,b,p,e,n
+Word: pen
+You won!
+Play again?(y/n): 
+Play again?(y/n): 
+n
+```
+
+code now looks like this: 
+```javascript
+const prompt = require("prompt-sync")();
+
+//function to reset the game to play
+function initiallize(wordarray) {
+  guessedwords = [];
+  guess = "";
+  won = false;
+  choosenword = chooseAWord(wordarray);
+  choosenlength = choosenword.length;
+  display(choosenword, choosenlength);
+}
+
+//recursive function(calls itself while +1 the check index till its out of range(==to .length))checking if won, returns true if won else false
+function checkIfWon(word, wordlength, index) {
+  if (index == wordlength) {
+    return true;
+  } else {
+    if (guessedwords.includes(word[index]) == false) {
+      //if any letter is not guessed, the game is not won
+      return false;
+    }
+    return checkIfWon(word, wordlength, index + 1);
+  }
+}
+
+//function to choose a word from the array of words
+function chooseAWord(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+function display(word, wordlength) {
+  console.log(`Characters guessed ${guessedwords}`);
+  tobedisplayedtext = "";
+  for (let i = 0; i < wordlength; i++) {
+    if (guessedwords.includes(word[i])) {
+      tobedisplayedtext += word[i];
+    } else {
+      if (word[i] == " ") {
+        tobedisplayedtext += "space";
+      } else {
+        tobedisplayedtext += "_";
+      }
+    }
+  }
+  console.log(`Word: ${tobedisplayedtext}`);
+}
+
+function takeAGuess(word, wordlength) {
+  guess = prompt("Guess a letter: ");
+  if (guess.length == 1 && guess != " ") {
+    if (!guessedwords.includes(guess)) {
+      //continue
+      console.log(`you guessed ${guess}`);
+      guessedwords.push(guess);
+      if (checkIfWon(word, wordlength, 0)) {
+        won = true;
+      }
+      display(word, wordlength);
+    } else {
+      console.log(`${guess} was already guessed`);
+    }
+  } else {
+    console.log("Please enter a single letter");
+  }
+}
+
+//main loop
+function play(wordarray) {
+  initiallize(wordarray);
+  while (!won) {
+    takeAGuess(choosenword, choosenlength);
+  }
+  //when won
+  console.log("You won!");
+  if (prompt("Play again?(y/n): \n") == "y") {
+    //calls itself again
+    play(wordarray);
+  }
+}
+
+//main entrypoint
+function main() {
+  const arrayofwords = require("./words.json");
+
+  //initializing variables
+  let choosenword;
+  let choosenlength;
+  let guessedwords;
+  let guess;
+  let won;
+  let tobedisplayedtext;
+  play(arrayofwords);
+}
+
+//calling main
+main();
+
+```

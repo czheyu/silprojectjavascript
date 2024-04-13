@@ -1,3 +1,5 @@
+const prompt = require("prompt-sync")();
+
 //function to reset the game to play
 function initiallize(wordarray) {
   guessedwords = [];
@@ -23,7 +25,7 @@ function checkIfWon(word, wordlength, index) {
 
 //function to choose a word from the array of words
 function chooseAWord(array) {
-  return array[Math.floor(Math.random() * arrayofwords.length)];
+  return array[Math.floor(Math.random() * array.length)];
 }
 
 function display(word, wordlength) {
@@ -77,26 +79,9 @@ function play(wordarray) {
 }
 
 //main entrypoint
-function main(wordarray) {
-  const prompt = require("prompt-sync")();
+function main() {
+  const arrayofwords = require("./words.json");
 
-  const arrayofwords = [
-    "hello",
-    "cat",
-    "dog",
-    "mouse",
-    "house",
-    "car",
-    "computer",
-    "phone",
-    "chair",
-    "table",
-    "bed",
-    "window",
-    "door",
-    "book",
-    "pen",
-  ];
   //initializing variables
   let choosenword;
   let choosenlength;
@@ -104,8 +89,8 @@ function main(wordarray) {
   let guess;
   let won;
   let tobedisplayedtext;
-  play(wordarray);
+  play(arrayofwords);
 }
 
 //calling main
-main(arrayofwords);
+main();
