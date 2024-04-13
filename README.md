@@ -158,6 +158,8 @@ if (true){
 
 ## Simple conditional program
 
+
+### Math Game
 After going through the basics i feel like i am ready to create a simple program.
 
 I created a index.js file in SIL-code/Simple_logics [here](https://github.com/czheyu/czheyu.github.io/blob/main/SIL-code/Simple_Logics/index.js)
@@ -270,3 +272,137 @@ What is 13 - 26?: -13
 Yes you got it correct
 Your score is 2589
 ```
+
+
+### Hangman
+
+
+Once again created a new index.js file in SIL-code/Simple_Logics/index.js.
+
+And wrote this code:
+```javascript
+const prompt = require("prompt-sync")();
+
+const arrayofwords = [
+  "hello",
+  "cat",
+  "dog",
+  "mouse",
+  "house",
+  "car",
+  "computer",
+  "phone",
+  "chair",
+  "table",
+  "bed",
+  "window",
+  "door",
+  "book",
+  "pen",
+];
+let choosenword;
+let choosenlength;
+let guessedwords = [];
+let guess = "";
+let won = false;
+choosenword = chooseAWord();
+choosenlength = choosenword.length;
+
+function checkIfWon() {
+  for (let i = 0; i < choosenlength; i++) {
+    if (guessedwords.includes(choosenword[i]) == false) {
+      //if any letter is not guessed, the game is not won
+      return false;
+    } else {
+      //console.log(choosenword[i]);
+      //console.log("is guessed");
+    }
+  }
+  return true;
+}
+function chooseAWord() {
+  return arrayofwords[Math.floor(Math.random() * arrayofwords.length)];
+}
+
+function display() {
+  console.log(`Characters guessed ${guessedwords}`);
+  let display = "";
+  for (let i = 0; i < choosenlength; i++) {
+    if (guessedwords.includes(choosenword[i])) {
+      display += choosenword[i];
+    } else {
+      display += "_";
+    }
+  }
+  console.log(`Word: ${display}`);
+}
+
+while (won == false) {
+  guess = prompt("Guess a letter: ");
+  if (guess.length == 1) {
+    if (!guessedwords.includes(guess)) {
+      //continue
+      console.log(`you guessed ${guess}`);
+      guessedwords.push(guess);
+      if (checkIfWon()) {
+        console.log("You won!");
+        display();
+        won = true;
+      } else {
+        display();
+      }
+    } else {
+      console.log(`${guess} was already guessed`);
+    }
+  } else {
+    console.log("Please enter a single letter");
+  }
+}
+
+```
+
+testing it out:
+
+```shell
+Guess a letter: h
+you guessed h
+Characters guessed h
+Word: ____
+Guess a letter: g
+you guessed g
+Characters guessed h,g
+Word: ____
+Guess a letter: g
+g was already guessed
+Guess a letter: o
+you guessed o
+Characters guessed h,g,o
+Word: _oo_
+Guess a letter: p
+you guessed p
+Characters guessed h,g,o,p
+Word: _oo_
+Guess a letter: d
+you guessed d
+Characters guessed h,g,o,p,d
+Word: _oo_
+Guess a letter: r
+you guessed r
+Characters guessed h,g,o,p,d,r
+Word: _oo_
+Guess a letter: b
+you guessed b
+Characters guessed h,g,o,p,d,r,b
+Word: boo_
+Guess a letter: l
+you guessed l
+Characters guessed h,g,o,p,d,r,b,l
+Word: boo_
+Guess a letter: k
+you guessed k
+You won!
+Characters guessed h,g,o,p,d,r,b,l,k
+Word: book
+```
+
+I think i am satisfied for this simple hangman program, though the code is messy and therefore i will be cleaning it up.
