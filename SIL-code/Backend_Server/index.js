@@ -6,8 +6,13 @@ const path = require("path");
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname+ "/index.html");
+  res.sendFile(__dirname + "/page/index.html");
 });
+
+app.get("/index.js", (req, res) => {
+  res.sendFile(__dirname + "/page/index.js");
+});
+
 app.get("/api/messagesget", (req, res) => {
   res.send(require("./data.json")); //need
 });
