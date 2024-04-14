@@ -1,32 +1,49 @@
 const fs = require("fs");
 const express = require("express");
-
 const app = express();
 const port = 5000;
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-app.get("/api/messages", (req, res) => {
-  res.send(readData());
+app.get("/api/messagesget", (req, res) => {
+  res.send(readData());//need
 });
 
 app.post("/api/messagesend", function (req, res) {
-  console.log(req.body);
-  writeData(req.body.type, req.body.username, req.body.value);
-  res.send(readData());
+  handlePost(req.body);//need
 });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
+
+
+
+
 function readData() {
-  let dataarray = require("./data.json");
-  return dataarray;
+  return JSON.parse(fs.readFile("data.json"));
 }
 
-function writeData(type, username, value) {
+function handlePost(req) {
+  fs.readFile("data.json", function (err, data) {
+    // Check for errors
+    if (err) throw err;
+
+    // Converting to JSON
+    writeData(req.type, req.username, req.value, JSON.parse(data));
+  });
+  fs.readFile("data.json", function (err, data) {
+    // Check for errors
+    if (err) throw err;
+
+    // Converting to JSON
+    res.send(JSON.parse(data));
+  });
+}
+
+function writeData(type, username, value, data) {
+  let dataarray = data;
   try {
-    let dataarray = JSON.parse(require("./data.json"));
     let data = {
       id: dataarray.countaccess,
       username: username,
@@ -35,10 +52,18 @@ function writeData(type, username, value) {
     };
     dataarray["data"].push(data);
     dataarray.countaccess++;
-    fs.writeFile("./data.json", JSON.stringify(dataarray));
+    fs.writeFile("data.json", JSON.stringify(dataarray), (err) => {
+      // Checking for errors
+      if (err) throw err;
+
+      // Success
+      console.log("Done writing");
+    });
     return "success";
   } catch (as) {
     console.log(as);
     return "error";
   }
 }
+
+
