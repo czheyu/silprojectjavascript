@@ -1,7 +1,1 @@
-{
-  "countaccess": 0,
-  "data": [{ "id": 1,
-    "username": "zheyu",
-    "type": "message",
-    "value": "hi" }]
-}
+{"countaccess":2,"data":[{"id":1,"username":"zheyu","type":"message","value":"hi"},{"id":0,"username":"zheyutest","type":"message","value":"nah id win"},{"id":1,"username":"zheyutest","type":"message","value":"nah id win"}]}
