@@ -1,18 +1,24 @@
 function sendClicked() {
-  if(document.getElementById("message").value==''||document.getElementById("username").value==''){alert("Username or message is empty.");return}
+  if (
+    document.getElementById("message").value == "" ||
+    localStorage.getItem("username")
+  ) {
+    alert("Username or message is empty.");
+    return;
+  }
   console.log("send button clicked, posting message");
-  const username = document.getElementById("username").value;
+  const username = localStorage.getItem("username");
   const message = document.getElementById("message").value;
-  
+
   document.getElementById("message").value = "";
   const type = "message";
   const value = message;
-  const apiUrl =
-    "https://czheyuchatapp.onrender.com/api/messagesend";
+  const apiUrl = "https://czheyuchatapp.onrender.com/api/messagesend";
   const data = {
     type: type,
     username: username,
-    value: message,
+    password: password,
+    value: value,
   };
 
   const requestOptions = {
@@ -31,8 +37,9 @@ function sendClicked() {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
-      updateChat(data);
+      if (lastgetdata != data) {
+        updateChat(data);
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -62,9 +69,20 @@ async function getCycle() {
 }
 
 function getdata() {
-  const apiUrl =
-    "https://czheyuchatapp.onrender.com/api/messagesget";
-  fetch(apiUrl)
+  const apiUrl = "https://czheyuchatapp.onrender.com/api/messagesget";
+  const data = {
+    username: username,
+    password: password,
+  };
+
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+  fetch(apiUrl,requestOptions)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -87,18 +105,24 @@ function format(data) {
       formated += "\n";
     }
     formated +=
-      '<div class="m-0 p-0 d-inline-flex"><p class="m-0 p-0 fs-6">'+
-      data.data[i].username+
-      '</p></div></br>'+
+      '<div class="m-0 p-0 d-inline-flex"><p class="m-0 p-0 fs-6">' +
+      data.data[i].username +
+      "</p></div></br>" +
       '<div class="d-inline-flex p-1 rounded bg-primary text-white">' +
       data.data[i].value +
-      '</div></br>\n';
+      "</div></br>\n";
   }
   return formated;
 }
 
 window.onload = function () {
+  if (!localStorage.getItem("loggedin")||!localStorage.getItem("password")||!localStorage.getItem("username")){
+    window.location.href = "czheyuchat.onrender.com/login";
+  }
   console.log("page loaded.");
+  var lastgetdata = {};
+  var password = localStorage.getItem("password");
+  var username = localStorage.getItem("username");
   const sendbutton = document.getElementById("sendbutton");
   sendbutton.onclick = function () {
     sendClicked();

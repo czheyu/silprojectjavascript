@@ -10,24 +10,91 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/page/index.html");
 });
 
+app.get("/login", (req, res) => {
+  res.sendFile(__dirname + "/loginpage/index.html");
+});
+
+app.get("/login/index.js", (req, res) => {
+  res.sendFile(__dirname + "/loginpage/index.js");
+});
+
+app.get("/register", (req, res) => {
+  res.sendFile(__dirname + "/registerpage/index.html");
+});
+
+app.get("/register/index.js", (req, res) => {
+  res.sendFile(__dirname + "/registerpage/index.js");
+});
+
+
 app.get("/index.js", (req, res) => {
   res.sendFile(__dirname + "/page/index.js");
 });
 
-app.get("/api/messagesget", (req, res) => {
-  res.send(require("./data.json")); //need
+app.post("/api/messagesget", (req, res) => {
+  if (checkuser(req.body.password, req.body.username)) {
+    res.send(require("./data.json")); //need
+  }
 });
 
-app.post("/api/messagesend", function (req, res) {
-  handlePost(req.body, res); //need
+app.post("/api/messagesend", (req, res) => {
+  if (checkuser(req.body.password, req.body.username)) {
+    handlePost(req.body, res); //need
+  }
 });
+
+app.post("/api/login", (req, res) => {
+  res.send(checkuser(req.body.password, req.body.username)); //need
+});
+
+app.post("/api/register", (req, res) => {
+  res.send(checkregis(req.body.password, req.body.username))
+    
+  
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
+function checkuser(pass, user) {
+  const jsonuserdata = JSON.parse(require("./userdata.json"));
+  for (let i = 0; i < jsonuserdata.users.length; i++){
+    if (jsonuserdata.users[i].username == user && jsonuserdata.users[i].password == pass){
+      return '{"result":"success"}';
+    }
+  }
+  return '{"result":"failed"}';
+}
 
+function checkregis(pass,user){
+  const jsonuserdata = JSON.parse(require("./userdata.json"));
+  for (let i = 0; i < jsonuserdata.users.length; i++){
+    if (jsonuserdata.users[i].username == use){
+      return '{"result":"username taken"}';
+    }
+  }
+  //if runs till here: means username isnt taken
+  jsonuserdata = JSON.parse(require("./userdata.json"));  
+  jsonuserdata.users.push({"id":jsonuserdata.usercount,"username":user,"password":pass});
+  jsonuserdata.usercount ++;
+  fs.writeFile(
+    path.join(__dirname, "/userdata.json"),
+    JSON.stringify(jsonuserdata),
+    (err) => {
+      // Checking for errors
+      if (err) throw err;
 
+      // Success
+      console.log("Done writing");
+    },
+  );
+  return '{"result":"success"}';
+
+  
+  
+}
 function handlePost(req, res) {
   const jsondata = require("./data.json");
   console.log(require("./data.json"));
