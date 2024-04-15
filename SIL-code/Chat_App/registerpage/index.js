@@ -1,17 +1,3 @@
-window.onload() = function (){
-  const sendbutton = document.getElementById("submit");
-  sendbutton.onclick = function () {
-    if (document.getElementById("username").value && document.getElementById("password").value){
-      return
-    }
-    disableAll();
-    submit();
-  };
-  const register = document.getElementById("login");
-  register.onclick = function () {
-    window.location.href = "https://czheyuchatapp.onrender.com/login";
-  };
-}
 
 function submit(){
   const username = document.getElementById("username").value;
@@ -71,4 +57,19 @@ function enableAll(){
   username.disabled = false;
   password.disabled = false;
   sumbit.disabled = false;
+}
+
+window.onload() = function (){
+  const sendbutton = document.getElementById("submit");
+  sendbutton.onclick = function () {
+    if (document.getElementById("username").value && document.getElementById("password").value){
+      return
+    }
+    disableAll();
+    submit();
+  };
+  const register = document.getElementById("login");
+  register.onclick = function () {
+    window.location.href = "https://czheyuchatapp.onrender.com/login";
+  };
 }
