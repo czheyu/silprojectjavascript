@@ -2,7 +2,7 @@ function sendClicked() {
   console.log("send button clicked, posting message");
   const username = document.getElementById("username").value;
   const message = document.getElementById("message").value;
-  document.getElementById("username").value = "";
+  
   document.getElementById("message").value = "";
   const type = "message";
   const value = message;

@@ -573,3 +573,10 @@ testing the app:
 ![image](images/testingchatapp.png)
 
 now the plain doesnt look great so i think some styling is needded:
+
+after doing some styling, i found this website render.com which allows me to host a web service for free, so i connected my github account, selected this repo, and started the server.
+![image](images/renderimage.png)
+
+now when i go to this link:  
+![image](images/rendershowlinkimage.png)
+the chat app displays properly!
