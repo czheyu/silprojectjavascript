@@ -9,7 +9,7 @@ window.onload() = function (){
   };
   const register = document.getElementById("login");
   register.onclick = function () {
-    window.location.href = "czheyuchatapp.onrender.com/login";
+    window.location.href = "https://czheyuchatapp.onrender.com/login";
   };
 }
 
@@ -40,7 +40,7 @@ function submit(){
     .then((data) => {
       if (data.result == "success"){
         alert("Register Success, redirecting to login page.")
-        window.location.href = "czheyuchatapp.onrender.com/login";
+        window.location.href = "https://czheyuchatapp.onrender.com/login";
       } else if(data.result == "username taken"){
         alert("Username Taken");
       } else {
