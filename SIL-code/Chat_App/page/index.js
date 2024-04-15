@@ -2,6 +2,8 @@ function sendClicked() {
   console.log("send button clicked, posting message");
   const username = document.getElementById("username").value;
   const message = document.getElementById("message").value;
+  document.getElementById("username").value = "";
+  document.getElementById("message").value = "";
   const type = "message";
   const value = message;
   const apiUrl =
@@ -84,11 +86,12 @@ function format(data) {
       formated += "\n";
     }
     formated +=
-      '<div class="chat-message">' +
+      '<div class="m-0 p-0 d-inline-flex"><p class="m-0 p-0 fs-6">'+
+      data.data[i].username+
+      '</p></div></br>'+
+      '<div class="d-inline-flex p-1 rounded bg-primary text-white">' +
       data.data[i].value +
-      '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-secondary">' +
-      data.data[i].username +
-      '</span></div>';
+      '</div></br>\n';
   }
   return formated;
 }
@@ -99,6 +102,19 @@ window.onload = function () {
   sendbutton.onclick = function () {
     sendClicked();
   };
+  let sendinput = document.getElementById("message");
+
+  // Execute a function when the user presses a key on the keyboard
+  sendinput.addEventListener("keypress", function (event) {
+    // If the user presses the "Enter" key on the keyboard
+    if (event.key === "Enter") {
+      // Cancel the default action, if needed
+      event.preventDefault();
+      // Trigger the button element with a click
+      document.getElementById("sendbutton").click();
+    }
+  });
+
   //start get cycle
   getCycle();
 };
