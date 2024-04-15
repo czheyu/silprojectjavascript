@@ -7,7 +7,7 @@ function sendClicked() {
   const type = "message";
   const value = message;
   const apiUrl =
-    "https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev/api/messagesend";
+    "https://czheyuchatapp.onrender.com/api/messagesend";
   const data = {
     type: type,
     username: username,
@@ -62,7 +62,7 @@ async function getCycle() {
 
 function getdata() {
   const apiUrl =
-    "https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev/api/messagesget";
+    "https://czheyuchatapp.onrender.com/api/messagesget";
   fetch(apiUrl)
     .then((response) => {
       if (!response.ok) {
