@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chat App</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <style>
+      .container {
+        height: 100%;
+        width: 100%;
+      }
+      .chat-message {
+        margin-bottom: 10px;
+        margin-top: 10px;
+      }
+
+      .chat-container {
+        height: 30%;
+        overflow-y: scroll;
+      }
+      .fixed-bottom {
+        background-color: #f8f9fa;
+      }
+    </style>
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <input type="text" id="username" placeholder="username" />
+    <div class="container-fluid">
+      <div class="jumbotron">
+        <div class="chat-container" id="chat-container"></div>
+        <div class="fixed-bottom">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="message"
+              placeholder="Message"
+              aria-label="Message"
+              aria-describedby="basic-addon1"
+            />
+
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="sendbutton"
+            >
+              send
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

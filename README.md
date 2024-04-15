@@ -565,5 +565,11 @@ main();
 
 
 using node.js, html , js , and express.js, and about 5 hours of work, here is a base web app:
-![image](image.png)
+![image](images/image_2.png)
 where the index.js file directly in the Backend_Server folder is the main server file, that serves the html and js file from the page folder, which calls an api post/get request for the data to the index.js again, which grabs from the data.json.
+
+testing the app:
+
+![image](images/testingchatapp.png)
+
+now the plain doesnt look great so i think some styling is needded:

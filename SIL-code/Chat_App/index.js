@@ -25,9 +25,7 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-function readData() {
-  return JSON.parse(fs.readFile("data.json"));
-}
+
 
 function handlePost(req, res) {
   const jsondata = require("./data.json");

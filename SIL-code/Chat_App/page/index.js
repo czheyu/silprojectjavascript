@@ -1,5 +1,5 @@
 function sendClicked() {
-  console.log("send button clicked");
+  console.log("send button clicked, posting message");
   const username = document.getElementById("username").value;
   const message = document.getElementById("message").value;
   const type = "message";
@@ -76,11 +76,19 @@ function getdata() {
     });
 }
 
-function format(data){
+function format(data) {
   //data is a {}
   let formated = "";
-  for (let i = 0; i < data.data.length; i++){
-    formated += "<div class='chat-message'>" + data.data[i].username + ": " + data.data[i].value + "</div>\n";
+  for (let i = 0; i < data.data.length; i++) {
+    if (i != 0) {
+      formated += "\n";
+    }
+    formated +=
+      '<div class="chat-message">' +
+      data.data[i].value +
+      '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-bg-secondary">' +
+      data.data[i].username +
+      '</span></div>';
   }
   return formated;
 }
