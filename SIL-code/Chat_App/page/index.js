@@ -82,7 +82,7 @@ function getdata() {
     },
     body: JSON.stringify(data),
   };
-  fetch(apiUrl,requestOptions)
+  fetch(apiUrl, requestOptions)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -116,8 +116,12 @@ function format(data) {
 }
 
 window.onload = function () {
-  if (!localStorage.getItem("loggedin")||!localStorage.getItem("password")||!localStorage.getItem("username")){
-    window.location.href = "czheyuchat.onrender.com/login";
+  if (
+    !localStorage.getItem("loggedin") ||
+    !localStorage.getItem("password") ||
+    !localStorage.getItem("username")
+  ) {
+    window.location.href = "czheyuchatapp.onrender.com/login";
   }
   console.log("page loaded.");
   var lastgetdata = {};
