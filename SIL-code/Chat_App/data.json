@@ -1,11 +1,1 @@
-{
-  "countaccess": 1,
-  "data": [
-    {
-      "id": 0,
-      "username": "zheyutest",
-      "type": "message",
-      "value": "nah id win"
-    }
-  ]
-}
+{"countaccess":5,"data":[{"id":0,"username":"zheyutest","type":"message","value":"nah id win"},{"id":1,"username":"zheyutest","type":"message","value":"hi"},{"id":2,"username":"usertest","type":"message","value":"hello"},{"id":3,"username":"usertest","type":"message","value":"hi"},{"id":4,"username":"zheyutest","type":"message","value":"hello"}]}

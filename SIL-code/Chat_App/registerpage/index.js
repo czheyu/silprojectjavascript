@@ -1,8 +1,13 @@
+var url = "https://czheyuchatapp.onrender.com";
+
+url = "https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001"
+
+
 
 function submit(){
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
-  const apiUrl = "https://czheyuchatapp.onrender.com/api/register";
+  const apiUrl = url + "/api/register";
   const data = {
     username: username,
     password: password
@@ -26,7 +31,7 @@ function submit(){
     .then((data) => {
       if (data.result == "success"){
         alert("Register Success, redirecting to login page.")
-        window.location.href = "https://czheyuchatapp.onrender.com/login";
+        window.location.href = url + "/login";
       } else if(data.result == "username taken"){
         alert("Username Taken");
       } else {
@@ -42,27 +47,29 @@ function submit(){
 
 
 function disableAll(){
-  const username = document.getElementById("username");
-  const password = document.getElementById("password");
-  const sumbit = document.getElementById("submit");
-  username.disabled = true;
-  password.disabled = true;
-  sumbit.disabled = true;
-}
+    const usernamebox = document.getElementById("username");
+    const passwordbox = document.getElementById("password");
+    const sumbitbut = document.getElementById("submit");
+    usernamebox.disabled = true;
+    passwordbox.disabled = true;
+    sumbitbut.disabled = true;
+  }
 
 function enableAll(){
-  const username = document.getElementById("username");
-  const password = document.getElementById("password");
-  const sumbit = document.getElementById("submit");
-  username.disabled = false;
-  password.disabled = false;
-  sumbit.disabled = false;
+  const usernamebox = document.getElementById("username");
+  const passwordbox = document.getElementById("password");
+  const sumbitbut = document.getElementById("submit");
+  usernamebox.disabled = false;
+  passwordbox.disabled = false;
+  sumbitbut.disabled = false;
 }
 
-window.onload() = function (){
+window.onload = function (){
+  console.log("page loaded");
   const sendbutton = document.getElementById("submit");
   sendbutton.onclick = function () {
-    if (document.getElementById("username").value && document.getElementById("password").value){
+    console.log("clicked")
+    if (document.getElementById("username").value=="" || document.getElementById("password").value==""){
       return
     }
     disableAll();
@@ -70,6 +77,6 @@ window.onload() = function (){
   };
   const register = document.getElementById("login");
   register.onclick = function () {
-    window.location.href = "https://czheyuchatapp.onrender.com/login";
+    window.location.href = url + "/login";
   };
 }

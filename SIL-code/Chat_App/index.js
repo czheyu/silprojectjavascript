@@ -71,7 +71,7 @@ app.listen(port, () => {
 });
 
 function checkuser(pass, user) {
-  const jsonuserdata = JSON.parse(require("./userdata.json"));
+  const jsonuserdata = require("./userdata.json");
   for (let i = 0; i < jsonuserdata.users.length; i++) {
     if (
       jsonuserdata.users[i].username == user &&
@@ -84,14 +84,14 @@ function checkuser(pass, user) {
 }
 
 function checkregis(pass, user) {
-  const jsonuserdata = JSON.parse(require("./userdata.json"));
+  let jsonuserdata = require("./userdata.json");
   for (let i = 0; i < jsonuserdata.users.length; i++) {
-    if (jsonuserdata.users[i].username == use) {
+    if (jsonuserdata.users[i].username == user) {
       return '{"result":"username taken"}';
     }
   }
   //if runs till here: means username isnt taken
-  jsonuserdata = JSON.parse(require("./userdata.json"));
+  jsonuserdata = require("./userdata.json");
   jsonuserdata.users.push({
     id: jsonuserdata.usercount,
     username: user,

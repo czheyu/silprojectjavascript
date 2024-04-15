@@ -21,12 +21,25 @@
       .fixed-bottom {
         background-color: #f8f9fa;
       }
+      .message {
+        right: 0;
+      }
     </style>
     <script src="index.js"></script>
   </head>
   <body>
     <div class="container-fluid">
       <div class="jumbotron">
+        <div class="fixed-top">
+          <p id="logindisplay">Logged in as user</p>
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="logoutbutton"
+          >
+            logout
+          </button>
+        </div>
         <div class="chat-container" id="chat-container"></div>
         <div class="fixed-bottom">
           <div class="input-group mb-3">
