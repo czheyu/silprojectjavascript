@@ -13,7 +13,7 @@ function sendClicked() {
   document.getElementById("message").value = "";
   const type = "message";
   const value = message;
-  const apiUrl = "https://czheyuchatappapp.onrender.com/api/messagesend";
+  const apiUrl = "https://czheyuchatapp.onrender.com/api/messagesend";
   const data = {
     type: type,
     username: username,
@@ -69,7 +69,7 @@ async function getCycle() {
 }
 
 function getdata() {
-  const apiUrl = "https://czheyuchatappapp.onrender.com/api/messagesget";
+  const apiUrl = "https://czheyuchatapp.onrender.com/api/messagesget";
   const data = {
     username: username,
     password: password,
@@ -121,7 +121,7 @@ window.onload = function () {
     !localStorage.getItem("password") ||
     !localStorage.getItem("username")
   ) {
-    window.location.href = "https://czheyuchatappapp.onrender.com/login";
+    window.location.href = "https://czheyuchatapp.onrender.com/login";
   }
   console.log("page loaded.");
   var lastgetdata = {};
