@@ -1,4 +1,5 @@
 function sendClicked() {
+  if(document.getElementById("message").value==''||document.getElementById("username").value==''){alert("Username or message is empty.");return}
   console.log("send button clicked, posting message");
   const username = document.getElementById("username").value;
   const message = document.getElementById("message").value;
