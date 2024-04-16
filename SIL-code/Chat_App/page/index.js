@@ -143,13 +143,13 @@ window.onload = function () {
   var lastgetdata = {};
   var password = localStorage.getItem("password");
   var username = localStorage.getItem("username");
-  const sendbutton = document.getElementById("sendbutton");
+  let sendbutton = document.getElementById("sendbutton");
   sendbutton.onclick = function () {
     sendClicked();
   };
   const logindisplay = document.getElementById("logindisplay");
   logindisplay.innerHTML = "Logged in as <strong>" + username + "</strong>";
-  const logout = document.getElementById("login");
+  et logout = document.getElementById("login");
   logout.onclick = function () {
     window.location.href = url + "/login";
   };

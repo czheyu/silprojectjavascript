@@ -58,7 +58,10 @@ app.post("/api/messagesend", (req, res) => {
 
 app.post("/api/login", (req, res) => {
   console.log("POST /api/login called");
-  res.send(checkuser(req.body.password, req.body.username)); //need
+  const ipAddress = req.socket.remoteAddress;
+  const loginattempt = checkuser(req.body.password, req.body.username);
+  res.send(loginattempt); //need
+  console.log("Attempted to login: "+ipAddress+"\n"+loginattempt"\nusername: "+req.body.password+"\npassword: "+, req.body.username);
 });
 
 app.post("/api/register", (req, res) => {
