@@ -85,9 +85,6 @@ function getdata() {
   };
   fetch(apiUrl, requestOptions)
     .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
       return response.json();
     })
     .then((data) => {
@@ -135,8 +132,6 @@ window.onload = function () {
     console.log(localStorage.getItem("loggedin"));
     console.log(localStorage.getItem("password"));
     console.log(localStorage.getItem("username"));
-
-    sleep(10000);
     window.location.href = url + "/login";
   }
   console.log("page loaded.");
@@ -149,7 +144,7 @@ window.onload = function () {
   };
   const logindisplay = document.getElementById("logindisplay");
   logindisplay.innerHTML = "Logged in as <strong>" + username + "</strong>";
-  et logout = document.getElementById("login");
+  let logout = document.getElementById("login");
   logout.onclick = function () {
     window.location.href = url + "/login";
   };
