@@ -69,7 +69,7 @@ function sleep(ms) {
 
 async function getCycle() {
   console.log("getting data...");
-  //getdata(); CHANGe THIS
+  getdata();
   await sleep(2500);
   getCycle();
 }
@@ -137,7 +137,7 @@ window.onload = function () {
     console.log(localStorage.getItem("loggedin"));
     console.log(localStorage.getItem("password"));
     console.log(localStorage.getItem("username"));
-    //window.location.href = url + "/login";
+    window.location.href = url + "/login";
   }
   console.log("page loaded.");
   var lastgetdata = {};
