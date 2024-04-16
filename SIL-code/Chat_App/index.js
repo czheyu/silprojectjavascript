@@ -44,7 +44,10 @@ app.get("/index.js", (req, res) => {
 app.post("/api/messagesget", (req, res) => {
   console.log("POST /api/messagesget called");
   if (checkuser(req.body.password, req.body.username)) {
+    console.log("getted msg")
     res.send(require("./data.json")); //need
+  } else {
+    console.log("wrong password or username- msgget");
   }
 });
 

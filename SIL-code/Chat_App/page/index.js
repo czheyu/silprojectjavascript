@@ -132,7 +132,7 @@ window.onload = function () {
     console.log(localStorage.getItem("loggedin"));
     console.log(localStorage.getItem("password"));
     console.log(localStorage.getItem("username"));
-    window.location.href = url + "/login";
+    //window.location.href = url + "/login";
   }
   console.log("page loaded.");
   var lastgetdata = {};
@@ -144,7 +144,7 @@ window.onload = function () {
   };
   const logindisplay = document.getElementById("logindisplay");
   logindisplay.innerHTML = "Logged in as <strong>" + username + "</strong>";
-  let logout = document.getElementById("login");
+  let logout = document.getElementById("logoutbutton");
   logout.onclick = function () {
     window.location.href = url + "/login";
   };
