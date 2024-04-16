@@ -1,3 +1,5 @@
+var lastgetdata = {};
+var cooldownget = 2500
 var url = "https://czheyuchatapp.onrender.com";
 //url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 function sendClicked() {
@@ -30,45 +32,54 @@ function sendClicked() {
     body: JSON.stringify(data),
   };
   const chatcontainer = document.getElementById("chat-container");
-  chatcontainer.innerHtml = chatcontainer.innerHtml + '<div class="m-0 p-0 d-flex flex-row-reverse"><p class="m-0 p-0 fs-6">' +
-      data.data[i].username +
+  chatcontainer.innerHtml =
+    '<div class="m-0 p-0 d-flex flex-row-reverse"><p class="m-0 p-0 fs-6">' +
+    localStorage.getItem("username") +
+    "</p></div></br>" +
+    '<div class="m-0 p-0 d-flex flex-row-reverse"><div class="d-inline-flex m-0 p-1 rounded bg-secondary text-white"><p class="m-0 p-0 fs-6">' +
+    value +
+    "</p></div></div></br>\n";
+  console.log(
+    '<div class="m-0 p-0 d-flex flex-row-reverse"><p class="m-0 p-0 fs-6">' +
+      localStorage.getItem("username") +
       "</p></div></br>" +
       '<div class="m-0 p-0 d-flex flex-row-reverse"><div class="d-inline-flex m-0 p-1 rounded bg-secondary text-white"><p class="m-0 p-0 fs-6">' +
-      data.data[i].value +
-      "</p></div></div></br>\n";
-  
+      value +
+      "</p></div></div></br>\n",
+  );
   fetch(apiUrl, requestOptions)
     .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+      if (response.ok) {
+        return response.json();
+      } else {
+        console.log(response.ok);
       }
-      return response.json();
     })
     .then((data) => {
+      console.log(data);
+      console.log(lastgetdata);
       if (lastgetdata != data) {
         updateChat(data);
       } else {
-        console.log("data is the same, did not redisplay.")
+        console.log("data is the same, did not redisplay.");
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
+      console.log(error);
     });
 }
 
 function updateChat(data) {
+  console.log("about to call formatting data");
   let formatted = format(data);
+  console.log("data formatted");
   const chatContainer = document.getElementById("chat-container");
   //const chatMessage = document.createElement("div");
   //chatMessage.classList.add("chat-message");
   //chatMessage.innerHTML = data;
   //chatContainer.appendChild(chatMessage);
 
-
   chatContainer.innerHTML = formatted;
-
-  
-
 }
 
 //https://javascript.plainenglish.io/how-to-really-implement-the-sleep-function-in-javascript-621b4ed1e618
@@ -79,17 +90,17 @@ function sleep(ms) {
 async function getCycle() {
   console.log("getting data...");
   getdata();
-  await sleep(2500);
+  await sleep(cooldownget);
   getCycle();
 }
 
 function getdata() {
   const apiUrl = url + "/api/messagesget";
   const data = {
-    username: localStorage.getItem("user"),
+    username: localStorage.getItem("username"),
     password: localStorage.getItem("password"),
   };
-
+  console.log(data);
   const requestOptions = {
     method: "POST",
     headers: {
@@ -97,19 +108,22 @@ function getdata() {
     },
     body: JSON.stringify(data),
   };
+  console.log("fetching");
   fetch(apiUrl, requestOptions)
     .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      if(lastgetdata != data){
-      updateChat(data);
+      if (response.ok) {
+        return response.json();
       } else {
-        console.log("data is the same, did not redisplay.")
+        console.log(response.ok);
       }
     })
-    .catch((error) => {
-      console.error("Error:", error);
+    .then((data) => {
+      if (lastgetdata != data) {
+        console.log("data is not last get data, calling updatechat");
+        updateChat(data);
+      } else {
+        console.log("data is the same, did not redisplay.");
+      }
     });
 }
 
@@ -153,7 +167,6 @@ window.onload = function () {
     window.location.href = url + "/login";
   }
   console.log("page loaded.");
-  var lastgetdata = {};
   var password = localStorage.getItem("password");
   var username = localStorage.getItem("username");
   let sendbutton = document.getElementById("sendbutton");
@@ -178,7 +191,15 @@ window.onload = function () {
       document.getElementById("sendbutton").click();
     }
   });
-
+  const slider = document.getElementById("getrange");
+  const output = document.getElementById("getrangedisplay");
+  output.innerHTML = "Current get cooldown: " + String(slider.value / 10) + "s"; // Display the default slider value
+  
+  // Update the current slider value (each time you drag the slider handle)
+  slider.oninput = function () {
+    cooldownget = this.value*100;
+    output.innerHTML = "Current get cooldown: " + String(this.value / 10) + "s"; // Display the updated slider value
+  };
   //start get cycle
   getCycle();
 };
