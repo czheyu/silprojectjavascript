@@ -54,7 +54,12 @@ function updateChat(data) {
   //chatMessage.classList.add("chat-message");
   //chatMessage.innerHTML = data;
   //chatContainer.appendChild(chatMessage);
+
+
   chatContainer.innerHTML = formatted;
+
+  
+
 }
 
 //https://javascript.plainenglish.io/how-to-really-implement-the-sleep-function-in-javascript-621b4ed1e618
@@ -64,7 +69,7 @@ function sleep(ms) {
 
 async function getCycle() {
   console.log("getting data...");
-  getdata();
+  //getdata(); CHANGe THIS
   await sleep(2500);
   getCycle();
 }
@@ -115,7 +120,7 @@ function format(data) {
         '<div class="m-0 p-0 d-flex"><p class="m-0 p-0 fs-6">' +
         data.data[i].username +
         "</p></div></br>" +
-        '<div class="d-flex m-0 p-0"><div class="d-inline-flex m-0 p-1 rounded bg-info text-white"><p class="m-0 p-0 fs-6">' +
+        '<div class="d-flex m-0 p-0"><div class="d-inline-flex m-0 p-1 rounded bg-success text-white"><p class="m-0 p-0 fs-6">' +
         data.data[i].value +
         "</p></div></div></br>\n";
     }

@@ -14,10 +14,7 @@
         height: 100%;
         width: 100%;
       }
-      .chat-container {
-        height: 30%;
-        overflow-y: scroll;
-      }
+
       .fixed-bottom {
         background-color: #f8f9fa;
       }
@@ -28,21 +25,24 @@
     <script src="index.js"></script>
   </head>
   <body>
+    <div class="sticky-top container-fluid m-0 p-0 d-flex flex-row-reverse">
+      <div class="input-group mb-3 bg-primary p-2" style="--bs-bg-opacity: .50;">
+        <p id="logindisplay" class="m-1 p-1 fw-light">Logged in as user</p>
+        <button
+          class="btn m-1 p-1 btn-outline-dark text-light"
+          type="button"
+          id="logoutbutton"
+        >
+          logout
+        </button>
+
+      </div>
+    </div>
     <div class="container-fluid">
       <div class="jumbotron">
-        <div class="sticky-top jumbotron m-0 p-0 d-flex flex-row-reverse">
-          <button
-            class="btn m-0 p-0 btn-outline-secondary"
-            type="button"
-            id="logoutbutton"
-          >
-            logout
-          </button>
-          <p id="logindisplay" class="m-0 p-0">Logged in as user</p>
-        </div>
-        <div class="d-flex flex-column-reverse overflow-auto m-0 p-0"><div class="chat-container" id="chat-container"></div></div>
+        <div class="chat-container" id="chat-container"></div>
         <div class="fixed-bottom">
-          <div class="input-group mb-3">
+          <div class="input-group m-2">
             <input
               type="text"
               class="form-control"
