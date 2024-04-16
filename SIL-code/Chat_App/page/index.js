@@ -105,7 +105,7 @@ function format(data) {
     if (i != 0) {
       formated += "\n";
     }
-    if (data.data[i].username == localStorage.getItem("username")){
+    if (data.data[i].username == localStorage.getItem("username")) {
       formated +=
         '<div class="m-0 p-0 d-flex flex-row-reverse"><p class="m-0 p-0 fs-6">' +
         data.data[i].username +
@@ -114,7 +114,7 @@ function format(data) {
         data.data[i].value +
         "</p></div></div></br>\n";
     } else {
-    formated +=
+      formated +=
         '<div class="m-0 p-0 d-flex"><p class="m-0 p-0 fs-6">' +
         data.data[i].username +
         "</p></div></br>" +
@@ -146,6 +146,12 @@ window.onload = function () {
   const sendbutton = document.getElementById("sendbutton");
   sendbutton.onclick = function () {
     sendClicked();
+  };
+  const logindisplay = document.getElementById("logindisplay");
+  logindisplay.innerHTML = "Logged in as <strong>" + username + "</strong>";
+  const logout = document.getElementById("login");
+  logout.onclick = function () {
+    window.location.href = url + "/login";
   };
   let sendinput = document.getElementById("message");
 

@@ -75,8 +75,8 @@ window.onload = function (){
     disableAll();
     submit();
   };
-  const register = document.getElementById("login");
-  register.onclick = function () {
+  const login = document.getElementById("login");
+  login.onclick = function () {
     window.location.href = url + "/login";
   };
 }
