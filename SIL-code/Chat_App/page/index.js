@@ -29,7 +29,14 @@ function sendClicked() {
     },
     body: JSON.stringify(data),
   };
-
+  const chatcontainer = document.getElementById("chat-container");
+  chatcontainer.innerHtml = chatcontainer.innerHtml + '<div class="m-0 p-0 d-flex flex-row-reverse"><p class="m-0 p-0 fs-6">' +
+      data.data[i].username +
+      "</p></div></br>" +
+      '<div class="m-0 p-0 d-flex flex-row-reverse"><div class="d-inline-flex m-0 p-1 rounded bg-secondary text-white"><p class="m-0 p-0 fs-6">' +
+      data.data[i].value +
+      "</p></div></div></br>\n";
+  
   fetch(apiUrl, requestOptions)
     .then((response) => {
       if (!response.ok) {
@@ -40,6 +47,8 @@ function sendClicked() {
     .then((data) => {
       if (lastgetdata != data) {
         updateChat(data);
+      } else {
+        console.log("data is the same, did not redisplay.")
       }
     })
     .catch((error) => {
@@ -93,7 +102,11 @@ function getdata() {
       return response.json();
     })
     .then((data) => {
+      if(lastgetdata != data){
       updateChat(data);
+      } else {
+        console.log("data is the same, did not redisplay.")
+      }
     })
     .catch((error) => {
       console.error("Error:", error);
