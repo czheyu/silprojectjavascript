@@ -1,5 +1,6 @@
 var lastgetdata = {};
 var cooldownget = 2500
+var forcescroll = false
 var url = "https://czheyuchatapp.onrender.com";
 //url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 function sendClicked() {
@@ -32,21 +33,7 @@ function sendClicked() {
     body: JSON.stringify(data),
   };
   const chatcontainer = document.getElementById("chat-container");
-  chatcontainer.innerHtml =
-    '<div class="m-0 p-0 d-flex flex-row-reverse"><p class="m-0 p-0 fs-6">' +
-    localStorage.getItem("username") +
-    "</p></div></br>" +
-    '<div class="m-0 p-0 d-flex flex-row-reverse"><div class="d-inline-flex m-0 p-1 rounded bg-secondary text-white"><p class="m-0 p-0 fs-6">' +
-    value +
-    "</p></div></div></br>\n";
-  console.log(
-    '<div class="m-0 p-0 d-flex flex-row-reverse"><p class="m-0 p-0 fs-6">' +
-      localStorage.getItem("username") +
-      "</p></div></br>" +
-      '<div class="m-0 p-0 d-flex flex-row-reverse"><div class="d-inline-flex m-0 p-1 rounded bg-secondary text-white"><p class="m-0 p-0 fs-6">' +
-      value +
-      "</p></div></div></br>\n",
-  );
+  console.log("fetching");
   fetch(apiUrl, requestOptions)
     .then((response) => {
       if (response.ok) {
@@ -56,16 +43,13 @@ function sendClicked() {
       }
     })
     .then((data) => {
-      console.log(data);
-      console.log(lastgetdata);
-      if (lastgetdata != data) {
+      if (!(JSON.stringify(lastgetdata) == JSON.stringify(data)) ){
+        lastgetdata = data;
+        console.log("data is not last get data, calling updatechat");
         updateChat(data);
       } else {
         console.log("data is the same, did not redisplay.");
       }
-    })
-    .catch((error) => {
-      console.log(error);
     });
 }
 
@@ -80,6 +64,9 @@ function updateChat(data) {
   //chatContainer.appendChild(chatMessage);
 
   chatContainer.innerHTML = formatted;
+  if (forcescroll){
+  scrolldown();
+  }
 }
 
 //https://javascript.plainenglish.io/how-to-really-implement-the-sleep-function-in-javascript-621b4ed1e618
@@ -118,7 +105,8 @@ function getdata() {
       }
     })
     .then((data) => {
-      if (lastgetdata != data) {
+      if (!(JSON.stringify(lastgetdata) == JSON.stringify(data)) ){
+        lastgetdata = data;
         console.log("data is not last get data, calling updatechat");
         updateChat(data);
       } else {
@@ -129,30 +117,45 @@ function getdata() {
 
 function format(data) {
   //data is a {}
+  let previous_username = "";
   let formated = "";
   for (let i = 0; i < data.data.length; i++) {
     if (i != 0) {
       formated += "\n";
     }
     if (data.data[i].username == localStorage.getItem("username")) {
+      if (previous_username != data.data[i].username){
+        formated +=
+          '<div class="m-0 p-0 d-flex flex-row-reverse"><p class="m-0 p-0 fs-6">' +
+          data.data[i].username +
+          "</p></div>";
+      }
       formated +=
-        '<div class="m-0 p-0 d-flex flex-row-reverse"><p class="m-0 p-0 fs-6">' +
-        data.data[i].username +
-        "</p></div></br>" +
-        '<div class="m-0 p-0 d-flex flex-row-reverse"><div class="d-inline-flex m-0 p-1 rounded bg-primary text-white"><p class="m-0 p-0 fs-6">' +
+        '<div class="m-1 p-0 d-flex flex-row-reverse"><div class="d-inline-flex m-0 p-1 rounded bg-primary text-white"><p class="m-0 p-0 fs-6">' +
         data.data[i].value +
-        "</p></div></div></br>\n";
+        "</p></div></div>\n";
     } else {
+      if (previous_username != data.data[i].username){
+        formated +=
+          '<div class="m-0 p-0 d-flex"><p class="m-0 p-0 fs-6">' +
+          data.data[i].username +
+          "</p></div>";
+      }
       formated +=
-        '<div class="m-0 p-0 d-flex"><p class="m-0 p-0 fs-6">' +
-        data.data[i].username +
-        "</p></div></br>" +
-        '<div class="d-flex m-0 p-0"><div class="d-inline-flex m-0 p-1 rounded bg-success text-white"><p class="m-0 p-0 fs-6">' +
+        '<div class="d-flex m-1 p-0"><div class="d-inline-flex m-0 p-1 rounded bg-success text-white"><p class="m-0 p-0 fs-6">' +
         data.data[i].value +
-        "</p></div></div></br>\n";
+        "</p></div></div>\n";
     }
+    previous_username = data.data[i].username;
   }
   return formated;
+}
+
+function scrolldown(){
+  const body = document.getElementById("body")
+  console.log("Scrolling")
+  window.scrollTo(0, body.scrollHeight);
+
 }
 
 window.onload = function () {
@@ -200,6 +203,20 @@ window.onload = function () {
     cooldownget = this.value*100;
     output.innerHTML = "Current get cooldown: " + String(this.value / 10) + "s"; // Display the updated slider value
   };
+
+  const scrollbutton = document.getElementById("scrollbutton");
+  scrollbutton.onclick = function () {
+    scrolldown()
+  }
+  const forcescrollbutton = document.getElementById("forcescrollbutton");
+  forcescrollbutton.onclick = function () {
+    forcescroll = !forcescroll;
+    if (forcescroll) {
+      forcescrollbutton.innerHTML = "Disable force scroll";
+    } else {
+      forcescrollbutton.innerHTML = "Enable force scroll";
+    }
+  }
   //start get cycle
   getCycle();
 };

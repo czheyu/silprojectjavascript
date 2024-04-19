@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <title>Chat App</title>
@@ -11,17 +11,38 @@
     />
     <script src="https://czheyuchatapp.onrender.com/login/index.js"></script>
   </head>
-  <body>
-    <div class="container-fluid">
-      <div class="jumbotron">
-        <h1>Welcome to the Login Page</h1>
-        <label>Username:</label><br />
-        <input type="text" id="username" name="username" /><br />
-        <label>Password:</label><br />
-        <input type="text" id="password" name="password" /><br /><br />
-        <input type="button" value="Login" id="submit" />
-        <input type="button"value="Register" id="register" />
+  <body class="bg-dark">
+    <div class="container-fluid bg-dark">
+      <div class="jumbotron bg-dark">
+        <div class="bg-dark container-fluid text-light">
+          <h1>Chat App SIL Login Page</h1>
+          <div class="input-group mb-3">
+            <span class="input-group-text rounded-start" id="inputGroup-sizing-default">user:</span>
+            <input type="text" class="form-control rounded-0" id="username">
+            <span class="input-group-text rounded-0" id="inputGroup-sizing-default">password:</span>
+            <input type="text" class="form-control rounded-end" id="password" />
+
+          </div>
+          <div class="input-group mb-3">
+          <button
+            class="btn btn-outline-light rounded-start"
+            type="button"
+            id="submit"
+          >
+            login
+          </button>        
+        <button
+          class="btn btn-outline-light rounded-end"
+          type="button"
+          id="register"
+        >
+          register
+        </button>
+          </div>
+          <div id="liveAlertPlaceholder"></div>
+        </div>
       </div>
+
     </div>
   </body>
 </html>

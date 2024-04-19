@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" >
   <head>
     <meta charset="UTF-8" />
     <title>Chat App</title>
@@ -24,37 +24,51 @@
     </style>
     <script src="index.js"></script>
   </head>
-  <body>
+  <body class="bg-dark" id="body">
     <div class="sticky-top container-fluid m-0 p-0 d-flex flex-row-reverse">
-      <div class="input-group mb-3 bg-primary p-2 d-flex justify-content-start">
-        <p id="logindisplay" class="m-1 p-1 fw-light">Logged in as user</p>
+      <div class="input-group mb-3 bg-dark p-2 d-flex justify-content-start border border-secondary-subtle rounded border-5">
+        <p id="logindisplay" class="m-1 p-1 fw-light text-white">Logged in as user</p>
+        
         <button
-          class="btn m-1 p-1 btn-outline-dark text-light"
+          class="btn m-1 p-1 btn-outline-light"
           type="button"
           id="logoutbutton"
         >
           logout
         </button>
         <input type="range" min="1" max="50" value="25" class="w-auto px-1 mx-1" id="getrange">
-        <p id="getrangedisplay" class="m-1 p-1 fw-light">Current get cooldown: 2.5s</p>
+        <p id="getrangedisplay" class="m-1 p-1 fw-light text-white">Current get cooldown: 2.5s</p>
+          <button
+            class="btn m-1 p-1 btn-outline-light"
+            type="button"
+            id="scrollbutton"
+          >
+            scroll down
+          </button>
+          <button
+            class="btn m-1 p-1 btn-outline-light"
+            type="button"
+            id="forcescrollbutton"
+          >
+            Enable force scroll
+          </button>
+
       </div>
     </div>
     <div class="container-fluid">
       <div class="jumbotron">
         <div class="chat-container" id="chat-container"></div>
-        <div class="fixed-bottom">
+        <div class="fixed-bottom bg-dark border border-secondary-subtle rounded border-5"">
           <div class="input-group m-2">
             <input
               type="text"
-              class="form-control"
+              class="form-control "
               id="message"
-              placeholder="Message"
-              aria-label="Message"
-              aria-describedby="basic-addon1"
+              placeholder="hi"
             />
 
             <button
-              class="btn btn-outline-secondary"
+              class="btn btn-outline-light"
               type="button"
               id="sendbutton"
             >
