@@ -81,6 +81,7 @@ window.onload = function (){
   sendbutton.onclick = function () {
     console.log("clicked")
     if (document.getElementById("username").value=="" || document.getElementById("password").value==""){
+      alert("username or password is empty");
       return
     }
     disableAll();
@@ -88,7 +89,7 @@ window.onload = function (){
   };
   const login = document.getElementById("login");
   login.onclick = function () {
-    window.location.href = url + "chat/login";
+    window.location.href = url + "/chat/login";
   };
 }
 
