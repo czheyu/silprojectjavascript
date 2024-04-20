@@ -86,9 +86,9 @@ window.onload = function (){
     disableAll();
     submit();
   };
-  const login = document.getElementById("submit");
+  const login = document.getElementById("login");
   login.onclick = function () {
-    window.location.href = url + "/chat/login";
+    window.location.href = url + "chat/login";
   };
 }
 

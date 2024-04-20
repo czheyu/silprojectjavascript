@@ -167,7 +167,7 @@ window.onload = function () {
     console.log(localStorage.getItem("loggedin"));
     console.log(localStorage.getItem("password"));
     console.log(localStorage.getItem("username"));
-    window.location.href = url + "/login";
+    window.location.href = url + "/chat/login";
   }
   console.log("page loaded.");
   var password = localStorage.getItem("password");
@@ -180,7 +180,7 @@ window.onload = function () {
   logindisplay.innerHTML = "Logged in as <strong>" + username + "</strong>";
   let logout = document.getElementById("logoutbutton");
   logout.onclick = function () {
-    window.location.href = url + "/login";
+    window.location.href = url + "/chat/login";
   };
   let sendinput = document.getElementById("message");
 
