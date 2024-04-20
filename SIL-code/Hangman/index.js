@@ -2,7 +2,8 @@ const prompt = require("prompt-sync")();
 
 //function to reset the game to play
 function initiallize(wordarray) {
-  guessedwords = [];
+  lifes = 6;
+  guessedwords =[];
   guess = "";
   won = false;
   choosenword = chooseAWord(wordarray);
@@ -42,7 +43,7 @@ function display(word, wordlength) {
       }
     }
   }
-  console.log(`Word: ${tobedisplayedtext}`);
+  console.log(`Word: ${tobedisplayedtext}\nLifes: ${lifes}`);
 }
 
 function takeAGuess(word, wordlength) {
@@ -52,8 +53,15 @@ function takeAGuess(word, wordlength) {
       //continue
       console.log(`you guessed ${guess}`);
       guessedwords.push(guess);
+      if (!word.includes(guess)){
+        lifes -= 1
+        if(lifes<1){
+          console.log("You ran out of lifes");
+        }
+      }
       if (checkIfWon(word, wordlength, 0)) {
         won = true;
+        return true
       }
       display(word, wordlength);
     } else {
@@ -62,16 +70,21 @@ function takeAGuess(word, wordlength) {
   } else {
     console.log("Please enter a single letter");
   }
+
 }
 
 //main loop
 function play(wordarray) {
   initiallize(wordarray);
-  while (!won) {
-    takeAGuess(choosenword, choosenlength);
+  while (lifes>0) {
+    if (takeAGuess(choosenword, choosenlength)){
+      break;
+    }
   }
+  if(won){
   //when won
-  console.log("You won!");
+  console.log(`You won! with ${lifes} life(s) left`);
+  }
   if (prompt("Play again?(y/n): \n") == "y") {
     //calls itself again
     play(wordarray);
@@ -81,7 +94,7 @@ function play(wordarray) {
 //main entrypoint
 function main() {
   const arrayofwords = require("./words.json");
-
+  
   //initializing variables
   let choosenword;
   let choosenlength;
@@ -89,6 +102,7 @@ function main() {
   let guess;
   let won;
   let tobedisplayedtext;
+  let lifes;
   play(arrayofwords);
 }
 

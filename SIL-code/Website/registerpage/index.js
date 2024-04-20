@@ -28,20 +28,15 @@ function submit(){
       }
       return response.json();
     })
-    .then((data) => {
-      if (data.result == "success"){
-        alert("Register Success, redirecting to login page.")
-        window.location.href = url + "/login";
-      } else if(data.result == "username taken"){
-        alert("Username Taken");
-      } else {
-        alert("Register Failed");
-      }
-      
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+  .then((data) => {
+    if (data.result == "success") {
+      appendAlert("Register Success, redirecting to login page in 5 seconds.", "success");
+      sleep(5000);
+      window.location.href = url + "/chat/login";
+    } else if (data.result == "username taken") {
+      appendAlert("Username is taken, try another username.", "danger");
+    }
+  });
   enableAll();
 }
 
@@ -64,6 +59,22 @@ function enableAll(){
   sumbitbut.disabled = false;
 }
 
+
+function appendAlert(message, type){
+  const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
+
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = [
+    `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+    `   <div>${message}</div>`,
+    '     <button type="button" onclick="this.parentNode.remove();" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    "</div>",
+  ].join("");
+
+  alertPlaceholder.append(wrapper);
+};
+
+
 window.onload = function (){
   console.log("page loaded");
   const sendbutton = document.getElementById("submit");
@@ -75,8 +86,10 @@ window.onload = function (){
     disableAll();
     submit();
   };
-  const login = document.getElementById("login");
+  const login = document.getElementById("submit");
   login.onclick = function () {
-    window.location.href = url + "/login";
+    window.location.href = url + "/chat/login";
   };
 }
+
+

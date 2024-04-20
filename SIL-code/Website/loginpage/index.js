@@ -32,7 +32,7 @@ function submit() {
         localStorage.setItem("password", password);
         appendAlert("Login Success, redirecting to chat page in 5 seconds.", "success");
         sleep(5000);
-        window.location.href = url + "/";
+        window.location.href = url + "/chat";
       } else if (data.result == "failed") {
         appendAlert("Username or password is incorrect.", "danger");
       }
@@ -112,7 +112,7 @@ if (
   };
   const register = document.getElementById("register");
   register.onclick = function () {
-    window.location.href = url + "/register";
+    window.location.href = url + "/chat/register";
   };
 
   //for alerts

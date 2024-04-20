@@ -6,40 +6,55 @@ const port = process.env.PORT || 3001;
 const path = require("path");
 app.use(express.json());
 
+
 app.get("/", (req, res) => {
   console.log("GET / called");
-  res.sendFile(__dirname + "/page/index.html");
+  res.sendFile(__dirname + "/home/index.html");
 });
 
-app.get("/login", (req, res) => {
+app.get("/style.css", (req, res) => {
+  console.log("GET /style.css called");
+
+  res.sendFile(__dirname + "/home/style.css");
+});
+
+
+app.get("/chat", (req, res) => {
+  console.log("GET /chat called");
+  res.sendFile(__dirname + "/chatpage/index.html");
+});
+
+app.get("chat/index.js", (req, res) => {
+  console.log("GET chat/index.js called");
+
+  res.sendFile(__dirname + "/chatpage/index.js");
+});
+
+app.get("chat/login", (req, res) => {
   console.log("GET /login called");
 
   res.sendFile(__dirname + "/loginpage/index.html");
 });
 
-app.get("/login/index.js", (req, res) => {
+app.get("chat/login/index.js", (req, res) => {
   console.log("GET /login/index.js called");
 
   res.sendFile(__dirname + "/loginpage/index.js");
 });
 
-app.get("/register", (req, res) => {
+app.get("chat/register", (req, res) => {
   console.log("GET /register called");
 
   res.sendFile(__dirname + "/registerpage/index.html");
 });
 
-app.get("/register/index.js", (req, res) => {
+app.get("chat/register/index.js", (req, res) => {
   console.log("GET /register/index.js called");
 
   res.sendFile(__dirname + "/registerpage/index.js");
 });
 
-app.get("/index.js", (req, res) => {
-  console.log("GET /index.js called");
 
-  res.sendFile(__dirname + "/page/index.js");
-});
 
 app.post("/api/messagesget", (req, res) => {
   console.log("POST /api/messagesget called");
