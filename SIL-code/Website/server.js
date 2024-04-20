@@ -24,31 +24,31 @@ app.get("/chat", (req, res) => {
   res.sendFile(__dirname + "/chatpage/index.html");
 });
 
-app.get("chat/index.js", (req, res) => {
+app.get("/chat/index.js", (req, res) => {
   console.log("GET chat/index.js called");
 
   res.sendFile(__dirname + "/chatpage/index.js");
 });
 
-app.get("chat/login", (req, res) => {
+app.get("/chat/login", (req, res) => {
   console.log("GET /login called");
 
   res.sendFile(__dirname + "/loginpage/index.html");
 });
 
-app.get("chat/login/index.js", (req, res) => {
+app.get("/chat/login/index.js", (req, res) => {
   console.log("GET /login/index.js called");
 
   res.sendFile(__dirname + "/loginpage/index.js");
 });
 
-app.get("chat/register", (req, res) => {
+app.get("/chat/register", (req, res) => {
   console.log("GET /register called");
 
   res.sendFile(__dirname + "/registerpage/index.html");
 });
 
-app.get("chat/register/index.js", (req, res) => {
+app.get("/chat/register/index.js", (req, res) => {
   console.log("GET /register/index.js called");
 
   res.sendFile(__dirname + "/registerpage/index.js");
