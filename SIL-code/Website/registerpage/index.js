@@ -1,6 +1,6 @@
 var url = "https://czheyuchatapp.onrender.com";
 
-//url = "https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001"
+url = "https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001"
 
 
 
@@ -35,28 +35,32 @@ function submit(){
       window.location.href = url + "/chat/login";
     } else if (data.result == "username taken") {
       appendAlert("Username is taken, try another username.", "danger");
+    
     }
   });
   enableAll();
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function disableAll(){
     const usernamebox = document.getElementById("username");
     const passwordbox = document.getElementById("password");
-    const sumbitbut = document.getElementById("submit");
+    const submitbut = document.getElementById("submit");
     usernamebox.disabled = true;
     passwordbox.disabled = true;
-    sumbitbut.disabled = true;
+    submitbut.disabled = true;
   }
 
 function enableAll(){
   const usernamebox = document.getElementById("username");
   const passwordbox = document.getElementById("password");
-  const sumbitbut = document.getElementById("submit");
+  const submitbut = document.getElementById("submit");
   usernamebox.disabled = false;
   passwordbox.disabled = false;
-  sumbitbut.disabled = false;
+  submitbut.disabled = false;
 }
 
 

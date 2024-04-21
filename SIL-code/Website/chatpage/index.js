@@ -2,7 +2,10 @@ var lastgetdata = {};
 var cooldownget = 2500
 var forcescroll = false
 var url = "https://czheyuchatapp.onrender.com";
-//url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
+url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
+var replying = false;
+var replyingtoID;
+
 function sendClicked() {
   if (
     document.getElementById("message").value == "" ||
@@ -23,8 +26,10 @@ function sendClicked() {
     username: localStorage.getItem("username"),
     password: localStorage.getItem("password"),
     value: value,
+    replying: replying,
+    replyingtoID: replyingtoID,
   };
-
+  cancelReply();
   const requestOptions = {
     method: "POST",
     headers: {
@@ -33,24 +38,77 @@ function sendClicked() {
     body: JSON.stringify(data),
   };
   const chatcontainer = document.getElementById("chat-container");
-  console.log("fetching");
   fetch(apiUrl, requestOptions)
     .then((response) => {
       if (response.ok) {
         return response.json();
-      } else {
-        console.log(response.ok);
       }
     })
     .then((data) => {
       if (!(JSON.stringify(lastgetdata) == JSON.stringify(data)) ){
         lastgetdata = data;
-        console.log("data is not last get data, calling updatechat");
+        console.log("updatedchat");
         updateChat(data);
-      } else {
-        console.log("data is the same, did not redisplay.");
       }
     });
+  document.getElementById("message").focus();
+}
+
+function sendDelete(id){
+
+  const apiUrl = url + "/api/deletemsg";
+  const data = {
+    username: localStorage.getItem("username"),
+    password: localStorage.getItem("password"),
+    id: id
+  };
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+  console.log("fetching");
+  fetch(apiUrl, requestOptions)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then((data) => {
+
+      if (!(JSON.stringify(lastgetdata) == JSON.stringify(data)) ){
+        lastgetdata = data;
+        console.log("updatedchat");
+        let tempsaveforcescollstate = forcescroll;
+        forcescroll = false
+        updateChat(data);
+        forcescroll = tempsaveforcescollstate;
+      }
+    });
+}
+
+function replyTo(id,message,user){
+  replying = true;
+  replyingtoID = id;
+  const replydiv = document.getElementById("replydiv");
+  const replyp = document.getElementById("replyp");
+  replydiv.style.display = "flex";
+  replyp.innerHTML = "Replying to <strong>" + user + ": " + shorten(message)+"</strong>";
+  document.getElementById("message").focus();
+}
+
+function cancelReply(){
+  console.log("cancelling reply");
+  replying = false;
+  replyingtoID = null;
+  const replydiv = document.getElementById("replydiv");
+  const replyp = document.getElementById("replyp");
+  replydiv.style.display = "none";
+  replyp.innerHTML = ""
+  document.getElementById("message").focus();
+
 }
 
 function updateChat(data) {
@@ -71,13 +129,17 @@ function updateChat(data) {
 
 //https://javascript.plainenglish.io/how-to-really-implement-the-sleep-function-in-javascript-621b4ed1e618
 function sleep(ms) {
+  
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 async function getCycle() {
   console.log("getting data...");
   getdata();
-  await sleep(cooldownget);
+  for (let i = 0; i < 200; i++){
+    document.querySelector('.progress-bar').style.width = (i/2) + '%';
+    await sleep(cooldownget/200);
+  }
   getCycle();
 }
 
@@ -87,7 +149,6 @@ function getdata() {
     username: localStorage.getItem("username"),
     password: localStorage.getItem("password"),
   };
-  console.log(data);
   const requestOptions = {
     method: "POST",
     headers: {
@@ -115,6 +176,20 @@ function getdata() {
     });
 }
 
+function getUserMsgById(data,id){
+  for (let i = 0; i < data.length; i++){
+    if (data[i].id == id){
+      return {deleted: data[i].type == "deleted",username: data[i].username, message: data[i].value}
+    }
+  }
+  return false
+}
+
+function shorten(text){
+  return text.slice(0,10) + "...";
+
+}
+
 function format(data) {
   //data is a {}
   let previous_username = "";
@@ -122,62 +197,201 @@ function format(data) {
   for (let i = 0; i < data.data.length; i++) {
     if (i != 0) {
       formated += "\n";
-    }
+    }//2024-04-20T14:43:32.376Z
+    let datearray = data.data[i].date.split("T");
+    let date = datearray[0];
+    let time = datearray[1];
+    let datearrayspecific = date.split("-");
+    let year = datearrayspecific[0];
+    let yeartwodigit = year.substring(2);
+    let month = datearrayspecific[1];
+    let day = datearrayspecific[2];
+    
+    let timearray = time.split(":");
+    let hour = timearray[0];
+    let minute = timearray[1];
+    let secondandminisecond = timearray[2];
+    let second = secondandminisecond.substring(0, 2);
+    let minisecond = secondandminisecond.substring(3,6);
+    let datewhennothover = `${yeartwodigit}/${month}/${day}-${hour}:${minute}:${second}`;
+    let datewhenhover = `${year}/${month}/${day}-${hour}:${minute}:${second}.${minisecond}`;
+
+    let replyingto = getUserMsgById(data.data,data.data[i].replyingtoID);
+
     if (data.data[i].username == localStorage.getItem("username")) {
       if (previous_username != data.data[i].username){
         formated +=
-          '<div class="m-0 p-0 d-flex flex-row-reverse"><p class="m-0 p-0 fs-6">' +
+          '<div class="m-0 p-0 d-flex flex-row-reverse"><p class="m-0 p-0 fs-6 lead text-light">' +
           data.data[i].username +
           "</p></div>";
       }
+      if(data.data[i].replying)
+      {      
+        if(replyingto.deleted){
+
+          formated +=
+            '<div class="m-0 p-0 d-flex flex-row-reverse"><p class="text-light m-0 p-0 fs-6">' +
+            `replying to <a href="#${data.data[i].replyingtoID}">${replyingto.username}: <strong>original message deleted</strong></a>` +
+            "</p></div>";
+        }else{
+          formated +=
+          '<div class="m-0 p-0 d-flex flex-row-reverse"><p class="text-light m-0 p-0 fs-6">' +
+          `replying to <a href="#${data.data[i].replyingtoID}">${replyingto.username}: <strong>${shorten(replyingto.message)}</strong></a>` +
+          "</p></div>";
+        }
+        }
+      if (data.data[i].type == "deleted"){
+        formated +=
+          `<div class="m-1 p-0 mw-75 d-flex flex-row-reverse" ` +
+          `onmouseleave="const simplep = this.children[1];`+
+          `const detailedp = this.children[2];`+
+          `simplep.style.display = 'flex';`+
+          `detailedp.style.display = 'none';" `+
+
+          `onmouseover="const simplep = this.children[1];`+
+          `const detailedp = this.children[2];`+
+          `simplep.style.display = 'none';`+
+          `detailedp.style.display = 'flex';`+`">`+
+          `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-secondary text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
+          "original message deleted" +
+          `</p></div></div><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+        
+      }else if(data.data[i].type == "message"){
       formated +=
-        '<div class="m-1 p-0 d-flex flex-row-reverse"><div class="d-inline-flex m-0 p-1 rounded bg-primary text-white"><p class="m-0 p-0 fs-6">' +
+        `<div class="m-1 p-0 mw-75 d-flex flex-row-reverse" ` +
+        `onmouseleave="const simplep = this.children[3];`+
+        `const detailedp = this.children[4];`+
+        `const replybuttonelement = this.children[1];`+
+        `replybuttonelement.style.display = 'none';`+
+        `const deletebuttonelement = this.children[2];`+
+        `deletebuttonelement.style.display = 'none';`+
+        `simplep.style.display = 'flex';`+
+        `detailedp.style.display = 'none';" `+
+        
+        `onmouseover="const simplep = this.children[3];`+
+        `const detailedp = this.children[4];`+
+        `const replybuttonelement = this.children[1];`+
+        `replybuttonelement.style.display = 'flex';`+
+        `const deletebuttonelement = this.children[2];`+
+        `deletebuttonelement.style.display = 'flex';`+
+        `simplep.style.display = 'none';`+
+        `detailedp.style.display = 'flex';`+`">`+
+        `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-primary text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
         data.data[i].value +
-        "</p></div></div>\n";
+        `</p></div></div>`+
+          '<button style="display: none;" '+
+          'onclick="replyTo( '+
+          data.data[i].id+
+          `,'`+
+          data.data[i].value+
+          `','`+
+          data.data[i].username+
+          `');" `+
+          `class="btn m-0 p-0 btn-outline-success" `+
+          `type="button">reply</button>`+
+          `<button style="display: none;" data-bs-id="${data.data[i].id}" data-bs-html='`+
+            `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-primary text-white mw-100"><p class="text-light m-0 p-0 fs-6 text-break">` +
+            data.data[i].value +
+            `</p></div></div>`+
+        `' data-bs-toggle="modal" data-bs-target="#confirmdelete" class="btn m-0 p-0 btn-outline-danger" type="button">delete</button><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+      }
     } else {
       if (previous_username != data.data[i].username){
         formated +=
-          '<div class="m-0 p-0 d-flex"><p class="m-0 p-0 fs-6">' +
+          '<div class="m-0 p-0 d-flex"><p class="text-light m-0 p-0 fs-6 lead">' +
           data.data[i].username +
           "</p></div>";
-      }
+      }      
+      if(data.data[i].replying)
+      {      
+        if(replyingto.deleted){
+
+          formated +=
+            '<div class="m-0 p-0 d-flex"><p class="text-light m-0 p-0 fs-6">' +
+            `replying to <a href="#${data.data[i].replyingtoID}">${replyingto.username}: <strong>original message deleted</strong></a>` +
+            "</p></div>";
+        }else{
+          formated +=
+          '<div class="m-0 p-0 d-flex"><p class="text-light m-0 p-0 fs-6">' +
+          `replying to <a href="#${data.data[i].replyingtoID}">${replyingto.username}: <strong>${shorten(replyingto.message)}</strong></a>` +
+          "</p></div>";
+        }
+        }
+      if (data.data[i].type == "deleted"){
+        formated +=
+          `<div class="m-1 p-0 mw-75 d-flex" ` +
+          `onmouseleave="const simplep = this.children[1];`+
+          `const detailedp = this.children[2];`+
+          `simplep.style.display = 'flex';`+
+          `detailedp.style.display = 'none';" `+
+
+          `onmouseover="const simplep = this.children[1];`+
+          `const detailedp = this.children[2];`+
+          `simplep.style.display = 'none';`+
+          `detailedp.style.display = 'flex';`+`">`+
+          `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-secondary text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
+          "original message deleted" +
+          `</p></div></div><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+
+      }else if(data.data[i].type == "message"){
       formated +=
-        '<div class="d-flex m-1 p-0"><div class="d-inline-flex m-0 p-1 rounded bg-success text-white"><p class="m-0 p-0 fs-6">' +
+        `<div class="m-1 p-0 mw-75 d-flex" ` +
+        `onmouseleave="const simplep = this.children[2];`+
+        `const detailedp = this.children[3];`+
+        `const replybuttonelement = this.children[1];`+
+        `replybuttonelement.style.display = 'none';`+
+        `simplep.style.display = 'flex';`+
+        `detailedp.style.display = 'none';" `+
+
+        `onmouseover="const simplep = this.children[2];`+
+        `const detailedp = this.children[3];`+
+        `const replybuttonelement = this.children[1];`+
+        `replybuttonelement.style.display = 'flex';`+
+        `simplep.style.display = 'none';`+
+        `detailedp.style.display = 'flex';`+`">`+
+        `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-success text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
         data.data[i].value +
-        "</p></div></div>\n";
+        `</p></div></div>`+
+          '<button style="display: none;" '+
+          'onclick="replyTo( '+
+          data.data[i].id+
+          `,'`+
+          data.data[i].value+
+          `','`+
+          data.data[i].username+
+          `');" `+
+          `class="btn m-0 p-0 btn-outline-success" `+
+          `type="button">reply</button><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+      }
     }
     previous_username = data.data[i].username;
+
   }
+  formated += "<br><br><br><br>";
+
   return formated;
 }
 
 function scrolldown(){
   const body = document.getElementById("body")
-  console.log("Scrolling")
   window.scrollTo(0, body.scrollHeight);
 
 }
 
-window.onload = function () {
-  if (
-    !localStorage.getItem("loggedin") ||
-    !localStorage.getItem("password") ||
-    !localStorage.getItem("username")
-  ) {
-    console.log(localStorage.getItem("loggedin"));
-    console.log(localStorage.getItem("password"));
-    console.log(localStorage.getItem("username"));
-    window.location.href = url + "/chat/login";
-  }
-  console.log("page loaded.");
+function setEvents(){
   var password = localStorage.getItem("password");
   var username = localStorage.getItem("username");
+
   let sendbutton = document.getElementById("sendbutton");
   sendbutton.onclick = function () {
     sendClicked();
   };
   const logindisplay = document.getElementById("logindisplay");
   logindisplay.innerHTML = "Logged in as <strong>" + username + "</strong>";
+
+  const logindisplayouter = document.getElementById("logindisplayouter");
+  logindisplayouter.innerHTML = "Logged in as <strong>" + username + "</strong>";
+
   let logout = document.getElementById("logoutbutton");
   logout.onclick = function () {
     window.location.href = url + "/chat/login";
@@ -197,17 +411,13 @@ window.onload = function () {
   const slider = document.getElementById("getrange");
   const output = document.getElementById("getrangedisplay");
   output.innerHTML = "Current get cooldown: " + String(slider.value / 10) + "s"; // Display the default slider value
-  
+
   // Update the current slider value (each time you drag the slider handle)
   slider.oninput = function () {
     cooldownget = this.value*100;
     output.innerHTML = "Current get cooldown: " + String(this.value / 10) + "s"; // Display the updated slider value
   };
 
-  const scrollbutton = document.getElementById("scrollbutton");
-  scrollbutton.onclick = function () {
-    scrolldown()
-  }
   const forcescrollbutton = document.getElementById("forcescrollbutton");
   forcescrollbutton.onclick = function () {
     forcescroll = !forcescroll;
@@ -217,6 +427,42 @@ window.onload = function () {
       forcescrollbutton.innerHTML = "Enable force scroll";
     }
   }
-  //start get cycle
+
+  const deleteModal = document.getElementById('confirmdelete')
+  if (deleteModal) {
+    deleteModal.addEventListener('show.bs.modal', event => {
+      // Button that triggered the modal
+      const button = event.relatedTarget;
+      // Extract info from data-bs-* attributes
+      const id = button.getAttribute('data-bs-id');
+      const html = button.getAttribute('data-bs-html');
+
+
+      // Update the modal's content.
+      const modalConfirm = deleteModal.querySelector('.deletebutton');
+      const showcase = deleteModal.querySelector('.confirmtext');
+
+      modalConfirm.onclick = function () {sendDelete(parseInt(id));}
+      showcase.innerHTML = html;
+    })
+  }
+}
+
+window.onload = function () {
+  if (
+    localStorage.getItem("loggedin") == null ||
+    localStorage.getItem("password") == null ||
+    localStorage.getItem("username") == null
+  ) {
+    window.location.href = url + "/chat/login";
+  }
+  console.log("page loaded.");
+
+  document.getElementById("message").focus();
+
+  setEvents();
+  getdata();
+  scrolldown();
+  document.getElementById("forcescrollbutton").click();
   getCycle();
 };

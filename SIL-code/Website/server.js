@@ -55,14 +55,16 @@ app.get("/chat/register/index.js", (req, res) => {
 });
 
 
+app.post("/api/deletemsg",(req,res) => {
+  console.log("POST /chat/deletemsg called");
+  res.send(deleteMessage(req.body.id,req.body.username,req.body.password));
+});
 
 app.post("/api/messagesget", (req, res) => {
-  console.log("POST /api/messagesget called");
   if (checkuser(req.body.password, req.body.username)) {
-    console.log("getted msg")
     res.send(require("./data.json")); //need
   } else {
-    console.log("wrong password or username- msgget");
+    //console.log("wrong password or username- msgget");
   }
 });
 
@@ -70,7 +72,7 @@ app.post("/api/messagesend", (req, res) => {
   console.log("POST /api/messagesend called");
 
   if (checkuser(req.body.password, req.body.username)) {
-    handlePost(req.body, res); //need
+    res.send(handlePost(req.body, res)); //need
   }
 });
 
@@ -90,6 +92,23 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
+
+function deleteMessage(id,user,pass){
+  const data = require("./data.json");
+  for(let i = 0; i<data.data.length; i++){
+
+    if(data.data[i].id == id && data.data[i].username == user && JSON.parse(checkuser(pass,user)).result =="success"){
+      data.data[i].type = "deleted";
+      data.data[i].value = null;
+
+      fs.writeFileSync(path.join(__dirname, "/data.json"), JSON.stringify(data));
+      return require("./data.json");
+    }
+    
+  }
+  console.log("cant find");
+  
+}
 function checkuser(pass, user) {
   const jsonuserdata = require("./userdata.json");
   for (let i = 0; i < jsonuserdata.users.length; i++) {
@@ -102,6 +121,7 @@ function checkuser(pass, user) {
   }
   return '{"result":"failed"}';
 }
+
 
 function checkregis(pass, user) {
   let jsonuserdata = require("./userdata.json");
@@ -131,21 +151,21 @@ function checkregis(pass, user) {
   );
   return '{"result":"success"}';
 }
-function handlePost(req, res) {
+function handlePost(reqbody, res) {
   const jsondata = require("./data.json");
-  console.log(require("./data.json"));
   writeData(
-    req.type,
-    req.username,
-    req.value,
+    reqbody.type,
+    reqbody.username,
+    reqbody.value,
+    reqbody.replying,
+    reqbody.replyingtoID,
     jsondata,
-    //'{"countaccess": 0,"data": [{ "id": 1,"username": "zheyu","type": "message","value": "hi" }]}',
   );
 
   return require("./data.json");
 }
 
-function writeData(type, username, value, data) {
+function writeData(type, username, value,replying,replyingtoID,data) {
   let dataarray = data;
   try {
     let dataadding = {
@@ -153,6 +173,9 @@ function writeData(type, username, value, data) {
       username: username,
       type: type,
       value: value,
+      date: new Date().toISOString(),
+      replying: replying,
+      replyingtoID: replyingtoID,
     };
     dataarray["data"].push(dataadding);
     dataarray.countaccess++;
@@ -164,7 +187,6 @@ function writeData(type, username, value, data) {
         if (err) throw err;
 
         // Success
-        console.log("Done writing");
       },
     );
     return "success";
