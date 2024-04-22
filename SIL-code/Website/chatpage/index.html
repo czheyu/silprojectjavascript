@@ -12,7 +12,7 @@
       }
       .modal-backdrop { z-index: -1; }
     </style>
-    <script src="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001/chat/index.js"></script>
+    <script src="https://czheyuchatapp.onrender.com/chat/index.js"></script>
   </head>
   <body class="bg-dark" id="body">
     
@@ -53,6 +53,16 @@
                   id="forcescrollbutton"
                 >
                   Enable force scroll
+                </button>
+                
+              </div>
+              <div class="mb-3">
+                <button
+                  class="btn m-1 p-1 btn-outline-light rounded"
+                  type="button"
+                  onclick="showdateunhover = !showdateunhover;if(showdateunhover){this.innerHTML = 'Disable Simple Date Display'}else{this.innerHTML = 'Enable Simple Date Display'}; updateChat(lastgetdata);"
+                >
+                  enable show simple date
                 </button>
               </div>
             </form>

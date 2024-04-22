@@ -1,10 +1,16 @@
 var url = "https://czheyuchatapp.onrender.com";
 
-url = "https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001"
+//url = "https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001"
 
 
 
 function submit(){
+
+  const loadingPlaceholder = document.getElementById("loadingPlaceholder");
+
+  loadingPlaceholder.innerHTML = 
+    `<div class="spinner-border" role="status"> <span class="visually-hidden">Loading...</span> </div>`;
+
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
   const apiUrl = url + "/api/register";
@@ -30,6 +36,10 @@ function submit(){
     })
   .then((data) => {
     if (data.result == "success") {
+      const loadingPlaceholder = document.getElementById("loadingPlaceholder");
+
+      loadingPlaceholder.innerHTML = 
+        ``;
       appendAlert("Register Success, redirecting to login page in 5 seconds.", "success");
       sleep(5000);
       window.location.href = url + "/chat/login";
@@ -39,6 +49,9 @@ function submit(){
     }
   });
   enableAll();
+
+  loadingPlaceholder.innerHTML = 
+    ``;
 }
 
 function sleep(ms) {

@@ -2,8 +2,9 @@ var lastgetdata = {};
 var cooldownget = 2500
 var forcescroll = false
 var url = "https://czheyuchatapp.onrender.com";
-url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
+//url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 var replying = false;
+var showdateunhover = false;
 var replyingtoID;
 
 function sendClicked() {
@@ -241,6 +242,7 @@ function format(data) {
         }
         }
       if (data.data[i].type == "deleted"){
+        if(showdateunhover){
         formated +=
           `<div class="m-1 p-0 mw-75 d-flex flex-row-reverse" ` +
           `onmouseleave="const simplep = this.children[1];`+
@@ -255,45 +257,100 @@ function format(data) {
           `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-secondary text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
           "original message deleted" +
           `</p></div></div><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+        }else{
+          
         
+        
+          formated +=
+            `<div class="m-1 p-0 mw-75 d-flex flex-row-reverse" ` +
+            `onmouseleave="`+
+            `const detailedp = this.children[1];`+
+            `detailedp.style.display = 'none';" `+
+
+            `onmouseover="`+
+            `const detailedp = this.children[1];`+
+            `detailedp.style.display = 'flex';`+`">`+
+            `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-secondary text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
+            "original message deleted" +
+            `</p></div></div><p class="text-light" style="display:  none;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+        }
       }else if(data.data[i].type == "message"){
-      formated +=
-        `<div class="m-1 p-0 mw-75 d-flex flex-row-reverse" ` +
-        `onmouseleave="const simplep = this.children[3];`+
-        `const detailedp = this.children[4];`+
-        `const replybuttonelement = this.children[1];`+
-        `replybuttonelement.style.display = 'none';`+
-        `const deletebuttonelement = this.children[2];`+
-        `deletebuttonelement.style.display = 'none';`+
-        `simplep.style.display = 'flex';`+
-        `detailedp.style.display = 'none';" `+
-        
-        `onmouseover="const simplep = this.children[3];`+
-        `const detailedp = this.children[4];`+
-        `const replybuttonelement = this.children[1];`+
-        `replybuttonelement.style.display = 'flex';`+
-        `const deletebuttonelement = this.children[2];`+
-        `deletebuttonelement.style.display = 'flex';`+
-        `simplep.style.display = 'none';`+
-        `detailedp.style.display = 'flex';`+`">`+
-        `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-primary text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
-        data.data[i].value +
-        `</p></div></div>`+
-          '<button style="display: none;" '+
-          'onclick="replyTo( '+
-          data.data[i].id+
-          `,'`+
-          data.data[i].value+
-          `','`+
-          data.data[i].username+
-          `');" `+
-          `class="btn m-0 p-0 btn-outline-success" `+
-          `type="button">reply</button>`+
-          `<button style="display: none;" data-bs-id="${data.data[i].id}" data-bs-html='`+
-            `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-primary text-white mw-100"><p class="text-light m-0 p-0 fs-6 text-break">` +
+        if(showdateunhover){
+          formated +=
+            `<div class="m-1 p-0 mw-75 d-flex flex-row-reverse" ` +
+            `onmouseleave="const simplep = this.children[3];`+
+            `const detailedp = this.children[4];`+
+            `const replybuttonelement = this.children[1];`+
+            `replybuttonelement.style.display = 'none';`+
+            `const deletebuttonelement = this.children[2];`+
+            `deletebuttonelement.style.display = 'none';`+
+            `simplep.style.display = 'flex';`+
+            `detailedp.style.display = 'none';" `+
+            
+            `onmouseover="const simplep = this.children[3];`+
+            `const detailedp = this.children[4];`+
+            `const replybuttonelement = this.children[1];`+
+            `replybuttonelement.style.display = 'flex';`+
+            `const deletebuttonelement = this.children[2];`+
+            `deletebuttonelement.style.display = 'flex';`+
+            `simplep.style.display = 'none';`+
+            `detailedp.style.display = 'flex';`+`">`+
+            `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-primary text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
             data.data[i].value +
             `</p></div></div>`+
-        `' data-bs-toggle="modal" data-bs-target="#confirmdelete" class="btn m-0 p-0 btn-outline-danger" type="button">delete</button><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+              '<button style="display: none;" '+
+              'onclick="replyTo( '+
+              data.data[i].id+
+              `,'`+
+              data.data[i].value+
+              `','`+
+              data.data[i].username+
+              `');" `+
+              `class="btn m-0 p-0 btn-outline-success" `+
+              `type="button">reply</button>`+
+              `<button style="display: none;" data-bs-id="${data.data[i].id}" data-bs-html='`+
+                `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-primary text-white mw-100"><p class="text-light m-0 p-0 fs-6 text-break">` +
+                data.data[i].value +
+                `</p></div></div>`+
+            `' data-bs-toggle="modal" data-bs-target="#confirmdelete" class="btn m-0 p-0 btn-outline-danger" type="button">delete</button><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+          
+      }else{
+          formated +=
+            `<div class="m-1 p-0 mw-75 d-flex flex-row-reverse" ` +
+            `onmouseleave="`+
+            `const detailedp = this.children[3];`+
+            `const replybuttonelement = this.children[1];`+
+            `replybuttonelement.style.display = 'none';`+
+            `const deletebuttonelement = this.children[2];`+
+            `deletebuttonelement.style.display = 'none';`+
+            `detailedp.style.display = 'none';" `+
+
+            `onmouseover="`+
+            `const detailedp = this.children[3];`+
+            `const replybuttonelement = this.children[1];`+
+            `replybuttonelement.style.display = 'flex';`+
+            `const deletebuttonelement = this.children[2];`+
+            `deletebuttonelement.style.display = 'flex';`+
+            `detailedp.style.display = 'flex';`+`">`+
+            `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-primary text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
+            data.data[i].value +
+            `</p></div></div>`+
+              '<button style="display: none;" '+
+              'onclick="replyTo( '+
+              data.data[i].id+
+              `,'`+
+              data.data[i].value+
+              `','`+
+              data.data[i].username+
+              `');" `+
+              `class="btn m-0 p-0 btn-outline-success" `+
+              `type="button">reply</button>`+
+              `<button style="display: none;" data-bs-id="${data.data[i].id}" data-bs-html='`+
+                `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-primary text-white mw-100"><p class="text-light m-0 p-0 fs-6 text-break">` +
+                data.data[i].value +
+                `</p></div></div>`+
+            `' data-bs-toggle="modal" data-bs-target="#confirmdelete" class="btn m-0 p-0 btn-outline-danger" type="button">delete</button><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+          }
       }
     } else {
       if (previous_username != data.data[i].username){
@@ -318,50 +375,103 @@ function format(data) {
         }
         }
       if (data.data[i].type == "deleted"){
-        formated +=
-          `<div class="m-1 p-0 mw-75 d-flex" ` +
-          `onmouseleave="const simplep = this.children[1];`+
-          `const detailedp = this.children[2];`+
-          `simplep.style.display = 'flex';`+
-          `detailedp.style.display = 'none';" `+
 
-          `onmouseover="const simplep = this.children[1];`+
-          `const detailedp = this.children[2];`+
-          `simplep.style.display = 'none';`+
-          `detailedp.style.display = 'flex';`+`">`+
-          `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-secondary text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
-          "original message deleted" +
-          `</p></div></div><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+        if(showdateunhover){
+          formated +=
+            `<div class="m-1 p-0 mw-75 d-flex" ` +
+            `onmouseleave="const simplep = this.children[1];`+
+            `const detailedp = this.children[2];`+
+            `simplep.style.display = 'flex';`+
+            `detailedp.style.display = 'none';" `+
+
+            `onmouseover="const simplep = this.children[1];`+
+            `const detailedp = this.children[2];`+
+            `simplep.style.display = 'none';`+
+            `detailedp.style.display = 'flex';`+`">`+
+            `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-secondary text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
+            "original message deleted" +
+            `</p></div></div><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+        }else{
+
+
+
+          formated +=
+            `<div class="m-1 p-0 mw-75 d-flex" ` +
+            `onmouseleave="`+
+            `const detailedp = this.children[1];`+
+            `detailedp.style.display = 'none';" `+
+
+            `onmouseover="`+
+            `const detailedp = this.children[1];`+
+            `detailedp.style.display = 'flex';`+`">`+
+            `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-secondary text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
+            "original message deleted" +
+            `</p></div></div><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+        }
+        
 
       }else if(data.data[i].type == "message"){
-      formated +=
-        `<div class="m-1 p-0 mw-75 d-flex" ` +
-        `onmouseleave="const simplep = this.children[2];`+
-        `const detailedp = this.children[3];`+
-        `const replybuttonelement = this.children[1];`+
-        `replybuttonelement.style.display = 'none';`+
-        `simplep.style.display = 'flex';`+
-        `detailedp.style.display = 'none';" `+
+        if(showdateunhover){
+          formated +=
+            `<div class="m-1 p-0 mw-75 d-flex" ` +
+            `onmouseleave="const simplep = this.children[2];`+
+            `const detailedp = this.children[3];`+
+            `const replybuttonelement = this.children[1];`+
+            `replybuttonelement.style.display = 'none';`+
+            `simplep.style.display = 'flex';`+
+            `detailedp.style.display = 'none';" `+
 
-        `onmouseover="const simplep = this.children[2];`+
-        `const detailedp = this.children[3];`+
-        `const replybuttonelement = this.children[1];`+
-        `replybuttonelement.style.display = 'flex';`+
-        `simplep.style.display = 'none';`+
-        `detailedp.style.display = 'flex';`+`">`+
-        `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-success text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
-        data.data[i].value +
-        `</p></div></div>`+
-          '<button style="display: none;" '+
-          'onclick="replyTo( '+
-          data.data[i].id+
-          `,'`+
-          data.data[i].value+
-          `','`+
-          data.data[i].username+
-          `');" `+
-          `class="btn m-0 p-0 btn-outline-success" `+
-          `type="button">reply</button><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+            `onmouseover="const simplep = this.children[2];`+
+            `const detailedp = this.children[3];`+
+            `const replybuttonelement = this.children[1];`+
+            `replybuttonelement.style.display = 'flex';`+
+            `simplep.style.display = 'none';`+
+            `detailedp.style.display = 'flex';`+`">`+
+            `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-success text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
+            data.data[i].value +
+            `</p></div></div>`+
+              '<button style="display: none;" '+
+              'onclick="replyTo( '+
+              data.data[i].id+
+              `,'`+
+              data.data[i].value+
+              `','`+
+              data.data[i].username+
+              `');" `+
+              `class="btn m-0 p-0 btn-outline-success" `+
+              `type="button">reply</button><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+
+        }else{
+          formated +=
+            `<div class="m-1 p-0 mw-75 d-flex" ` +
+            `onmouseleave="`+
+            `const detailedp = this.children[2];`+
+            `const replybuttonelement = this.children[1];`+
+            `replybuttonelement.style.display = 'none';`+
+            `detailedp.style.display = 'none';" `+
+
+            `onmouseover="`+
+            `const detailedp = this.children[2];`+
+            `const replybuttonelement = this.children[1];`+
+            `replybuttonelement.style.display = 'flex';`+
+            `detailedp.style.display = 'flex';`+`">`+
+            `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-success text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
+            data.data[i].value +
+            `</p></div></div>`+
+              '<button style="display: none;" '+
+              'onclick="replyTo( '+
+              data.data[i].id+
+              `,'`+
+              data.data[i].value+
+              `','`+
+              data.data[i].username+
+              `');" `+
+              `class="btn m-0 p-0 btn-outline-success" `+
+              `type="button">reply</button><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+
+            
+        }
+        
       }
     }
     previous_username = data.data[i].username;

@@ -1,7 +1,12 @@
 var url = "https://czheyuchatapp.onrender.com";
-url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
+//url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 
 function submit() {
+  const loadingPlaceholder = document.getElementById("loadingPlaceholder");
+
+  loadingPlaceholder.innerHTML = 
+    `<div class="spinner-border" role="status"> <span class="visually-hidden">Loading...</span> </div>`;
+  
   console.log("submit clicked");
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
@@ -27,13 +32,24 @@ function submit() {
     })
     .then((data) => {
       if (data.result == "success") {
+        const loadingPlaceholder = document.getElementById("loadingPlaceholder");
+
+        loadingPlaceholder.innerHTML = 
+          ``;
+
         localStorage.setItem("loggedin", true);
         localStorage.setItem("username", username);
         localStorage.setItem("password", password);
+        
         appendAlert("Login Success, redirecting to chat page in 5 seconds.", "success");
         sleep(5000);
         window.location.href = url + "/chat";
       } else if (data.result == "failed") {
+
+        const loadingPlaceholder = document.getElementById("loadingPlaceholder");
+
+        loadingPlaceholder.innerHTML = 
+          ``;
         appendAlert("Username or password is incorrect.", "danger");
       }
     });
@@ -43,6 +59,10 @@ function submit() {
   }
     
   enableAll();
+
+
+  loadingPlaceholder.innerHTML = 
+    ``;
 }
 
 function disableAll() {
