@@ -1,5 +1,5 @@
 var url = "https://czheyuchatapp.onrender.com";
-url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
+//url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 
 function submit() {
   const loadingPlaceholder = document.getElementById("loadingPlaceholder");
@@ -99,27 +99,18 @@ function appendAlert(message, type){
 };
 
 window.onload = function () {
-  console.log("pageloaded w no space");
-  console.log("79");
 
   const sendbutton = document.getElementById("submit");
-  console.log("79");
 
   const usernamebox = document.getElementById("username");
-  console.log("79");
 const passwordbox = document.getElementById("password");
-  console.log("79");
 usernamebox.value = localStorage.getItem("username");
-  console.log("79");
 passwordbox.value = localStorage.getItem("password");
-  console.log("79");
 sendbutton.onclick = function () {
-  console.log("79");
 if (
       document.getElementById("username").value &&
       document.getElementById("password").value
     ) {
-      console.log("79");
 
       disableAll();
       submit();
