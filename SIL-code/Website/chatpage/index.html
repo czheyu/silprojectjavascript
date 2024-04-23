@@ -12,10 +12,78 @@
       }
       .modal-backdrop { z-index: -1; }
     </style>
-    <script src="https://czheyuchatapp.onrender.com/chat/index.js"></script>
+  <!--script src="https://czheyuchatapp.onrender.com/chatapp/CHATIDREPLACE/index.js"></script-->
+    <script>
+      console.log("HI");
+      var chatID = CHATIDREPLACE;
+
+    </script>
+    <script src="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001/chatapp/CHATIDREPLACE/index.js"></script>
+
   </head>
   <body class="bg-dark" id="body">
-    
+
+    <!-- start of interactive chat modal-->
+
+    <div class="modal fade" id="chat" tabindex="-1" >
+      <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+          <div class="modal-header bg-dark">
+            <h1 class="modal-title fs-5 text-light" id="chatmenutitle">Chat</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div>
+                <p class="text-light" id="participantsdisplay">
+                </p>
+              </div>
+              <div class="input-group m-2">
+                <input
+                  type="text"
+                  class="form-control "
+                  id="adduser"
+                  placeholder="user"
+                />
+                <button
+                  class="btn m-1 p-1 btn-outline-light rounded"
+                  type="button"
+                  id="adduserbutton"
+                  onclick="adduser()"
+                >
+                  adduser
+                </button>
+
+              </div>
+              <div>
+                <div class="dropdown-center">
+                  <button id="userchoose" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    choose user
+                  </button>
+                  <ul id="dropdown" class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action two</a></li>
+                    <li><a class="dropdown-item" href="#">Action three</a></li>
+                  </ul>
+                <button
+                  class="btn m-1 p-1 btn-outline-light rounded"
+                  type="button"
+                  id="removeuserbutton"
+                  onclick="console.log('not binded')"
+                >
+                  removeuser
+                </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- end of interactive modal-->
     <!-- start of interactive settings modal-->
 
     <div class="modal fade" id="settingsmodal" tabindex="-1" >
@@ -99,10 +167,13 @@
     <!--end of modal confirm-->
     <div class="sticky-top container-fluid m-0 p-0 d-flex flex-row-reverse">
       <div class="input-group mb-3 bg-dark p-2 d-flex justify-content-start border border-secondary-subtle rounded border-1">
+        <button type="button" onclick="window.location = url+'/chatlist'; " class="btn btn-outline-light rounded" >back</button>
+
+        <p id="chatnamedisplay" class="m-1 p-1 fw-light text-white">Chat: <strong>placeholderchatname</strong></p>
+
         <p id="logindisplayouter" class="m-1 p-1 fw-light text-white">Logged in as user</p>
 
         <button type="button" class="btn btn-outline-light rounded" data-bs-toggle="modal" data-bs-target="#settingsmodal">settings</button>
-       
 
 
 
@@ -112,8 +183,9 @@
     <div class="container-fluid">
       <div class="jumbotron">
         <div class="chat-container" id="chat-container">
-          <h2>loading...</h2>
-          
+          <h2 class="text-center text-light">loading...</h2>
+          <h2 class="text-light">If this page does not load, either: You are not in this chat, you are logged out, or there is a internal error.</h2>
+
         </div>
         <div class="fixed-bottom bg-dark border border-secondary-subtle rounded border-1"">
           <div id="replydiv"  style="display: none;">

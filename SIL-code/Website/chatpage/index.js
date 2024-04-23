@@ -2,10 +2,121 @@ var lastgetdata = {};
 var cooldownget = 2500
 var forcescroll = false
 var url = "https://czheyuchatapp.onrender.com";
-//url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
+url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 var replying = false;
 var showdateunhover = false;
 var replyingtoID;
+//var chatID;
+
+function dropdownchoose(buttonitem) {
+  document.getElementById("userchoose").innerHTML = buttonitem.innerHTML;
+}
+
+function displaytodropdown(data){
+  //data is ["asdad","asfafa"]
+  let html = ""
+  const username = localStorage.getItem('username');
+  const dropdown = document.getElementById("dropdown");
+  for(let i = 0; i < data.length; i++){
+    if(data[i] != username)
+    html += `<button class="dropdown-item" type="button" onclick="dropdownchoose(this);">${data[i]}</button>`;
+  }
+  dropdown.innerHTML = html;
+}
+
+function removeuser(){
+  //console.log("remove user clicked");
+  const selecteduser = document.getElementById('userchoose');
+  if(selecteduser.innerHTML=="" || selecteduser.innerHTML == "select user"|| selecteduser.innerHTML == localStorage.getItem('username')){
+    //console.log("no user selected");
+    return
+
+  }
+  const apiurl = url + "/api/removefromchat"
+  const data = {
+    "chatid":chatID,
+    "usernametoremove":selecteduser.innerHTML,
+    "username": localStorage.getItem('username'),
+    "password": localStorage.getItem('password')
+  }
+  selecteduser.innerHTML = "select user";
+  const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    }
+  //console.log(data)
+  fetch(apiurl, options )
+  getparticipants();
+}
+
+function adduser(){
+  const chatuserbox = document.getElementById('adduser');
+  if(chatuserbox.value==""){
+    return
+    
+  }
+  const apiurl = url + "/api/invitetochat"
+  const data = {
+    "chatid":chatID,
+    "usernametoinvite":chatuserbox.value,
+    "username": localStorage.getItem('username'),
+    "password": localStorage.getItem('password')
+  }
+  chatuserbox.value = "";
+  const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    }
+  //console.log(data)
+  fetch(apiurl, options )
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+  })
+  .then((data) => {
+      //console.log(data)
+      const participantsdisplay = document.getElementById('participantsdisplay');
+      participantsdisplay.innerHTML = "Participants: <strong>" + data.result + "</strong>"
+      displaytodropdown(data.result);
+
+  });
+  getparticipants();
+}
+
+function getparticipants(){
+  const apiUrl = url + "/api/getuserinchat";
+  const data = {
+    chatid:chatID,
+    username: localStorage.getItem("username"),
+    password: localStorage.getItem("password"),
+
+  };
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+  fetch(apiUrl, requestOptions)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then((data) => {
+        const participantsdisplay = document.getElementById('participantsdisplay');
+        participantsdisplay.innerHTML = "Participants: <strong>" + data.result + "</strong>"
+        displaytodropdown(data.result);
+    });
+}
 
 function sendClicked() {
   if (
@@ -15,7 +126,6 @@ function sendClicked() {
     alert("Username or message is empty.");
     return;
   }
-  console.log("send button clicked, posting message");
   const message = document.getElementById("message").value;
 
   document.getElementById("message").value = "";
@@ -23,6 +133,7 @@ function sendClicked() {
   const value = message;
   const apiUrl = url + "/api/messagesend";
   const data = {
+    chatid:chatID,
     type: type,
     username: localStorage.getItem("username"),
     password: localStorage.getItem("password"),
@@ -48,7 +159,6 @@ function sendClicked() {
     .then((data) => {
       if (!(JSON.stringify(lastgetdata) == JSON.stringify(data)) ){
         lastgetdata = data;
-        console.log("updatedchat");
         updateChat(data);
       }
     });
@@ -59,6 +169,7 @@ function sendDelete(id){
 
   const apiUrl = url + "/api/deletemsg";
   const data = {
+    chatid:chatID,
     username: localStorage.getItem("username"),
     password: localStorage.getItem("password"),
     id: id
@@ -70,7 +181,6 @@ function sendDelete(id){
     },
     body: JSON.stringify(data),
   };
-  console.log("fetching");
   fetch(apiUrl, requestOptions)
     .then((response) => {
       if (response.ok) {
@@ -81,7 +191,6 @@ function sendDelete(id){
 
       if (!(JSON.stringify(lastgetdata) == JSON.stringify(data)) ){
         lastgetdata = data;
-        console.log("updatedchat");
         let tempsaveforcescollstate = forcescroll;
         forcescroll = false
         updateChat(data);
@@ -101,7 +210,6 @@ function replyTo(id,message,user){
 }
 
 function cancelReply(){
-  console.log("cancelling reply");
   replying = false;
   replyingtoID = null;
   const replydiv = document.getElementById("replydiv");
@@ -113,9 +221,7 @@ function cancelReply(){
 }
 
 function updateChat(data) {
-  console.log("about to call formatting data");
   let formatted = format(data);
-  console.log("data formatted");
   const chatContainer = document.getElementById("chat-container");
   //const chatMessage = document.createElement("div");
   //chatMessage.classList.add("chat-message");
@@ -135,7 +241,6 @@ function sleep(ms) {
 }
 
 async function getCycle() {
-  console.log("getting data...");
   getdata();
   for (let i = 0; i < 200; i++){
     document.querySelector('.progress-bar').style.width = (i/2) + '%';
@@ -147,6 +252,7 @@ async function getCycle() {
 function getdata() {
   const apiUrl = url + "/api/messagesget";
   const data = {
+    chatid: chatID,
     username: localStorage.getItem("username"),
     password: localStorage.getItem("password"),
   };
@@ -157,22 +263,19 @@ function getdata() {
     },
     body: JSON.stringify(data),
   };
-  console.log("fetching");
   fetch(apiUrl, requestOptions)
     .then((response) => {
       if (response.ok) {
         return response.json();
       } else {
-        console.log(response.ok);
       }
     })
     .then((data) => {
       if (!(JSON.stringify(lastgetdata) == JSON.stringify(data)) ){
         lastgetdata = data;
-        console.log("data is not last get data, calling updatechat");
         updateChat(data);
       } else {
-        console.log("data is the same, did not redisplay.");
+        //console.log("data is the same, did not redisplay.");
       }
     });
 }
@@ -488,6 +591,39 @@ function scrolldown(){
 
 }
 
+function getchatnamebyid(id){
+
+  const apiUrl = url + "/api/chatnamebyid";
+  const data = {
+    chatid: id,
+    username: localStorage.getItem("username"),
+    password: localStorage.getItem("password"),
+  };
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+  //console.log("fetching chatname");
+  fetch(apiUrl, requestOptions)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        //console.log(response.ok);
+      }
+    }).then((data) => {
+      const chatnamedisplay = document.getElementById("chatnamedisplay");
+        
+      chatnamedisplay.innerHTML = `Chat: <button type="button" class="btn btn-outline-light rounded" data-bs-toggle="modal" data-bs-target="#chat"><strong>${data.result}</strong></button>`;
+      const chatmenutitle = document.getElementById("chatmenutitle");
+      chatmenutitle.innerHTML = `Chat: <strong>${data.result}</strong>`;
+    });
+  return;
+}
+
 function setEvents(){
   var password = localStorage.getItem("password");
   var username = localStorage.getItem("username");
@@ -496,6 +632,8 @@ function setEvents(){
   sendbutton.onclick = function () {
     sendClicked();
   };
+  getchatnamebyid(chatID);
+  
   const logindisplay = document.getElementById("logindisplay");
   logindisplay.innerHTML = "Logged in as <strong>" + username + "</strong>";
 
@@ -556,6 +694,15 @@ function setEvents(){
       showcase.innerHTML = html;
     })
   }
+  getparticipants();
+  const adduserbutton = document.getElementById("adduserbutton");
+  adduserbutton.onclick = function(){
+    adduser();
+  }
+  const removeuserbutton = document.getElementById("removeuserbutton");
+  removeuserbutton.onclick = function(){
+    removeuser();
+  }
 }
 
 window.onload = function () {
@@ -566,7 +713,7 @@ window.onload = function () {
   ) {
     window.location.href = url + "/chat/login";
   }
-  console.log("page loaded.");
+  //console.log("page loaded.");
 
   document.getElementById("message").focus();
 

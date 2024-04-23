@@ -1,1 +1,154 @@
-{"countaccess":2,"data":[{"id":0,"username":"zheyutest","type":"message","value":"nah id win","date":"2000-00-00T00:00:00.000Z","replying":false,"replyingtoID":null},{"id":1,"username":"usertest","type":"deleted","value":null,"date":"2024-04-21T09:07:42.502Z","replying":true,"replyingtoID":0}]}
+{
+  "chatscount": 1,
+  "chats": [
+    {
+      "users": ["zichangus"],
+      "id": 0,
+      "name": "fcee",
+      "countaccess": 16,
+      "data": [
+        {
+          "id": 0,
+          "username": "",
+          "type": "message",
+          "value": "Chat Created",
+          "date": "2024-04-23T11:11:53.443Z",
+          "replying": false,
+          "replyingtoID": null
+        },
+        {
+          "id": 1,
+          "username": "zichangus",
+          "type": "message",
+          "value": "yay",
+          "date": "2024-04-23T11:12:15.158Z",
+          "replying": true,
+          "replyingtoID": 0
+        },
+        {
+          "id": 2,
+          "username": "zichangus",
+          "type": "message",
+          "value": "das crazy",
+          "date": "2024-04-23T11:12:16.851Z",
+          "replying": false,
+          "replyingtoID": null
+        },
+        {
+          "id": 3,
+          "username": "zichangus",
+          "type": "message",
+          "value": "<strong> hellpo </strong>",
+          "date": "2024-04-23T11:18:32.261Z",
+          "replying": false
+        },
+        {
+          "id": 4,
+          "username": "zichangus",
+          "type": "deleted",
+          "value": null,
+          "date": "2024-04-23T11:18:42.707Z",
+          "replying": false,
+          "replyingtoID": null
+        },
+        {
+          "id": 5,
+          "username": "zichangus",
+          "type": "deleted",
+          "value": null,
+          "date": "2024-04-23T11:19:11.744Z",
+          "replying": false,
+          "replyingtoID": null
+        },
+        {
+          "id": 6,
+          "username": "zichangus",
+          "type": "message",
+          "value": "&lt",
+          "date": "2024-04-23T11:22:54.260Z",
+          "replying": false,
+          "replyingtoID": null
+        },
+        {
+          "id": 7,
+          "username": "zichangus",
+          "type": "message",
+          "value": "&lt",
+          "date": "2024-04-23T11:27:51.887Z",
+          "replying": false
+        },
+        {
+          "id": 8,
+          "username": "zichangus",
+          "type": "message",
+          "value": "&ltstrong&gt hi &lt/strong&gt",
+          "date": "2024-04-23T11:28:03.782Z",
+          "replying": false,
+          "replyingtoID": null
+        },
+        {
+          "id": 9,
+          "username": "zichangus",
+          "type": "message",
+          "value": "hi",
+          "date": "2024-04-23T12:06:24.449Z",
+          "replying": false
+        },
+        {
+          "id": 10,
+          "username": "zichangus",
+          "type": "message",
+          "value": "&lt",
+          "date": "2024-04-23T12:06:24.660Z",
+          "replying": false,
+          "replyingtoID": null
+        },
+        {
+          "id": 11,
+          "username": "zichangus",
+          "type": "message",
+          "value": "&gt",
+          "date": "2024-04-23T12:06:25.405Z",
+          "replying": false,
+          "replyingtoID": null
+        },
+        {
+          "id": 12,
+          "username": "zichangus",
+          "type": "message",
+          "value": ":3",
+          "date": "2024-04-23T12:06:27.469Z",
+          "replying": false,
+          "replyingtoID": null
+        },
+        {
+          "id": 13,
+          "username": "zichangus",
+          "type": "message",
+          "value": ":3",
+          "date": "2024-04-23T12:06:28.185Z",
+          "replying": false,
+          "replyingtoID": null
+        },
+        {
+          "id": 14,
+          "username": "zichangus",
+          "type": "message",
+          "value": ":3",
+          "date": "2024-04-23T12:06:28.899Z",
+          "replying": false,
+          "replyingtoID": null
+        },
+        {
+          "id": 15,
+          "username": "zichangus",
+          "type": "message",
+          "value": "pookie bear",
+          "date": "2024-04-23T12:06:31.139Z",
+          "replying": false,
+          "replyingtoID": null
+        }
+      ]
+    }
+  ]
+}

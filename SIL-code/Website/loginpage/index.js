@@ -1,5 +1,5 @@
 var url = "https://czheyuchatapp.onrender.com";
-//url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
+url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 
 function submit() {
   const loadingPlaceholder = document.getElementById("loadingPlaceholder");
@@ -24,13 +24,14 @@ function submit() {
     body: JSON.stringify(data),
   };
   console.log("starting to fetch")
-  try{
     fetch(apiUrl, requestOptions)
     .then((response) => {
       console.log("fetched")
       return response.json();
     })
     .then((data) => {
+      console.log(data);
+      console.log(data.result)
       if (data.result == "success") {
         const loadingPlaceholder = document.getElementById("loadingPlaceholder");
 
@@ -43,7 +44,7 @@ function submit() {
         
         appendAlert("Login Success, redirecting to chat page in 5 seconds.", "success");
         sleep(5000);
-        window.location.href = url + "/chat";
+        window.location.href = url + "/chatlist";
       } else if (data.result == "failed") {
 
         const loadingPlaceholder = document.getElementById("loadingPlaceholder");
@@ -53,10 +54,6 @@ function submit() {
         appendAlert("Username or password is incorrect.", "danger");
       }
     });
-  }catch(error){
-    console.log(error);
-    appendAlert("Error: " + error, "danger");
-  }
     
   enableAll();
 
