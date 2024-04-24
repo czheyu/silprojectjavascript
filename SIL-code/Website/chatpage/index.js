@@ -48,8 +48,10 @@ function removeuser(){
       body: JSON.stringify(data)
     }
   //console.log(data)
-  fetch(apiurl, options )
-  getparticipants();
+  fetch(apiurl, options ).then((response) =>{
+    getparticipants();
+
+  });
 }
 
 function adduser(){
@@ -85,9 +87,9 @@ function adduser(){
       const participantsdisplay = document.getElementById('participantsdisplay');
       participantsdisplay.innerHTML = "Participants: <strong>" + data.result + "</strong>"
       displaytodropdown(data.result);
+      getparticipants();
 
   });
-  getparticipants();
 }
 
 function getparticipants(){

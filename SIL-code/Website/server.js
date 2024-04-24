@@ -7,8 +7,7 @@ const path = require("path");
 app.use(express.json());
 
 var url = "https://czheyuchatapp.onrender.com";
-url =
-  "https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
+//url = "https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 
 app.get("/", (req, res) => {
   console.log("GET / called");
@@ -184,6 +183,11 @@ app.post("/api/removefromchat",(req,res) =>{
     res.send(removefromchat(req.body.chatid,req.body.usernametoremove,req.body.username))
   }
 
+});
+
+//for cronjob:
+app.get("/cron",(req,res) =>{
+  res.send("cronjob");
 });
 
 app.listen(port, () => {
