@@ -118,15 +118,7 @@ app.post("/api/login", (req, res) => {
   console.log("POST /api/login called");
   const loginattempt = checkuser(req.body.password, req.body.username);
   res.send(loginattempt); //need
-  console.log(
-    "Attempted to login: " +
-      "\n" +
-      loginattempt +
-      "\nusername: " +
-      req.body.password +
-      "\npassword: " +
-      req.body.username,
-  );
+  //console.log("Attempted to login: " +"\n" + loginattempt + "\nusername: " + req.body.password + "\npassword: " + req.body.username,);
 });
 
 app.post("/api/register", (req, res) => {
@@ -161,12 +153,7 @@ app.post("/api/getuserinchat",(req,res) =>{
   console.log("POST /api/getuserinchat called");
   if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"){
     res.send(getusersinchat(req.body.chatid,req.body.username))
-    console.log(' id win')
-
-  } else{
-    console.log('nah id win')
   }
-
 });
 
 app.post("/api/invitetochat",(req,res) =>{
@@ -203,7 +190,6 @@ function removefromchat(id,usernametoremove,username){
         return getusersinchat(chatid,user);
       }
     }
-    console.log("chat not found");
     return false;
 }
 
@@ -241,7 +227,6 @@ function invitetochat(chatid, usertoinvite,user) {
       return getusersinchat(chatid,user);
     }
   }
-  console.log("chat not found");
   return false;
 }
 
@@ -258,12 +243,11 @@ function getusersinchat(id,user) {
         }
       }
       response += "]"
-      console.log(`{"result": ${response}}`)
+      //console.log(`{"result": ${response}}`)
       return `{"result": ${response}}`
 
     }
   }
-  console.log('false :(')
 
   return false
 }
@@ -329,7 +313,6 @@ function deleteMessage(chatid, id, user, pass) {
       return getchatdatabyid(chatid);
     }
   }
-  console.log("cant find");
 }
 function checkuser(pass, user) {
   const jsonuserdata = require("./userdata.json");
@@ -371,7 +354,6 @@ function checkregis(pass, user) {
       if (err) throw err;
 
       // Success
-      console.log("Done writing");
     },
   );
   return '{"result":"success"}';
