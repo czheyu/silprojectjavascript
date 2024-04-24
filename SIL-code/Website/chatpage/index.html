@@ -166,14 +166,21 @@
     <!--end of modal confirm-->
     <div class="sticky-top container-fluid m-0 p-0 d-flex flex-row-reverse">
       <div class="input-group mb-3 bg-dark p-2 d-flex justify-content-start border border-secondary-subtle rounded border-1">
-        <button type="button" onclick="window.location = url+'/chatlist'; " class="btn btn-outline-light rounded" >back</button>
+        <div class="row justify-content-evenly">
+          <div class="col-auto">
+            <button type="button" onclick="window.location = url+'/chatlist'; " class="btn btn-outline-light rounded" >back</button>
+    
+            <p id="chatnamedisplay" class="m-1 p-1 fw-light text-white">Chat: <strong>placeholderchatname</strong></p>
+          </div>
 
-        <p id="chatnamedisplay" class="m-1 p-1 fw-light text-white">Chat: <strong>placeholderchatname</strong></p>
+          <div class="col-auto">
 
-        <p id="logindisplayouter" class="m-1 p-1 fw-light text-white">Logged in as user</p>
-
-        <button type="button" class="btn btn-outline-light rounded" data-bs-toggle="modal" data-bs-target="#settingsmodal">settings</button>
-
+            <p id="logindisplayouter" class="m-1 p-1 fw-light text-white">Logged in as user</p>
+      
+            <button type="button" class="btn btn-outline-light rounded" data-bs-toggle="modal" data-bs-target="#settingsmodal">settings</button>
+          </div>
+        
+        </div>
 
 
         
