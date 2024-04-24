@@ -639,8 +639,8 @@ function setEvents(){
   const logindisplay = document.getElementById("logindisplay");
   logindisplay.innerHTML = "Logged in as <strong>" + username + "</strong>";
 
-  const logindisplayouter = document.getElementById("logindisplayouter");
-  logindisplayouter.innerHTML = "Logged in as <strong>" + username + "</strong>";
+  const userdisplay = document.getElementById("userdisplay");
+  userdisplay.innerHTML = "<strong>" + username + "</strong>";
 
   let logout = document.getElementById("logoutbutton");
   logout.onclick = function () {
