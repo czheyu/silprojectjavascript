@@ -271,7 +271,7 @@ function getallchatsbyuser(username) {
   return listofchats;
 }
 
-function checkaccess(chatid, user, pass) {
+function checkaccess(chatid, pass, user) {
   const chatdata = getchatdatabyid(chatid);
   if (chatdata == null) {
     return false;
