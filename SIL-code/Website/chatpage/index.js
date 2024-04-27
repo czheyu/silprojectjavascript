@@ -1,12 +1,42 @@
 var lastgetdata = {};
+var lastparticipants = [];
+var lastallusers = []
 var cooldownget = 2500
 var forcescroll = false
 var url = "https://czheyuchatapp.onrender.com";
-//url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
+url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 var replying = false;
 var showdateunhover = false;
 var replyingtoID;
 //var chatID;
+
+function getusercanbeadded(participants){
+
+  const apiurl = url + "/api/getusers"
+  const data = {
+    "username": localStorage.getItem('username'),
+    "password": localStorage.getItem('password')
+  }
+  const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    }
+  fetch(apiurl, options )
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then((data)=>{
+      if(data!=lastgetusers){
+        lastgetdata = data
+        displaytodropdownadd(data,participants);
+      }
+  });
+}
 
 function dropdownchooseremove(buttonitem) {
   document.getElementById("userchooseremove").innerHTML = buttonitem.innerHTML;
@@ -16,7 +46,7 @@ function dropdownchooseadd(buttonitem) {
   document.getElementById("userchooseadd").innerHTML = buttonitem.innerHTML;
 }
 
-function displaytodropdown(data){
+function displaytodropdownremove(data){
   //data is ["asdad","asfafa"]
   let html = ""
   const username = localStorage.getItem('username');
@@ -26,21 +56,25 @@ function displaytodropdown(data){
     html += `<button class="dropdown-item" type="button" onclick="dropdownchooseremove(this);">${data[i]}</button>`;
   }
   dropdownremove.innerHTML = html;
+}
 
+function displaytodropdownadd(data,participants){
+  
   //data is ["asdad","asfafa"]
-  html = ""
+  const username = localStorage.getItem('username');
+  let html = ""
   const dropdownadd = document.getElementById("dropdownadd");
   for(let i = 0; i < data.length; i++){
-    if(data[i] != username)
+    if(data[i] != username && !participants.includes(data[i]))
     html += `<button class="dropdown-item" type="button" onclick="dropdownchooseadd(this);">${data[i]}</button>`;
   }
   dropdownadd.innerHTML = html;
 }
 
-function removeuser(){
+async function removeuser(){
   //console.log("remove user clicked");
   const selecteduser = document.getElementById('userchooseremove');
-  if(selecteduser.innerHTML=="" || selecteduser.innerHTML == "select user"|| selecteduser.innerHTML == localStorage.getItem('username')){
+  if(selecteduser.innerHTML=="" || selecteduser.innerHTML == "choose user"|| selecteduser.innerHTML == localStorage.getItem('username')){
     //console.log("no user selected");
     return
 
@@ -52,7 +86,7 @@ function removeuser(){
     "username": localStorage.getItem('username'),
     "password": localStorage.getItem('password')
   }
-  selecteduser.innerHTML = "select user";
+  selecteduser.innerHTML = "choose user";
   const options = {
       method: "POST",
       headers: {
@@ -61,26 +95,34 @@ function removeuser(){
       body: JSON.stringify(data)
     }
   //console.log(data)
-  fetch(apiurl, options ).then((response) =>{
-    getparticipants();
+  fetch(apiurl, options )
+    .then((response) => {
+      if (response.ok) {
+        return getparticipants();
 
+      }
+    })
+    .then((participants) =>{
+      getusercanbeadded(participants);
+    
   });
 }
 
 function adduser(){
   const chatuserchoosen = document.getElementById('userchooseadd');
-  if(chatuserchoosen.value==""){
+  if(chatuserchoosen.innerHTML=="choose user"){
     return
     
   }
+  console.log('hi');
   const apiurl = url + "/api/invitetochat"
   const data = {
     "chatid":chatID,
-    "usernametoinvite":chatuserchoosen.value,
+    "usernametoinvite":chatuserchoosen.innerHTML,
     "username": localStorage.getItem('username'),
     "password": localStorage.getItem('password')
   }
-  chatuserchoosen.value = "";
+  chatuserchoosen.innerHTML = "choose user";
   const options = {
       method: "POST",
       headers: {
@@ -99,13 +141,17 @@ function adduser(){
       //console.log(data)
       const participantsdisplay = document.getElementById('participantsdisplay');
       participantsdisplay.innerHTML = "Participants: <strong>" + data.result + "</strong>"
-      displaytodropdown(data.result);
-      getparticipants();
+      displaytodropdownremove(data.result);
+      
+    return getparticipants();
+  })
+  .then((participants) =>{
+      getusercanbeadded(participants);
 
   });
 }
 
-function getparticipants(){
+async function getparticipants(){
   const apiUrl = url + "/api/getuserinchat";
   const data = {
     chatid:chatID,
@@ -120,16 +166,20 @@ function getparticipants(){
     },
     body: JSON.stringify(data),
   };
-  fetch(apiUrl, requestOptions)
+  return await fetch(apiUrl, requestOptions)
     .then((response) => {
       if (response.ok) {
         return response.json();
       }
     })
     .then((data) => {
+      if(data!=lastparticipants){
+        lastparticipants = data;
         const participantsdisplay = document.getElementById('participantsdisplay');
         participantsdisplay.innerHTML = "Participants: <strong>" + data.result + "</strong>"
-        displaytodropdown(data.result);
+        displaytodropdownremove(data.result);
+      }
+      return data.result;
     });
 }
 
@@ -255,7 +305,11 @@ function sleep(ms) {
 }
 
 async function getCycle() {
+
+
   getdata();
+  let participants = await getparticipants();
+  getusercanbeadded(participants);
   for (let i = 0; i < 200; i++){
     document.querySelector('.progress-bar').style.width = (i/2) + '%';
     await sleep(cooldownget/200);
@@ -630,7 +684,6 @@ function getchatnamebyid(id){
       }
     }).then((data) => {
       const chatnamedisplay = document.getElementById("chatnamedisplay");
-        
       chatnamedisplay.innerHTML = `Chat: <button type="button" class="btn btn-outline-light rounded" data-bs-toggle="modal" data-bs-target="#chat"><strong>${data.result}</strong></button>`;
       const chatmenutitle = document.getElementById("chatmenutitle");
       chatmenutitle.innerHTML = `Chat: <strong>${data.result}</strong>`;
@@ -638,7 +691,7 @@ function getchatnamebyid(id){
   return;
 }
 
-function setEvents(){
+async function setEvents(){
   //var password = localStorage.getItem("password");
   var username = localStorage.getItem("username");
 
@@ -708,7 +761,6 @@ function setEvents(){
       showcase.innerHTML = html;
     })
   }
-  getparticipants();
   const adduserbutton = document.getElementById("adduserbutton");
   adduserbutton.onclick = function(){
     adduser();
@@ -717,6 +769,10 @@ function setEvents(){
   removeuserbutton.onclick = function(){
     removeuser();
   }
+
+  let participants = await getparticipants();
+  getusercanbeadded(participants);
+
 }
 
 window.onload = function () {

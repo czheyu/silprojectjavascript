@@ -205,10 +205,9 @@ function removefromchat(id,usernametoremove,username){
       if (data.chats[i].id == id && data.chats[i].users.includes(username)&& data.chats[i].users.includes(usernametoremove)) {
         data.chats[i].users.splice(data.chats[i].users.indexOf(usernametoremove),1);
         fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
-        return getusersinchat(chatid,user);
       }
     }
-    return false;
+  return getusersinchat(id,username);
 }
 
 function createchat(user, chatname) {
@@ -242,10 +241,9 @@ function invitetochat(chatid, usertoinvite,user) {
     if (data.chats[i].id == chatid && data.chats[i].users.includes(user)&& !data.chats[i].users.includes(usertoinvite)) {
       data.chats[i].users.push(usertoinvite);
       fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
-      return getusersinchat(chatid,user);
     }
   }
-  return false;
+  return getusersinchat(chatid,user);
 }
 
 function getusersinchat(id,user) {
