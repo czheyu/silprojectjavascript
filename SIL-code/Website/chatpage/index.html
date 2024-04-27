@@ -36,12 +36,14 @@
                 <p class="text-light" id="participantsdisplay">
                 </p>
               </div>
-              <div class="input-group m-2">
-                <input
-                  type="text"
-                  id="adduser"
-                  placeholder="user"
-                />
+              <div class="dropdown-center">
+                <button id="userchooseadd" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  choose user
+                </button>
+                <ul id="dropdownadd" class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action two</a></li>
+                  <li><a class="dropdown-item" href="#">Action three</a></li>
+                </ul>
                 <button
                   class="btn m-1 p-1 btn-outline-light rounded"
                   type="button"
@@ -54,21 +56,21 @@
               </div>
               <div>
                 <div class="dropdown-center">
-                  <button id="userchoose" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <button id="userchooseremove" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     choose user
                   </button>
-                  <ul id="dropdown" class="dropdown-menu">
+                  <ul id="dropdownremove" class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">Action two</a></li>
                     <li><a class="dropdown-item" href="#">Action three</a></li>
                   </ul>
-                <button
-                  class="btn m-1 p-1 btn-outline-light rounded"
-                  type="button"
-                  id="removeuserbutton"
-                  onclick="console.log('not binded')"
-                >
-                  removeuser
-                </button>
+                  <button
+                    class="btn m-1 p-1 btn-outline-light rounded"
+                    type="button"
+                    id="removeuserbutton"
+                    onclick="console.log('not binded')"
+                  >
+                    removeuser
+                  </button>
                 </div>
               </div>
           </div>

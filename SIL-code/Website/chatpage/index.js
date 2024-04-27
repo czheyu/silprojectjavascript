@@ -8,25 +8,38 @@ var showdateunhover = false;
 var replyingtoID;
 //var chatID;
 
-function dropdownchoose(buttonitem) {
-  document.getElementById("userchoose").innerHTML = buttonitem.innerHTML;
+function dropdownchooseremove(buttonitem) {
+  document.getElementById("userchooseremove").innerHTML = buttonitem.innerHTML;
+}
+
+function dropdownchooseadd(buttonitem) {
+  document.getElementById("userchooseadd").innerHTML = buttonitem.innerHTML;
 }
 
 function displaytodropdown(data){
   //data is ["asdad","asfafa"]
   let html = ""
   const username = localStorage.getItem('username');
-  const dropdown = document.getElementById("dropdown");
+  const dropdownremove = document.getElementById("dropdownremove");
   for(let i = 0; i < data.length; i++){
     if(data[i] != username)
-    html += `<button class="dropdown-item" type="button" onclick="dropdownchoose(this);">${data[i]}</button>`;
+    html += `<button class="dropdown-item" type="button" onclick="dropdownchooseremove(this);">${data[i]}</button>`;
   }
-  dropdown.innerHTML = html;
+  dropdownremove.innerHTML = html;
+
+  //data is ["asdad","asfafa"]
+  html = ""
+  const dropdownadd = document.getElementById("dropdownadd");
+  for(let i = 0; i < data.length; i++){
+    if(data[i] != username)
+    html += `<button class="dropdown-item" type="button" onclick="dropdownchooseadd(this);">${data[i]}</button>`;
+  }
+  dropdownadd.innerHTML = html;
 }
 
 function removeuser(){
   //console.log("remove user clicked");
-  const selecteduser = document.getElementById('userchoose');
+  const selecteduser = document.getElementById('userchooseremove');
   if(selecteduser.innerHTML=="" || selecteduser.innerHTML == "select user"|| selecteduser.innerHTML == localStorage.getItem('username')){
     //console.log("no user selected");
     return
@@ -55,19 +68,19 @@ function removeuser(){
 }
 
 function adduser(){
-  const chatuserbox = document.getElementById('adduser');
-  if(chatuserbox.value==""){
+  const chatuserchoosen = document.getElementById('userchooseadd');
+  if(chatuserchoosen.value==""){
     return
     
   }
   const apiurl = url + "/api/invitetochat"
   const data = {
     "chatid":chatID,
-    "usernametoinvite":chatuserbox.value,
+    "usernametoinvite":chatuserchoosen.value,
     "username": localStorage.getItem('username'),
     "password": localStorage.getItem('password')
   }
-  chatuserbox.value = "";
+  chatuserchoosen.value = "";
   const options = {
       method: "POST",
       headers: {
@@ -151,7 +164,6 @@ function sendClicked() {
     },
     body: JSON.stringify(data),
   };
-  const chatcontainer = document.getElementById("chat-container");
   fetch(apiUrl, requestOptions)
     .then((response) => {
       if (response.ok) {
@@ -627,7 +639,7 @@ function getchatnamebyid(id){
 }
 
 function setEvents(){
-  var password = localStorage.getItem("password");
+  //var password = localStorage.getItem("password");
   var username = localStorage.getItem("username");
 
   let sendbutton = document.getElementById("sendbutton");

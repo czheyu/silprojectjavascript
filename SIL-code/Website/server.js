@@ -172,6 +172,15 @@ app.post("/api/removefromchat",(req,res) =>{
 
 });
 
+app.post("/api/getusers",(req,res) =>{
+  console.log("POST /api/getusers called");
+  if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"){
+    res.send(getusers())
+  }
+
+}
+
+);
 //for cronjob:
 app.get("/cron",(req,res) =>{
   res.send("cronjob");
@@ -180,6 +189,15 @@ app.get("/cron",(req,res) =>{
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+function getusers(){
+  const userdata = require('./userdata.json');
+  let userdataarray = [];
+  for (let i = 0; i < userdata.users.length; i++){
+    userdataarray.push(userdata.users[i].username);
+  }
+  return userdataarray;
+}
 
 function removefromchat(id,usernametoremove,username){
     const data = require("./data.json");
