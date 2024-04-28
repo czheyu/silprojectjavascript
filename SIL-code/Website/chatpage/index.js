@@ -347,15 +347,15 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function getCycle() {
+async function getCycle() {
 
 
   getdata();
-  let participants =  getparticipants();
+  let participants = await getparticipants();
   getusercanbeadded(participants);
   for (let i = 0; i < 200; i++){
     document.querySelector('.progress-bar').style.width = (i/2) + '%';
-    sleep(cooldownget/200);
+    await sleep(cooldownget/200);
   }
   getCycle();
 }
