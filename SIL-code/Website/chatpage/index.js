@@ -115,7 +115,7 @@ function displaytodropdownadd(data,participants){
   dropdownadd.innerHTML = html;
 }
 
-async function removeuser(){
+function removeuser(){
   //console.log("remove user clicked");
   const selecteduser = document.getElementById('userchooseremove');
   if(selecteduser.innerHTML=="" || selecteduser.innerHTML == "choose user"|| selecteduser.innerHTML == localStorage.getItem('username')){
