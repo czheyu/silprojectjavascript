@@ -1,4 +1,5 @@
 var lastgetdata = {};
+var lastnotifyablemsg = {};
 var lastparticipants = [];
 var lastallusers = []
 var cooldownget = 2500
@@ -9,6 +10,20 @@ var replying = false;
 var showdateunhover = false;
 var replyingtoID;
 //var chatID;
+
+function getlastmsg(data){
+  let searching = true;
+  let searchindex = data.length-1;
+  while (searching&&searchindex>=0){
+    if(data[searchindex].type == "message"){
+      msg = data[searchindex].value;
+      searching = false;
+    } else {
+      searchindex--;
+    }
+  }
+  return data[searchindex];
+}; 
 
 function deletechat(){
   const apiurl = url + "/api/deletechat"
@@ -250,6 +265,7 @@ function sendClicked() {
     .then((data) => {
       if (!(JSON.stringify(lastgetdata) == JSON.stringify(data)) ){
         lastgetdata = data;
+        lastnotifyablemsg = getlastmsg(data.data);
         updateChat(data);
       }
     });
@@ -323,26 +339,6 @@ function updateChat(data) {
   if (forcescroll){
   scrolldown();
   }
-  if (!document.hasFocus()){
-     if (!("Notification" in window)) {
-       // Check if the browser supports notifications
-       alert("This browser does not support desktop notification");
-     } else if (Notification.permission === "granted") {
-       // Check whether notification permissions have already been granted;
-       // if so, create a notification
-       const notification = new Notification("New Message");
-       // …
-     } else if (Notification.permission !== "denied") {
-       // We need to ask the user for permission
-       Notification.requestPermission().then((permission) => {
-         // If the user accepts, let's create a notification
-         if (permission === "granted") {
-           const notification = new Notification("New Message");
-           // …
-         }
-       });
-     }
-   }
 }
 
 //https://javascript.plainenglish.io/how-to-really-implement-the-sleep-function-in-javascript-621b4ed1e618
@@ -387,8 +383,37 @@ function getdata() {
     })
     .then((data) => {
       if (!(JSON.stringify(lastgetdata) == JSON.stringify(data)) ){
+        lastnotifyablemsg = getlastmsg(data.data);
         lastgetdata = data;
         updateChat(data);
+        
+
+        if (!document.hasFocus()&&getlastmsg(data.data)!=lastnotifyablemsg){
+          if (!("Notification" in window)) {
+             // Check if the browser supports notifications
+             alert("This browser does not support desktop notification");
+           } else if (Notification.permission === "granted") {
+             // Check whether notification permissions have already been granted;
+             // if so, create a notification
+             
+             const notification = new Notification("New Message",{
+               body: `${lastnotifyablemsg.username}: ${lastnotifyablemsg.value}`
+             });
+             // …
+           } else if (Notification.permission !== "denied") {
+             // We need to ask the user for permission
+             Notification.requestPermission().then((permission) => {
+               // If the user accepts, let's create a notification
+               if (permission === "granted") {
+
+                  const notification = new Notification("New Message",{
+                    body: `${lastnotifyablemsg.username}: ${lastnotifyablemsg.value}`
+                  });
+                 // …
+               }
+             });
+           }
+         }
       } else {
         //console.log("data is the same, did not redisplay.");
       }
