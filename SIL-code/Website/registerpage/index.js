@@ -93,7 +93,7 @@ function appendAlert(message, type){
 
 
 window.onload = function (){
-  console.log("page loaded");
+  console.log("page loaded.");
   const sendbutton = document.getElementById("submit");
   sendbutton.onclick = function () {
     console.log("clicked")

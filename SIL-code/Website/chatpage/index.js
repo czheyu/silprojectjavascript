@@ -143,7 +143,6 @@ function adduser(){
     return
     
   }
-  console.log('hi');
   const apiurl = url + "/api/invitetochat"
   const data = {
     "chatid":chatID,
@@ -397,7 +396,13 @@ function format(data) {
   for (let i = 0; i < data.data.length; i++) {
     if (i != 0) {
       formated += "\n";
-    }//2024-04-20T14:43:32.376Z
+    }
+    //2024-04-20T14:43:32.376Z
+    if(data.data[i].type == "alert"){
+      formated += `<div class="text-light d-flex justify-content-center"><p>${data.data[i].value}</p></div>`
+      continue
+    }
+    
     let datearray = data.data[i].date.split("T");
     let date = datearray[0];
     let time = datearray[1];

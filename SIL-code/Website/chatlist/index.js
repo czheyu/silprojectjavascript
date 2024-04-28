@@ -8,14 +8,18 @@ function createchatfunct(){
     return 
   }
   createchat(chatnamebox);
-  getchatdata();
+  document.getElementById('chatnamebox').value = "";
 }
 
 function format(data){
   //data is in array of ids [{id:1,name:"hi"}] etc
   let formatted = "";
   for(let i=0;i<data.length;i++){
-    formatted += `<div class="m-1 p-0 mw-100 d-flex border border-outline-light"><button type="button" class="w-100 btn btn-outline-light rounded" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}</h2>${data[i].lastmessage.username}: <strong>${data[i].lastmessage.value}</strong></div></button></div>`
+    if(data[i].lastmessage.username){
+      formatted += `<div class="m-1 p-0 mw-100 d-flex border border-outline-light"><button type="button" class="w-100 btn btn-outline-light rounded" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}</h2>${data[i].lastmessage.username}: <strong>${data[i].lastmessage.value}</strong></div></button></div>`
+    } else {
+      formatted += `<div class="m-1 p-0 mw-100 d-flex border border-outline-light"><button type="button" class="w-100 btn btn-outline-light rounded" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}</h2><strong>${data[i].lastmessage.value}</strong></div></button></div>`
+    }
   }
   return formatted
 }
@@ -47,10 +51,15 @@ function createchat(chatname){
   fetch(apiUrl, requestOptions)
     .then((response) => {
       if (response.ok) {
-        console.log("ok")
+        return response.json()
       }
-    });
-  getchatdata();
+    })
+  .then((data)=>{
+    if(data.result=="success"){
+    
+      getchatdata();
+    }
+  })
 }
 
 function getchatdata(){
@@ -85,6 +94,12 @@ function getchatdata(){
 
 }
 
+async function getcycle(){
+  while (true){
+    getchatdata();
+    await new Promise(r => setTimeout(r, 5000));
+  }
+}
 
 
 window.onload = function () {
@@ -109,5 +124,5 @@ window.onload = function () {
   };
 
   getchatdata();
-  
+  getcycle();
 }

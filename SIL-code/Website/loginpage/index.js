@@ -30,8 +30,6 @@ function submit() {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
-      console.log(data.result)
       if (data.result == "success") {
         const loadingPlaceholder = document.getElementById("loadingPlaceholder");
 

@@ -136,8 +136,9 @@ app.post("/api/getchats", (req, res) => {
 });
 
 app.post("/api/createchat",(req,res) => {
+  console.log("POST /api/createchat called");
   if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"){
-    createchat(req.body.username,req.body.chatname);
+    res.send(createchat(req.body.username,req.body.chatname));
   }
   
 });
@@ -197,12 +198,27 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
+function generatechatid(listofcurrentids){
+  //8 digit- meaning ~1bil ids
+  let newid;
+  let found = false;
+  while(found==false){
+    newid = Math.floor(Math.random() * (99999999 - 10000000 + 1) + 10000000);
+    if(!listofcurrentids.includes(newid)){
+       found=true
+    }
+  }
+  return newid
+}
+
 function deletechat(chatid,username){
   let data = require('./data.json');
   for(let i = 0; i<data.chats.length; i++){
     if(data.chats[i].id == chatid){
       console.log("deleted chat: "+data.chats[i].name+"(id:"+data.chats[i].id+")");
+      data.chatids.splice(data.chatids.indexOf(chatid),1);
       data.chats.splice(i,1);
+      data.chatscount -= 1;
       fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
       return JSON.stringify({result: "success"})
     }
@@ -225,6 +241,11 @@ function removefromchat(id,usernametoremove,username){
     for (let i = 0; i < data.chats.length; i++) {
       if (data.chats[i].id == id && data.chats[i].users.includes(username)&& data.chats[i].users.includes(usernametoremove)) {
         data.chats[i].users.splice(data.chats[i].users.indexOf(usernametoremove),1);
+        const alert = {"id":data.chats[i].countaccess,"type":"alert","value":`${usernametoremove} was removed`};
+
+        data.chats[i].countaccess += 1;
+
+        data.chats[i].data.push(alert);
         fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
       }
     }
@@ -233,18 +254,23 @@ function removefromchat(id,usernametoremove,username){
 
 function createchat(user, chatname) {
   const entiredata = require("./data.json");
+  const chatid = generatechatid(entiredata.chatids);
+
   const data = {
     users: [user],
-    id: entiredata.chatscount,
+    id: chatid,
     name: chatname,
     countaccess: 1,
-    data: [{"id":0,"username":"","type":"message","value":"Chat Created","date":new Date().toISOString(),"replying":false,"replyingtoID":null}],
+    data: [{"id":0,"username":"","type":"alert","value":"Chat Created","date":new Date().toISOString(),"replying":false,"replyingtoID":null}],
   };
+  console.log("created chat: "+chatname+"(id:"+chatid+")");
 
+  entiredata.chatids.push(chatid);
   entiredata.chatscount += 1;
 
   entiredata.chats.push(data);
   fs.writeFileSync(__dirname+"/data.json", JSON.stringify(entiredata));
+  return JSON.stringify({result: "success"});
 }
 
 function chatnamebyid(id,user){
@@ -256,11 +282,17 @@ function chatnamebyid(id,user){
   }
   return false
 }
-function invitetochat(chatid, usertoinvite,user) {
+function invitetochat(chatid, usernametoinvite,user) {
   const data = require("./data.json");
   for (let i = 0; i < data.chats.length; i++) {
-    if (data.chats[i].id == chatid && data.chats[i].users.includes(user)&& !data.chats[i].users.includes(usertoinvite)) {
-      data.chats[i].users.push(usertoinvite);
+    if (data.chats[i].id == chatid && data.chats[i].users.includes(user)&& !data.chats[i].users.includes(usernametoinvite)) {
+      data.chats[i].users.push(usernametoinvite);
+      const alert = {"id":data.chats[i].countaccess,"type":"alert","value":`${usernametoinvite} was added`};
+      
+      data.chats[i].countaccess += 1;
+
+      data.chats[i].data.push(alert);
+      
       fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
     }
   }
