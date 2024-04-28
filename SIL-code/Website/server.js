@@ -142,7 +142,7 @@ app.post("/api/createchat",(req,res) => {
   
 });
 app.post("/api/chatnamebyid",(req,res) =>{
-  console.log("POST /api/chatnamebyid called");
+  //console.log("POST /api/chatnamebyid called");
   if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"){
     res.send(chatnamebyid(req.body.chatid,req.body.username))
   }
@@ -150,7 +150,7 @@ app.post("/api/chatnamebyid",(req,res) =>{
 });
 
 app.post("/api/getuserinchat",(req,res) =>{
-  console.log("POST /api/getuserinchat called");
+  //console.log("POST /api/getuserinchat called");
   if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"){
     res.send(getusersinchat(req.body.chatid,req.body.username))
   }
@@ -173,7 +173,7 @@ app.post("/api/removefromchat",(req,res) =>{
 });
 
 app.post("/api/getusers",(req,res) =>{
-  console.log("POST /api/getusers called");
+  //console.log("POST /api/getusers called");
   if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"){
     res.send(getusers())
   }
@@ -184,6 +184,8 @@ app.post("/api/deletechat",(req,res) =>{
   console.log("POST /api/deletechat called");
   if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"&&checkaccess(req.body.chatid,req.body.password,req.body.username)){
     res.send(deletechat(req.body.chatid,req.body.username))
+  }else{
+    console.log("nah")
   }
 
 });
@@ -198,11 +200,12 @@ app.listen(port, () => {
 });
 
 function deletechat(chatid,username){
-  const data = require('./data.json');
+  let data = require('./data.json');
   for(let i = 0; i<data.chats.length; i++){
-    if(data.chats[i].chatid == chatid){
+    if(data.chats[i].id == chatid){
       data.chats.splice(i,1);
       fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
+      console.log("deleted chat: "+data.chats[i].name+"(id:"+data.chats[i].id+")");
       return JSON.stringify({result: "success"})
     }
   }
