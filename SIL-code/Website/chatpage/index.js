@@ -5,7 +5,7 @@ var lastallusers = []
 var cooldownget = 2500
 var forcescroll = false
 var url = "https://czheyuchatapp.onrender.com";
-//url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
+url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 var replying = false;
 var showdateunhover = false;
 var replyingtoID;
@@ -830,6 +830,25 @@ function setEvents(){
   let participants = getparticipants();
   getusercanbeadded(participants);
 
+  const hasFocus = ele => (ele === document.activeElement);
+
+  
+  document.addEventListener("keydown", function (event) {
+    // If the user presses the "Enter" key on the keyboard
+    if (event.key === "/"&&!hasFocus(sendinput)) {
+      // Cancel the default action, if needed
+      event.preventDefault();
+      // Trigger the button element with a click
+    sendinput.focus();
+    } else if(event.key === "\\"&&!hasFocus(sendinput)){
+      showdateunhover = !showdateunhover;
+      let formatted = format(lastgetdata);
+      const chatContainer = document.getElementById("chat-container");
+      chatContainer.innerHTML = formatted;
+    } else if(event.key === "Escape"&&hasFocus(sendinput)){
+      sendinput.blur();
+    }
+  });
 }
 
 window.onload = function () {
