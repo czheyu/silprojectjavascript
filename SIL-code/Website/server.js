@@ -184,8 +184,6 @@ app.post("/api/deletechat",(req,res) =>{
   console.log("POST /api/deletechat called");
   if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"&&checkaccess(req.body.chatid,req.body.password,req.body.username)){
     res.send(deletechat(req.body.chatid,req.body.username))
-  }else{
-    console.log("nah")
   }
 
 });
@@ -203,9 +201,9 @@ function deletechat(chatid,username){
   let data = require('./data.json');
   for(let i = 0; i<data.chats.length; i++){
     if(data.chats[i].id == chatid){
+      console.log("deleted chat: "+data.chats[i].name+"(id:"+data.chats[i].id+")");
       data.chats.splice(i,1);
       fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
-      console.log("deleted chat: "+data.chats[i].name+"(id:"+data.chats[i].id+")");
       return JSON.stringify({result: "success"})
     }
   }
