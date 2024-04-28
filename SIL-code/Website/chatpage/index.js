@@ -4,7 +4,7 @@ var lastallusers = []
 var cooldownget = 2500
 var forcescroll = false
 var url = "https://czheyuchatapp.onrender.com";
-url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
+//url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 var replying = false;
 var showdateunhover = false;
 var replyingtoID;
@@ -31,8 +31,8 @@ function getusercanbeadded(participants){
       }
     })
     .then((data)=>{
-      if(data!=lastgetusers){
-        lastgetdata = data
+      if(data!=lastallusers){
+        lastallusers = data
         displaytodropdownadd(data,participants);
       }
   });
