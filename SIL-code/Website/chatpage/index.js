@@ -347,15 +347,15 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function getCycle() {
+function getCycle() {
 
 
   getdata();
-  let participants = await getparticipants();
+  let participants =  getparticipants();
   getusercanbeadded(participants);
   for (let i = 0; i < 200; i++){
     document.querySelector('.progress-bar').style.width = (i/2) + '%';
-    await sleep(cooldownget/200);
+    sleep(cooldownget/200);
   }
   getCycle();
 }
@@ -769,7 +769,7 @@ function getchatnamebyid(id){
   return;
 }
 
-async function setEvents(){
+function setEvents(){
   //var password = localStorage.getItem("password");
   var username = localStorage.getItem("username");
 
@@ -851,9 +851,9 @@ async function setEvents(){
   const  deletechatbutton = document.getElementById("deletechat");
   deletechatbutton.onclick = function(){
     deletechat();
-  }
   
-  let participants = await getparticipants();
+  
+  let participants = getparticipants();
   getusercanbeadded(participants);
 
 }
