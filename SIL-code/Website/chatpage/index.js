@@ -851,7 +851,7 @@ function setEvents(){
   const  deletechatbutton = document.getElementById("deletechat");
   deletechatbutton.onclick = function(){
     deletechat();
-  
+  }
   
   let participants = getparticipants();
   getusercanbeadded(participants);
