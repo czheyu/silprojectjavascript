@@ -178,9 +178,16 @@ app.post("/api/getusers",(req,res) =>{
     res.send(getusers())
   }
 
-}
+});
 
-);
+app.post("/api/deletechat",(req,res) =>{
+  console.log("POST /api/deletechat called");
+  if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"&&checkaccess(req.body.chatid,req.body.password,req.body.username)){
+    res.send(deletechat(req.body.chatid,req.body.username))
+  }
+
+});
+
 //for cronjob:
 app.get("/cron",(req,res) =>{
   res.send("cronjob");
@@ -189,6 +196,19 @@ app.get("/cron",(req,res) =>{
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+function deletechat(chatid,username){
+  const data = require('./data.json');
+  for(let i = 0; i<data.chats.length; i++){
+    if(data.chats[i].chatid == chatid){
+      data.chats.splice(i,1);
+      fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
+      return JSON.stringify({result: "success"})
+    }
+  }
+  return JSON.stringify({result: "error"})
+
+}
 
 function getusers(){
   const userdata = require('./userdata.json');

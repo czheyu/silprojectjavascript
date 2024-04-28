@@ -10,6 +10,35 @@ var showdateunhover = false;
 var replyingtoID;
 //var chatID;
 
+function deletechat(){
+  const apiurl = url + "/api/deletechat"
+  const data = {
+    "chatid":chatID,
+    "username": localStorage.getItem('username'),
+    "password": localStorage.getItem('password')
+  }
+  const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    }
+  fetch(apiurl, options )
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then((data)=>{
+      if(data.result == "success"){
+        window.location.href = url + "/chatlist";
+      }else{
+        alert('error, cannot delete chat');
+      }
+  });
+}
+
 function getusercanbeadded(participants){
 
   const apiurl = url + "/api/getusers"
@@ -188,7 +217,6 @@ function sendClicked() {
     document.getElementById("message").value == "" ||
     localStorage.getItem("username") == ""
   ) {
-    alert("Username or message is empty.");
     return;
   }
   const message = document.getElementById("message").value;
@@ -770,6 +798,11 @@ async function setEvents(){
     removeuser();
   }
 
+  const  deletechatbutton = document.getElementById("deletechat");
+  deletechatbutton.onclick = function(){
+    deletechat();
+  }
+  
   let participants = await getparticipants();
   getusercanbeadded(participants);
 
