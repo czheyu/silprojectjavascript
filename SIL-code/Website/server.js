@@ -269,7 +269,7 @@ async function aiprompt(msg,chatid) {
   })
   .then(async (response)=>{
     const text = await response;
-    if(text){
+    if(text != "" ){
        tobemodified.ai_chat_history.push(      
         {
            role:"user",
