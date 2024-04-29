@@ -3,6 +3,11 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
 
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+// Access your API key as an environment variable (see "Set up your API key" above)
+const genAI = new GoogleGenerativeAI(process.env['KEY']);
+
 const path = require("path");
 app.use(express.json());
 
@@ -110,7 +115,11 @@ app.post("/api/messagesend", (req, res) => {
     checkuser(req.body.password, req.body.username) &&
     checkaccess(req.body.chatid, req.body.password, req.body.username)
   ) {
+
     res.send(handlePost(req.body.chatid, req.body, res)); //need
+    if(req.body.value.indexOf("@ai")>-1){
+      writeairesponse(aiprompt(req.body.value.replaceAll("@ai",""),req.body.chatid),req.body.chatid);
+    }
   }
 });
 
@@ -197,6 +206,32 @@ app.get("/cron",(req,res) =>{
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+async function aiprompt(prompt) {
+  // For text-only input, use the gemini-pro model
+  const model = genAI.getGenerativeModel({ model: "gemini-pro"});
+
+  return await model.generateContent(prompt).then((result) => {
+    return result.response;
+  })
+  .then((response)=>{
+    let text = response.text(); 
+    return text.replaceAll("<","&lt").replaceAll(">","&gt");
+
+  });
+}
+
+async function writeairesponse (response,chatid){
+  writeData(
+    "alert",
+    "AI",
+    await response,
+    false,
+    null,
+    getchatdatabyid(chatid),
+    chatid,
+  );
+}
 
 function generatechatid(listofcurrentids){
   //8 digit- meaning ~1bil ids
