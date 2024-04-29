@@ -694,6 +694,67 @@ function format(data) {
 
             
         }
+      }else if(data.data[i].type == "ai"){
+          if(showdateunhover){
+            formated +=
+              `<div class="m-1 p-0 mw-75 d-flex" ` +
+              `onmouseleave="const simplep = this.children[2];`+
+              `const detailedp = this.children[3];`+
+              `const replybuttonelement = this.children[1];`+
+              `replybuttonelement.style.display = 'none';`+
+              `simplep.style.display = 'flex';`+
+              `detailedp.style.display = 'none';" `+
+
+              `onmouseover="const simplep = this.children[2];`+
+              `const detailedp = this.children[3];`+
+              `const replybuttonelement = this.children[1];`+
+              `replybuttonelement.style.display = 'flex';`+
+              `simplep.style.display = 'none';`+
+              `detailedp.style.display = 'flex';`+`">`+
+              `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-info text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
+              data.data[i].value +
+              `</p></div></div>`+
+                '<button style="display: none;" '+
+                'onclick="replyTo( '+
+                data.data[i].id+
+                `,'`+
+                data.data[i].value+
+                `','`+
+                data.data[i].username+
+                `');" `+
+                `class="btn m-0 p-0 btn-outline-success" `+
+                `type="button">reply</button><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+
+          }else{
+            formated +=
+              `<div class="m-1 p-0 mw-75 d-flex" ` +
+              `onmouseleave="`+
+              `const detailedp = this.children[2];`+
+              `const replybuttonelement = this.children[1];`+
+              `replybuttonelement.style.display = 'none';`+
+              `detailedp.style.display = 'none';" `+
+
+              `onmouseover="`+
+              `const detailedp = this.children[2];`+
+              `const replybuttonelement = this.children[1];`+
+              `replybuttonelement.style.display = 'flex';`+
+              `detailedp.style.display = 'flex';`+`">`+
+              `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-info text-white mw-100"><a id="${data.data[i].id}"></a><p class="text-light m-0 p-0 fs-6 text-break">` +
+              data.data[i].value +
+              `</p></div></div>`+
+                '<button style="display: none;" '+
+                'onclick="replyTo( '+
+                data.data[i].id+
+                `,'`+
+                data.data[i].value+
+                `','`+
+                data.data[i].username+
+                `');" `+
+                `class="btn m-0 p-0 btn-outline-success" `+
+                `type="button">reply</button><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+
+
+          }
         
       }
     }

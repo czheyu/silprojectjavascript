@@ -3,10 +3,39 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
 
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { GoogleGenerativeAI,  HarmCategory,
+      HarmBlockThreshold } = require("@google/generative-ai");
 
 // Access your API key as an environment variable (see "Set up your API key" above)
 const genAI = new GoogleGenerativeAI(process.env['KEY']);
+const generationConfig = {
+  stopSequences: ["\\?STOP_GENERATION#$\\"],
+  maxOutputTokens: 200,
+  temperature: 0.9,
+  topP: 0.1,
+  topK: 16,
+};
+
+const safetySettings = [
+  {
+    category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+  },
+  {
+    category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
+  },
+];
+
+const model = genAI.getGenerativeModel({ model: "gemini-pro", generationConfig, safetySettings });
 
 const path = require("path");
 app.use(express.json());
@@ -15,22 +44,22 @@ var url = "https://czheyuchatapp.onrender.com";
 //url = "https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 
 app.get("/", (req, res) => {
-  console.log("GET / called");
+  //console.log("GET / called");
   res.sendFile(__dirname + "/home/index.html");
 });
 
 app.get("/style.css", (req, res) => {
-  console.log("GET /style.css called");
+  //console.log("GET /style.css called");
 
   res.sendFile(__dirname + "/home/style.css");
 });
 
 app.get("/chatlist", (req, res) => {
-  console.log("GET /chatlist called");
+  //console.log("GET /chatlist called");
   res.sendFile(__dirname + "/chatlist/index.html");
 });
 app.get("/chatlist/index.js", (req, res) => {
-  console.log("GET /chatlist/index.js called");
+  //console.log("GET /chatlist/index.js called");
   res.sendFile(__dirname + "/chatlist/index.js");
 });
 
@@ -39,7 +68,7 @@ app.get("/chat", (req, res) => {
 });
 
 app.get("/chatapp/:chatid", (req, res) => {
-  console.log("GET /chat called");
+  //console.log("GET /chat called");
 
   res.send(
     fs
@@ -50,19 +79,19 @@ app.get("/chatapp/:chatid", (req, res) => {
 });
 
 app.get("/chatapp/:chatid/index.js", (req, res) => {
-  console.log("GET /chat/:chatid/index.js called");
+  //console.log("GET /chat/:chatid/index.js called");
 
   res.sendFile(__dirname + "/chatpage/index.js");
 });
 
 app.get("/chat/login", (req, res) => {
-  console.log("GET /chat/login called");
+  //console.log("GET /chat/login called");
 
   res.sendFile(__dirname + "/loginpage/index.html");
 });
 
 app.get("/chat/login/index.js", (req, res) => {
-  console.log("GET /chat/login/index.js called");
+  //console.log("GET /chat/login/index.js called");
 
   res.sendFile(__dirname + "/loginpage/index.js");
 });
@@ -74,13 +103,13 @@ app.get("/chat/register", (req, res) => {
 });
 
 app.get("/chat/register/index.js", (req, res) => {
-  console.log("GET /chat/register/index.js called");
+  //console.log("GET /chat/register/index.js called");
 
   res.sendFile(__dirname + "/registerpage/index.js");
 });
 
 app.post("/api/deletemsg", (req, res) => {
-  console.log("POST /chat/deletemsg called");
+  //console.log("POST /chat/deletemsg called");
   if (
     checkuser(req.body.password, req.body.username) &&
     checkaccess(req.body.chatid, req.body.password, req.body.username)
@@ -110,33 +139,35 @@ app.post("/api/messagesget", (req, res) => {
 });
 
 app.post("/api/messagesend", (req, res) => {
-  console.log("POST /api/messagesend called");
+  //console.log("POST /api/messagesend called");
   if (
     checkuser(req.body.password, req.body.username) &&
     checkaccess(req.body.chatid, req.body.password, req.body.username)
   ) {
-
     res.send(handlePost(req.body.chatid, req.body, res)); //need
     if(req.body.value.indexOf("@ai")>-1){
-      writeairesponse(aiprompt(req.body.value.replaceAll("@ai",""),req.body.chatid),req.body.chatid);
+      writeairesponse(aiprompt(req.body.value,req.body.chatid),req.body.chatid);
+    }else if(req.body.value.indexOf("/clearia")>-1){
+        clearchataihist(req.body.chatid);
     }
+
   }
 });
 
 app.post("/api/login", (req, res) => {
-  console.log("POST /api/login called");
+  //console.log("POST /api/login called");
   const loginattempt = checkuser(req.body.password, req.body.username);
   res.send(loginattempt); //need
   //console.log("Attempted to login: " +"\n" + loginattempt + "\nusername: " + req.body.password + "\npassword: " + req.body.username,);
 });
 
 app.post("/api/register", (req, res) => {
-  console.log("POST /api/register called");
+  //console.log("POST /api/register called");
   res.send(checkregis(req.body.password, req.body.username));
 });
 
 app.post("/api/getchats", (req, res) => {
-  console.log("POST /api/getchats called");
+  //console.log("POST /api/getchats called");
   if (checkuser(req.body.password, req.body.username)) {
     res.send(getallchatsbyuser(req.body.username)); //need
   } else {
@@ -145,7 +176,7 @@ app.post("/api/getchats", (req, res) => {
 });
 
 app.post("/api/createchat",(req,res) => {
-  console.log("POST /api/createchat called");
+  //console.log("POST /api/createchat called");
   if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"){
     res.send(createchat(req.body.username,req.body.chatname));
   }
@@ -167,7 +198,7 @@ app.post("/api/getuserinchat",(req,res) =>{
 });
 
 app.post("/api/invitetochat",(req,res) =>{
-  console.log("POST /api/invitetochat called");
+  //console.log("POST /api/invitetochat called");
   if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"){
     res.send(invitetochat(req.body.chatid,req.body.usernametoinvite,req.body.username))
   }
@@ -175,7 +206,7 @@ app.post("/api/invitetochat",(req,res) =>{
 });
 
 app.post("/api/removefromchat",(req,res) =>{
-  console.log("POST /api/removefromchat called");
+  //console.log("POST /api/removefromchat called");
   if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"){
     res.send(removefromchat(req.body.chatid,req.body.usernametoremove,req.body.username))
   }
@@ -191,7 +222,7 @@ app.post("/api/getusers",(req,res) =>{
 });
 
 app.post("/api/deletechat",(req,res) =>{
-  console.log("POST /api/deletechat called");
+  //console.log("POST /api/deletechat called");
   if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"&&checkaccess(req.body.chatid,req.body.password,req.body.username)){
     res.send(deletechat(req.body.chatid,req.body.username))
   }
@@ -200,35 +231,76 @@ app.post("/api/deletechat",(req,res) =>{
 
 //for cronjob:
 app.get("/cron",(req,res) =>{
-  res.send("cronjob");
+  res.send("cronjobed");
 });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-async function aiprompt(prompt) {
-  // For text-only input, use the gemini-pro model
-  const model = genAI.getGenerativeModel({ model: "gemini-pro"});
+function clearchataihist(chatid){
+  const entiredata = require("./data.json");
+  entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history = [];
+  fs.writeFileSync(__dirname + "/data.json", JSON.stringify(entiredata));
+  return;
+}
 
-  return await model.generateContent(prompt).then((result) => {
-    return result.response;
+async function aiprompt(msg,chatid) {
+  let chatdata;
+  chatdata = getchatdatabyid(chatid);
+  let tobemodified = chatdata;
+  // For text-only input, use the gemini-pro model
+  const chat = model.startChat({
+    history:tobemodified.ai_chat_history,
+    generationConfig: {
+      maxOutputTokens: 200,
+    },
+  });
+
+
+  return await chat.sendMessage(msg)
+  .then((chat)=>{
+    return chat.response
   })
   .then((response)=>{
-    let text = response.text(); 
+    console.log(response.text());
+    return response.text();
+  })
+  .then(async (response)=>{
+    const text = await response;
+    if(text){
+       tobemodified.ai_chat_history.push(      
+        {
+           role:"user",
+           parts: [{ text: msg }],
+        },
+       {
+          role: "model",
+          parts: [{ text: text }],
+       },
+       );
+     pushdatatochatbychatid(
+      require("./data.json").chats.indexOf(chatdata),
+      tobemodified,
+      chatid,
+    );
     return text.replaceAll("<","&lt").replaceAll(">","&gt");
-
-  });
+    } else {console.log("error")}
+  })
+  .catch(()=>{
+    console.log("error")
+  })
 }
 
 async function writeairesponse (response,chatid){
+  let chatdata = getchatdatabyid(chatid);
   writeData(
     "alert",
-    "AI",
+    "@ai",
     await response,
-    false,
-    null,
-    getchatdatabyid(chatid),
+    true,
+    await chatdata.countaccess,
+    await chatdata,
     chatid,
   );
 }
@@ -250,7 +322,7 @@ function deletechat(chatid,username){
   let data = require('./data.json');
   for(let i = 0; i<data.chats.length; i++){
     if(data.chats[i].id == chatid){
-      console.log("deleted chat: "+data.chats[i].name+"(id:"+data.chats[i].id+")");
+      console.log(username+" deleted chat: "+data.chats[i].name+"(id:"+data.chats[i].id+")");
       data.chatids.splice(data.chatids.indexOf(chatid),1);
       data.chats.splice(i,1);
       data.chatscount -= 1;
@@ -276,12 +348,13 @@ function removefromchat(id,usernametoremove,username){
     for (let i = 0; i < data.chats.length; i++) {
       if (data.chats[i].id == id && data.chats[i].users.includes(username)&& data.chats[i].users.includes(usernametoremove)) {
         data.chats[i].users.splice(data.chats[i].users.indexOf(usernametoremove),1);
-        const alert = {"id":data.chats[i].countaccess,"type":"alert","value":`${usernametoremove} was removed`};
+        const alert = {"id":data.chats[i].countaccess,"type":"alert","value":`${usernametoremove} was removed by ${username}`};
 
         data.chats[i].countaccess += 1;
 
         data.chats[i].data.push(alert);
         fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
+        console.log(`${username}removed ${usernametoremove} from chat: ${data.chats[i].name} (id:${data.chats[i].id})`);
       }
     }
   return getusersinchat(id,username);
@@ -296,7 +369,8 @@ function createchat(user, chatname) {
     id: chatid,
     name: chatname,
     countaccess: 1,
-    data: [{"id":0,"username":"","type":"alert","value":"Chat Created","date":new Date().toISOString(),"replying":false,"replyingtoID":null}],
+    ai_chat_history:[],
+    data: [{"id":0,"username":"","type":"alert","value":`Chat Created by ${user}`,"date":new Date().toISOString(),"replying":false,"replyingtoID":null}],
   };
   console.log("created chat: "+chatname+"(id:"+chatid+")");
 
@@ -317,18 +391,20 @@ function chatnamebyid(id,user){
   }
   return false
 }
+
 function invitetochat(chatid, usernametoinvite,user) {
   const data = require("./data.json");
   for (let i = 0; i < data.chats.length; i++) {
     if (data.chats[i].id == chatid && data.chats[i].users.includes(user)&& !data.chats[i].users.includes(usernametoinvite)) {
       data.chats[i].users.push(usernametoinvite);
-      const alert = {"id":data.chats[i].countaccess,"type":"alert","value":`${usernametoinvite} was added`};
+      const alert = {"id":data.chats[i].countaccess,"type":"alert","value":`${usernametoinvite} was added by ${username}`};
       
       data.chats[i].countaccess += 1;
 
       data.chats[i].data.push(alert);
       
       fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
+      console.log(`${username} added ${usernametoremove} from chat: ${data.chats[i].name} (id:${data.chats[i].id})`);
     }
   }
   return getusersinchat(chatid,user);
@@ -418,6 +494,7 @@ function deleteMessage(chatid, id, user, pass) {
     }
   }
 }
+
 function checkuser(pass, user) {
   const jsonuserdata = require("./userdata.json");
   for (let i = 0; i < jsonuserdata.users.length; i++) {
@@ -462,6 +539,7 @@ function checkregis(pass, user) {
   );
   return '{"result":"success"}';
 }
+
 function handlePost(chatid, reqbody, res) {
   const jsondata = getchatdatabyid(chatid);
   if (jsondata == null) {
