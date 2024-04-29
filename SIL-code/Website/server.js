@@ -144,10 +144,11 @@ app.post("/api/messagesend", (req, res) => {
     checkuser(req.body.password, req.body.username) &&
     checkaccess(req.body.chatid, req.body.password, req.body.username)
   ) {
-    res.send(handlePost(req.body.chatid, req.body, res)); //need
+    const posted = handlePost(req.body.chatid, req.body, res)
+    res.send(posted.result); //need
     if(req.body.value.indexOf("@ai")>-1){
-      writeairesponse(aiprompt(req.body.value,req.body.chatid),req.body.chatid);
-    }else if(req.body.value.indexOf("/clearia")>-1){
+      writeairesponse(aiprompt(req.body.value,req.body.chatid),req.body.chatid,posted.id);
+    }else if(req.body.value.indexOf("/clearai")>-1){
         clearchataihist(req.body.chatid);
     }
 
@@ -292,14 +293,14 @@ async function aiprompt(msg,chatid) {
   })
 }
 
-async function writeairesponse (response,chatid){
+async function writeairesponse (response,chatid,promptid){
   let chatdata = getchatdatabyid(chatid);
   writeData(
     "ai",
     "@ai",
     await response,
     true,
-    await chatdata.countaccess,
+    await promptid,
     await chatdata,
     chatid,
   );
@@ -397,7 +398,7 @@ function invitetochat(chatid, usernametoinvite,user) {
   for (let i = 0; i < data.chats.length; i++) {
     if (data.chats[i].id == chatid && data.chats[i].users.includes(user)&& !data.chats[i].users.includes(usernametoinvite)) {
       data.chats[i].users.push(usernametoinvite);
-      const alert = {"id":data.chats[i].countaccess,"type":"alert","value":`${usernametoinvite} was added by ${username}`};
+      const alert = {"id":data.chats[i].countaccess,"type":"alert","value":`${usernametoinvite} was added by ${user}`};
       
       data.chats[i].countaccess += 1;
 
@@ -545,7 +546,7 @@ function handlePost(chatid, reqbody, res) {
   if (jsondata == null) {
     return '{"result":false}';
   }
-  writeData(
+  const id = writeData(
     reqbody.type,
     reqbody.username,
     reqbody.value.replaceAll("<","&lt").replaceAll(">","&gt"),
@@ -555,7 +556,7 @@ function handlePost(chatid, reqbody, res) {
     chatid,
   );
 
-  return getchatdatabyid(chatid);
+  return {result:getchatdatabyid(chatid),id:id}
 }
 
 function writeData(
@@ -568,8 +569,9 @@ function writeData(
   chatid,
 ) {
   let dataarray = data;
+  let id = dataarray.countaccess
   let dataadding = {
-    id: dataarray.countaccess,
+    id: id,
     username: username,
     type: type,
     value: value,
@@ -584,4 +586,5 @@ function writeData(
     dataarray,
     chatid,
   );
+  return id
 }
