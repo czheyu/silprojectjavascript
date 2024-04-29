@@ -220,7 +220,7 @@ app.post("/api/getusers",(req,res) =>{
   }
 
 });
-a
+
 app.post("/api/deletechat",(req,res) =>{
   //console.log("POST /api/deletechat called");
   if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"&&checkaccess(req.body.chatid,req.body.password,req.body.username)){
