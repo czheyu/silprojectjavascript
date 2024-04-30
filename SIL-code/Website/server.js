@@ -241,6 +241,8 @@ app.listen(port, () => {
 
 function clearchataihist(chatid){
   const entiredata = require("./data.json");
+  console.log("clearchataihist called:");
+  console.log(entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history);
   entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history = [];
   fs.writeFileSync(__dirname + "/data.json", JSON.stringify(entiredata));
   return;
