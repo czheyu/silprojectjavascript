@@ -250,7 +250,7 @@ function checkNoBlank(data,chatdata,chatid){
   let tobemodified = chatdata;
   let newdata = [];
   // data is [{role:"user",parts:[{text:"hi"}]},{},{},{}]
-  for(let i=0;i<data.length;i++){
+  for(let i=1;i<data.length+1;i++){
     if(i%2==0){
       //even
       
