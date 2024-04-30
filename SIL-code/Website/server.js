@@ -268,13 +268,14 @@ function checkNoBlank(data,chatdata,chatid){
       console.log(data[i].role)
 
       console.log(data[i].parts)
-      if(data[i].parts.length!=0&&data[i+1].parts.length!=0){
-        if(data[i].parts[0].text!=""&&data[i+1].parts[0].text!=""){
-          newdata.push(data[i],data[i+1]);
-          continue;
+      if(data[i].parts!=undefined){
+        if(data[i].parts.length!=0&&data[i+1].parts.length!=0){
+          if(data[i].parts[0].text!=""&&data[i+1].parts[0].text!=""){
+            newdata.push(data[i],data[i+1]);
+            continue;
+          }
         }
       }
-      
     }
   }
   tobemodified.ai_chat_history = newdata;
