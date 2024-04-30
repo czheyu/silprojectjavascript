@@ -246,17 +246,49 @@ function clearchataihist(chatid){
   return;
 }
 
+function checkNoBlank(data,chatdata,chatid){
+  let tobemodified = chatdata;
+  let newdata = [];
+  // data is [{role:"user",parts:[{text:"hi"}]},{},{},{}]
+  for(let i=0;i<data.length;i++){
+    if(i%2==0){
+      //even
+      
+      
+    }else{
+      //odd
+      if(data[i].parts.length!=0&&data[i+1].parts.length!=0){
+        if(data[i].parts[0].text!=""&&data[i+1].parts[0].text!=""){
+          newdata.push(data[i],data[i+1]);
+          continue;
+        }
+      }
+      
+    }
+  }
+  tobemodified.ai_chat_history = newdata;
+  pushdatatochatbychatid(
+  require("./data.json").chats.indexOf(chatdata),
+  tobemodified,
+  chatid,
+  );
+  return newdata;
+}
+
 async function aiprompt(msg,chatid) {
   let chatdata;
   chatdata = getchatdatabyid(chatid);
   let tobemodified = chatdata;
-  // For text-only input, use the gemini-pro model
   const chat = model.startChat({
-    history:tobemodified.ai_chat_history,
+    history:await checkNoBlank(tobemodified.ai_chat_history,chatdata,chatid),
     generationConfig: {
       maxOutputTokens: 200,
     },
   });
+  chatdata = getchatdatabyid(chatid);
+  tobemodified = chatdata
+  // For text-only input, use the gemini-pro model
+
 
 
   return await chat.sendMessage(msg)
