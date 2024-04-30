@@ -266,7 +266,7 @@ function checkNoBlank(data,chatdata,chatid){
       console.log(data[i])
       console.log(data[i+1])
       console.log(data[i].role)
-
+      console.log(269)
       console.log(data[i].parts)
       if(data[i].parts!=undefined){
         if(data[i].parts.length!=0&&data[i+1].parts.length!=0){
@@ -278,12 +278,16 @@ function checkNoBlank(data,chatdata,chatid){
       }
     }
   }
+  console.log(281)
+
   tobemodified.ai_chat_history = newdata;
   pushdatatochatbychatid(
   require("./data.json").chats.indexOf(chatdata),
   tobemodified,
   chatid,
   );
+  console.log(289)
+
   return newdata;
 }
 
@@ -297,12 +301,15 @@ async function aiprompt(msg,chatid) {
       maxOutputTokens: 200,
     },
   });
+  console.log(304)
+
+  console.log(chat);
   chatdata = getchatdatabyid(chatid);
   tobemodified = chatdata
   // For text-only input, use the gemini-pro model
 
 
-
+  console.log(312)
   return await chat.sendMessage(msg)
   .then((chat)=>{
     return chat.response
