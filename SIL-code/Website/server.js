@@ -307,8 +307,8 @@ async function aiprompt(msg,chatid) {
     console.log(response.text());
     return response.text();
   })
-  .then(async (response)=>{
-    const text = await response;
+  .then((response)=>{
+    const text = response;
     if(text != "" ){
        tobemodified.ai_chat_history.push(      
         {
@@ -321,7 +321,7 @@ async function aiprompt(msg,chatid) {
        },
        );
       console.log("pushed hist")
-      await pushdatatochatbychatid(
+      pushdatatochatbychatid(
       require("./data.json").chats.indexOf(chatdata),
       tobemodified,
       chatid,
