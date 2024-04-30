@@ -269,6 +269,7 @@ async function aiprompt(msg,chatid) {
   })
   .then(async (response)=>{
     const text = await response;
+    console.log(text)  ;
     if(text != "" ){
        tobemodified.ai_chat_history.push(      
         {
@@ -287,9 +288,6 @@ async function aiprompt(msg,chatid) {
     );
     return text.replaceAll("<","&lt").replaceAll(">","&gt");
     } else {console.log("error")}
-  })
-  .catch(()=>{
-    console.log("error")
   })
 }
 
