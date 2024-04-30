@@ -268,7 +268,7 @@ function checkNoBlank(data,chatdata,chatid){
       console.log(data[i].role)
       console.log(269)
       console.log(data[i].parts)
-      if(data[i].parts!=undefined){
+      if(data[i].parts!=undefined&&data[i+1].parts!=undefined){
         if(data[i].parts.length!=0&&data[i+1].parts.length!=0){
           if(data[i].parts[0].text!=""&&data[i+1].parts[0].text!=""){
             newdata.push(data[i],data[i+1]);
@@ -333,6 +333,8 @@ async function aiprompt(msg,chatid) {
        },
        );
       console.log(tobemodified)
+      console.log(tobemodified.ai_chat_history)
+
      pushdatatochatbychatid(
       require("./data.json").chats.indexOf(chatdata),
       tobemodified,
