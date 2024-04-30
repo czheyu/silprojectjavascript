@@ -262,12 +262,6 @@ function checkNoBlank(data,chatdata,chatid){
       
     }else{
       //odd
-      console.log(data)
-      console.log(data[i])
-      console.log(data[i+1])
-      console.log(data[i].role)
-      console.log(269)
-      console.log(data[i].parts)
       if(data[i].parts!=undefined&&data[i+1].parts!=undefined){
         if(data[i].parts.length!=0&&data[i+1].parts.length!=0){
           if(data[i].parts[0].text!=""&&data[i+1].parts[0].text!=""){
@@ -278,7 +272,6 @@ function checkNoBlank(data,chatdata,chatid){
       }
     }
   }
-  console.log(281)
 
   tobemodified.ai_chat_history = newdata;
   pushdatatochatbychatid(
@@ -286,7 +279,6 @@ function checkNoBlank(data,chatdata,chatid){
   tobemodified,
   chatid,
   );
-  console.log(289)
 
   return newdata;
 }
@@ -301,15 +293,11 @@ async function aiprompt(msg,chatid) {
       maxOutputTokens: 200,
     },
   });
-  console.log(304)
-
-  console.log(chat);
   chatdata = getchatdatabyid(chatid);
   tobemodified = chatdata
   // For text-only input, use the gemini-pro model
 
 
-  console.log(312)
   return await chat.sendMessage(msg)
   .then((chat)=>{
     return chat.response
@@ -320,7 +308,6 @@ async function aiprompt(msg,chatid) {
   })
   .then(async (response)=>{
     const text = await response;
-    console.log(text)  ;
     if(text != "" ){
        tobemodified.ai_chat_history.push(      
         {
@@ -332,9 +319,7 @@ async function aiprompt(msg,chatid) {
           parts: [{ text: text }],
        },
        );
-      console.log(tobemodified)
-      console.log(tobemodified.ai_chat_history)
-
+      console.log("pushed hist")
      pushdatatochatbychatid(
       require("./data.json").chats.indexOf(chatdata),
       tobemodified,
