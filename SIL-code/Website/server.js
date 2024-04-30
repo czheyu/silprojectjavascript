@@ -244,7 +244,6 @@ function clearchataihist(chatid){
   console.log("clearchataihist called:");
   console.log(entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history);
 
-  console.log(entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history[1].parts);
   
   entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history = [];
   fs.writeFileSync(__dirname + "/data.json", JSON.stringify(entiredata));
@@ -262,11 +261,13 @@ function checkNoBlank(data,chatdata,chatid){
       
     }else{
       //odd
-      if(data[i].parts!=undefined&&data[i+1].parts!=undefined){
-        if(data[i].parts.length!=0&&data[i+1].parts.length!=0){
-          if(data[i].parts[0].text!=""&&data[i+1].parts[0].text!=""){
-            newdata.push(data[i],data[i+1]);
-            continue;
+      if(data[i]!=undefined&&data[i+1]!=undefined){
+        if(data[i].parts!=undefined&&data[i+1].parts!=undefined){
+          if(data[i].parts.length!=0&&data[i+1].parts.length!=0){
+            if(data[i].parts[0].text!=""&&data[i+1].parts[0].text!=""){
+              newdata.push(data[i],data[i+1]);
+              continue;
+            }
           }
         }
       }
@@ -320,18 +321,19 @@ async function aiprompt(msg,chatid) {
        },
        );
       console.log("pushed hist")
-     pushdatatochatbychatid(
+      await pushdatatochatbychatid(
       require("./data.json").chats.indexOf(chatdata),
       tobemodified,
       chatid,
     );
+    console.log(JSON.stringify(getchatdatabyid(chatid)));
     return text.replaceAll("<","&lt").replaceAll(">","&gt");
     } else {console.log("error")}
   })
 }
 
 async function writeairesponse (response,chatid,promptid){
-  let chatdata = getchatdatabyid(chatid);
+  let chatdata = await getchatdatabyid(chatid);
   writeData(
     "ai",
     "@ai",
@@ -473,6 +475,7 @@ function getusersinchat(id,user) {
 function pushdatatochatbychatid(index, data, chatid) {
   const entiredata = require("./data.json");
   entiredata.chats[index] = data;
+  console.log("pushdatatochatbychatid: "+JSON.stringify(data))
   fs.writeFileSync(__dirname + "/data.json", JSON.stringify(entiredata));
   return;
 }
