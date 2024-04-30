@@ -257,6 +257,12 @@ function checkNoBlank(data,chatdata,chatid){
       
     }else{
       //odd
+      console.log(data)
+      console.log(data[i])
+      console.log(data[i+1])
+      console.log(data[i].role)
+
+      console.log(data[i].parts)
       if(data[i].parts.length!=0&&data[i+1].parts.length!=0){
         if(data[i].parts[0].text!=""&&data[i+1].parts[0].text!=""){
           newdata.push(data[i],data[i+1]);
