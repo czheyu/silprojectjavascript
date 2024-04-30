@@ -243,6 +243,9 @@ function clearchataihist(chatid){
   const entiredata = require("./data.json");
   console.log("clearchataihist called:");
   console.log(entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history);
+
+  console.log(entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history[1].parts);
+  
   entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history = [];
   fs.writeFileSync(__dirname + "/data.json", JSON.stringify(entiredata));
   return;
@@ -321,6 +324,7 @@ async function aiprompt(msg,chatid) {
           parts: [{ text: text }],
        },
        );
+      console.log(tobemodified)
      pushdatatochatbychatid(
       require("./data.json").chats.indexOf(chatdata),
       tobemodified,
