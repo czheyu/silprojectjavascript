@@ -144,12 +144,26 @@ app.post("/api/messagesend", (req, res) => {
     checkuser(req.body.password, req.body.username) &&
     checkaccess(req.body.chatid, req.body.password, req.body.username)
   ) {
+    const data = require("./data.json");
+    if(req.body.value.indexOf("/clearai")>-1){
+      for (let i = 0; i < data.chats.length; i++) {
+        if (data.chats[i].id == req.body.chatid) {
+          clearchataihist(req.body.chatid);
+          const alert = {"id":data.chats[i].countaccess,"type":"alert","value":`${req.body.username} cleared chatai history`};
+    
+          data.chats[i].countaccess += 1;
+    
+          data.chats[i].data.push(alert);
+          fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
+          //console.log(`${username} cleared chatai history`);
+          return
+        }
+      }
+    }
     const posted = handlePost(req.body.chatid, req.body, res)
     res.send(posted.result); //need
     if(req.body.value.indexOf("@ai")>-1){
       writeairesponse(aiprompt(req.body.value,req.body.chatid),req.body.chatid,posted.id);
-    }else if(req.body.value.indexOf("/clearai")>-1){
-        clearchataihist(req.body.chatid);
     }
 
   }
@@ -241,8 +255,8 @@ app.listen(port, () => {
 
 function clearchataihist(chatid){
   const entiredata = require("./data.json");
-  console.log("clearchataihist called:");
-  console.log(entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history);
+  //console.log("clearchataihist called:");
+  //console.log(entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history);
 
   
   entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history = [];
@@ -254,18 +268,18 @@ function checkNoBlank(data,chatdata,chatid){
   let tobemodified = chatdata;
   let newdata = [];
   // data is [{role:"user",parts:[{text:"hi"}]},{},{},{}]
-  for(let i=1;i<data.length+1;i++){
+  for(let i=0;i<data.length;i++){
     if(i%2==0){
       //even
       
       
     }else{
       //odd
-      if(data[i]!=undefined&&data[i+1]!=undefined){
-        if(data[i].parts!=undefined&&data[i+1].parts!=undefined){
-          if(data[i].parts.length!=0&&data[i+1].parts.length!=0){
-            if(data[i].parts[0].text!=""&&data[i+1].parts[0].text!=""){
-              newdata.push(data[i],data[i+1]);
+      if(data[i]!=undefined&&data[i-1]!=undefined){
+        if(data[i].parts!=undefined&&data[i-1].parts!=undefined){
+          if(data[i].parts.length!=0&&data[i-1].parts.length!=0){
+            if(data[i].parts[0].text!=""&&data[i-1].parts[0].text!=""){
+              newdata.push(data[i-1],data[i],);
               continue;
             }
           }
@@ -304,31 +318,18 @@ async function aiprompt(msg,chatid) {
     return chat.response
   })
   .then((response)=>{
-    console.log(response.text());
     return response.text();
   })
   .then((response)=>{
     const text = response;
     if(text != "" ){
-       tobemodified.ai_chat_history.push(      
-        {
-           role:"user",
-           parts: [{ text: msg }],
-        },
-       {
-          role: "model",
-          parts: [{ text: text }],
-       },
-       );
-      console.log("pushed hist")
       pushdatatochatbychatid(
       require("./data.json").chats.indexOf(chatdata),
       tobemodified,
       chatid,
     );
-    console.log(JSON.stringify(getchatdatabyid(chatid)));
     return text.replaceAll("<","&lt").replaceAll(">","&gt");
-    } else {console.log("error")}
+    } else {console.log("error"); return "Ai error"}
   })
 }
 
@@ -475,7 +476,7 @@ function getusersinchat(id,user) {
 function pushdatatochatbychatid(index, data, chatid) {
   const entiredata = require("./data.json");
   entiredata.chats[index] = data;
-  console.log("pushdatatochatbychatid: "+JSON.stringify(data))
+  //console.log("pushdatatochatbychatid: "+JSON.stringify(data))
   fs.writeFileSync(__dirname + "/data.json", JSON.stringify(entiredata));
   return;
 }
