@@ -144,27 +144,27 @@ app.post("/api/messagesend", (req, res) => {
     checkuser(req.body.password, req.body.username) &&
     checkaccess(req.body.chatid, req.body.password, req.body.username)
   ) {
-    const data = require("./data.json");
-    if(req.body.value.indexOf("/clearai")>-1){
-      for (let i = 0; i < data.chats.length; i++) {
-        if (data.chats[i].id == req.body.chatid) {
-          clearchataihist(req.body.chatid);
-          const alert = {"id":data.chats[i].countaccess,"type":"alert","value":`${req.body.username} cleared chatai history`};
+    //const data = require("./data.json");
+    //if(req.body.value.indexOf("/clearai")>-1){
+      //for (let i = 0; i < data.chats.length; i++) {
+        //if (data.chats[i].id == req.body.chatid) {
+    //      clearchataihist(req.body.chatid);
+    //      const alert = {"id":data.chats[i].countaccess,"type":"alert","value":`${req.body.username} cleared chatai history`};
     
-          data.chats[i].countaccess += 1;
+    //     data.chats[i].countaccess += 1;
     
-          data.chats[i].data.push(alert);
-          fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
+    //      data.chats[i].data.push(alert);
+    //      fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
           //console.log(`${username} cleared chatai history`);
-          return
-        }
-      }
-    }
+    //      return
+    //    }
+    //  }
+    //}
     const posted = handlePost(req.body.chatid, req.body, res)
     res.send(posted.result); //need
-    if(req.body.value.indexOf("@ai")>-1){
-      writeairesponse(aiprompt(req.body.value,req.body.chatid),req.body.chatid,posted.id);
-    }
+    //if(req.body.value.indexOf("@ai")>-1){
+    //  writeairesponse(aiprompt(req.body.value,req.body.chatid),req.body.chatid,posted.id);
+    //}
 
   }
 });
