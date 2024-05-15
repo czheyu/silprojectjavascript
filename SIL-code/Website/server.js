@@ -248,14 +248,15 @@ app.post("/api/deletechat",(req,res) =>{
 app.get("/cron",(req,res) =>{
   res.send("cronjobed");
 });
+function getalldata(){
+  const data = require("./data.json");
+  const userdata = require("./userdata.json")
+  return {"data":JSON.stringify(data),"userdata":JSON.stringify(userdata)};
+}
 
 app.post("/getalldata",(req,res) =>{
   if(req.id==process.env.id){
-    res.send(function(){
-      const data = require("./data.json");
-      const userdata = require("./userdata.json")
-      return {"data":JSON.stringify(data),"userdata":JSON.stringify(userdata)};
-    });
+    res.send(getalldata());
   }
 })
 
