@@ -256,6 +256,8 @@ function getalldata(){
 
 app.post("/getalldata",(req,res) =>{
   console.log("alldata atempted")
+  console.log(req.id)
+  console.log(process.env.id)
   if(req.id==process.env.id){
     console.log("id is correct")
     let getalldataresult = getalldata();
