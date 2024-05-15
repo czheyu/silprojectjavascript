@@ -445,7 +445,7 @@ function invitetochat(chatid, usernametoinvite,user) {
       data.chats[i].data.push(alert);
       
       fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
-      console.log(`${user} added ${usernametoremove} from chat: ${data.chats[i].name} (id:${data.chats[i].id})`);
+      console.log(`${user} added ${usernametoinvite} from chat: ${data.chats[i].name} (id:${data.chats[i].id})`);
     }
   }
   return getusersinchat(chatid,user);
