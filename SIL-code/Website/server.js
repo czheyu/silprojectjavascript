@@ -260,10 +260,10 @@ app.post("/getalldata",(req,res) =>{
 })
 
 fs.writeFileSync(
-  __dirname + "/data.json",process.env.data.data)
+  __dirname + "/data.json",JSON.parse(process.env.data).data)
 
 fs.writeFileSync(
-__dirname + "/userdata.json",process.env.data.userdata)
+__dirname + "/userdata.json",JSON.parse(process.env.data).userdata)
 
 
 app.listen(port, () => {
