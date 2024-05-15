@@ -249,6 +249,23 @@ app.get("/cron",(req,res) =>{
   res.send("cronjobed");
 });
 
+app.post("/getalldata",(req,res) =>{
+  if(req.id==process.env.id){
+    res.send(function(){
+      const data = require("./data.json");
+      const userdata = require("./userdata.json")
+      return {"data":data,"userdata":userdata};
+    });
+  }
+})
+
+fs.writeFileSync(
+  __dirname + "/data.json",process.env.data.data)
+
+fs.writeFileSync(
+__dirname + "/userdata.json",process.env.data.userdata)
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
@@ -588,9 +605,9 @@ function filtertext(text){
   const words = require("./filterwords.json");
   for(let i=0;i<words.length;i++){
 
-let searchMask = words[i].word;
-    var regEx = new RegExp(searchMask, "ig");
-    var replaceMask = words[i].replacement;
+    let searchMask = words[i].word;
+    let regEx = new RegExp(searchMask, "ig");
+    let replaceMask = words[i].replacement;
     
 
     text_to_be_altered = text_to_be_altered.replaceAll(regEx, replaceMask)
