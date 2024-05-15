@@ -582,6 +582,22 @@ function checkregis(pass, user) {
   return '{"result":"success"}';
 }
 
+
+function filtertext(text){
+  let text_to_be_altered= text;
+  const words = require("./filterwords.json");
+  for(let i=0;i<words.length;i++){
+
+let searchMask = words[i].word;
+    var regEx = new RegExp(searchMask, "ig");
+    var replaceMask = words[i].replacement;
+    
+
+    text_to_be_altered = text_to_be_altered.replaceAll(regEx, replaceMask)
+  }
+  return text
+}
+
 function handlePost(chatid, reqbody, res) {
   const jsondata = getchatdatabyid(chatid);
   if (jsondata == null) {
@@ -590,12 +606,13 @@ function handlePost(chatid, reqbody, res) {
   const id = writeData(
     reqbody.type,
     reqbody.username,
-    reqbody.value.replaceAll("<","&lt").replaceAll(">","&gt").replaceAll(/roblox/ig,"######"),
+    filtertext(reqbody.value).substring(0, 1000),
     reqbody.replying,
     reqbody.replyingtoID,
     jsondata,
     chatid,
   );
+
 
   return {result:getchatdatabyid(chatid),id:id}
 }

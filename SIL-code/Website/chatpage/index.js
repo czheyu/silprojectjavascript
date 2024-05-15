@@ -244,7 +244,7 @@ function sendClicked() {
     type: type,
     username: localStorage.getItem("username"),
     password: localStorage.getItem("password"),
-    value: value,
+    value: value.substring(0, 1000),
     replying: replying,
     replyingtoID: replyingtoID,
   };
