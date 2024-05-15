@@ -255,11 +255,18 @@ function getalldata(){
 }
 
 app.post("/getalldata",(req,res) =>{
+  console.log("alldata atempted")
   if(req.id==process.env.id){
-    res.send(getalldata());
+    console.log("id is correct")
+    let getalldataresult = getalldata();
+    res.send(getalldataresult);
+    console.log("alldata sent")
+    console.log(getalldataresult)
   }
 })
 
+
+console.log(process.env.data)
 fs.writeFileSync(
   __dirname + "/data.json",JSON.stringify(JSON.parse(process.env.data).data))
 
