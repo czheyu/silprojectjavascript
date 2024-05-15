@@ -590,7 +590,7 @@ function handlePost(chatid, reqbody, res) {
   const id = writeData(
     reqbody.type,
     reqbody.username,
-    reqbody.value.replaceAll("<","&lt").replaceAll(">","&gt"),
+    reqbody.value.replaceAll("<","&lt").replaceAll(">","&gt").replaceAll(/roblox/ig,"######"),
     reqbody.replying,
     reqbody.replyingtoID,
     jsondata,
