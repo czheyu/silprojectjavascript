@@ -254,16 +254,16 @@ app.post("/getalldata",(req,res) =>{
     res.send(function(){
       const data = require("./data.json");
       const userdata = require("./userdata.json")
-      return {"data":data,"userdata":userdata};
+      return {"data":JSON.stringify(data),"userdata":JSON.stringify(userdata)};
     });
   }
 })
 
 fs.writeFileSync(
-  __dirname + "/data.json",JSON.parse(process.env.data.substring(1).slice(0, -1)).data)
+  __dirname + "/data.json",JSON.stringify(JSON.parse(process.env.data).data))
 
 fs.writeFileSync(
-__dirname + "/userdata.json",JSON.parse(process.env.data.substring(1).slice(0, -1)).userdata)
+__dirname + "/userdata.json",JSON.stringify(JSON.parse(process.env.data).userdata))
 
 
 app.listen(port, () => {
