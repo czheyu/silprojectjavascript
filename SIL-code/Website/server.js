@@ -210,10 +210,18 @@ function filereset(){
   console.log(data)
 
     fs.writeFile(
-      __dirname + "/data.json",JSON.stringify(data))
+      __dirname + "/data.json",JSON.stringify(data),function(err){
+        if(err){
+          console.log(err)
+        }
+      })
 
     fs.writeFile(
-      __dirname + "/userdata.json",JSON.stringify(userdata))
+      __dirname + "/userdata.json",JSON.stringify(userdata),function(err){
+        if(err){
+          console.log(err)
+        }
+      })
 
 }
 
