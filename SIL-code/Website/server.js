@@ -248,10 +248,20 @@ app.post("/api/deletechat",(req,res) =>{
 app.get("/cron",(req,res) =>{
   res.send("cronjobed");
 });
+
+app.get("/reset",(req,res) =>{
+  fs.writeFileSync(
+    __dirname + "/data.json",JSON.stringify({"chatscount":0,"chatids":[],"chats":[]}
+
+))
+  fs.writeFileSync(
+    __dirname + "/userdata.json",JSON.stringify({"usercount":8,"users":[{"id":0,"username":"zheyutest","password":"zheyutest"},{"id":1,"username":"usertest","password":"userpasstest"},{"id":2,"username":"oliver","password":"oliver"},{"id":3,"username":"zichang","password":"smallboy"},{"id":4,"username":"zichangus","password":"zichangus"},{"id":5,"username":"korei","password":"korei"},{"id":6,"username":"ewis","password":"ewis"},{"id":7,"username":"guoguo","password":"guoguo"}]}))
+  res.send("reseted");
+})
 function getalldata(){
   const data = require("./data.json");
   const userdata = require("./userdata.json")
-  return {"data":JSON.stringify(data),"userdata":JSON.stringify(userdata)};
+  return {"data":data,"userdata":userdata};
 }
 
 app.post("/getalldata",(req,res) =>{
