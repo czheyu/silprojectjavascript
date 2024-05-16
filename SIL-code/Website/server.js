@@ -102,10 +102,10 @@ app.post("/api/messagesget", (req, res) => {
     if(chatdata){
       res.send(); //need
     }else{
-      res.send("accessfailed")
+      res.send(["accessfailed"])
     }
   } else {
-    res.send("accessfailed")
+    res.send(["accessfailed"])
     //console.log("wrong password or username- msgget");
   }
 });
