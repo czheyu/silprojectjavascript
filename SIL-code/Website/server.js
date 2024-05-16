@@ -269,6 +269,9 @@ app.post("/getalldata",(req,res) =>{
 
 
 console.log(process.env.data)
+console.log(JSON.stringify(JSON.parse(process.env.data).data))
+console.log(JSON.stringify(JSON.parse(process.env.data).userdata))
+
 fs.writeFileSync(
   __dirname + "/data.json",JSON.stringify(JSON.parse(process.env.data).data))
 
