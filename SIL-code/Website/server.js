@@ -99,8 +99,8 @@ app.post("/api/messagesget", (req, res) => {
     checkaccess(req.body.chatid, req.body.password, req.body.username)
   ) {
     let chatdata = getchatdatabyid(req.body.chatid)
-    if(chatdata){
-      res.send(); //need
+    if(chatdata!=null){
+      res.send(chatdata); //need
     }else{
       res.send(["accessfailed"])
     }
