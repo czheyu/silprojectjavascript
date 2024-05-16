@@ -3,40 +3,6 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
 
-const { GoogleGenerativeAI,  HarmCategory,
-      HarmBlockThreshold } = require("@google/generative-ai");
-
-// Access your API key as an environment variable (see "Set up your API key" above)
-const genAI = new GoogleGenerativeAI(process.env['KEY']);
-const generationConfig = {
-  stopSequences: ["\\?STOP_GENERATION#$\\"],
-  maxOutputTokens: 200,
-  temperature: 0.9,
-  topP: 0.1,
-  topK: 16,
-};
-
-const safetySettings = [
-  {
-    category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-  },
-  {
-    category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-  },
-  {
-    category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-  },
-  {
-    category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-    threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-  },
-];
-
-const model = genAI.getGenerativeModel({ model: "gemini-pro", generationConfig, safetySettings });
-
 const path = require("path");
 app.use(express.json());
 
@@ -132,8 +98,14 @@ app.post("/api/messagesget", (req, res) => {
     checkuser(req.body.password, req.body.username) &&
     checkaccess(req.body.chatid, req.body.password, req.body.username)
   ) {
-    res.send(getchatdatabyid(req.body.chatid)); //need
+    let chatdata = getchatdatabyid(req.body.chatid)
+    if(chatdata){
+      res.send(); //need
+    }else{
+      res.send("accessfailed")
+    }
   } else {
+    res.send("accessfailed")
     //console.log("wrong password or username- msgget");
   }
 });
@@ -144,28 +116,8 @@ app.post("/api/messagesend", (req, res) => {
     checkuser(req.body.password, req.body.username) &&
     checkaccess(req.body.chatid, req.body.password, req.body.username)
   ) {
-    //const data = require("./data.json");
-    //if(req.body.value.indexOf("/clearai")>-1){
-      //for (let i = 0; i < data.chats.length; i++) {
-        //if (data.chats[i].id == req.body.chatid) {
-    //      clearchataihist(req.body.chatid);
-    //      const alert = {"id":data.chats[i].countaccess,"type":"alert","value":`${req.body.username} cleared chatai history`};
-    
-    //     data.chats[i].countaccess += 1;
-    
-    //      data.chats[i].data.push(alert);
-    //      fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
-          //console.log(`${username} cleared chatai history`);
-    //      return
-    //    }
-    //  }
-    //}
     const posted = handlePost(req.body.chatid, req.body, res)
-    res.send(posted.result); //need
-    //if(req.body.value.indexOf("@ai")>-1){
-    //  writeairesponse(aiprompt(req.body.value,req.body.chatid),req.body.chatid,posted.id);
-    //}
-
+    res.send(posted.result); 
   }
 });
 
@@ -301,98 +253,6 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-function clearchataihist(chatid){
-  const entiredata = require("./data.json");
-  //console.log("clearchataihist called:");
-  //console.log(entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history);
-
-  
-  entiredata.chats[entiredata.chats.indexOf(getchatdatabyid(chatid))].ai_chat_history = [];
-  fs.writeFileSync(__dirname + "/data.json", JSON.stringify(entiredata));
-  return;
-}
-
-function checkNoBlank(data,chatdata,chatid){
-  let tobemodified = chatdata;
-  let newdata = [];
-  // data is [{role:"user",parts:[{text:"hi"}]},{},{},{}]
-  for(let i=0;i<data.length;i++){
-    if(i%2==0){
-      //even
-      
-      
-    }else{
-      //odd
-      if(data[i]!=undefined&&data[i-1]!=undefined){
-        if(data[i].parts!=undefined&&data[i-1].parts!=undefined){
-          if(data[i].parts.length!=0&&data[i-1].parts.length!=0){
-            if(data[i].parts[0].text!=""&&data[i-1].parts[0].text!=""){
-              newdata.push(data[i-1],data[i],);
-              continue;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  tobemodified.ai_chat_history = newdata;
-  pushdatatochatbychatid(
-  require("./data.json").chats.indexOf(chatdata),
-  tobemodified,
-  chatid,
-  );
-
-  return newdata;
-}
-
-async function aiprompt(msg,chatid) {
-  let chatdata;
-  chatdata = getchatdatabyid(chatid);
-  let tobemodified = chatdata;
-  const chat = model.startChat({
-    history:await checkNoBlank(tobemodified.ai_chat_history,chatdata,chatid),
-    generationConfig: {
-      maxOutputTokens: 200,
-    },
-  });
-  chatdata = getchatdatabyid(chatid);
-  tobemodified = chatdata
-  // For text-only input, use the gemini-pro model
-
-
-  return await chat.sendMessage(msg)
-  .then((chat)=>{
-    return chat.response
-  })
-  .then((response)=>{
-    return response.text();
-  })
-  .then((response)=>{
-    const text = response;
-    if(text != "" ){
-      pushdatatochatbychatid(
-      require("./data.json").chats.indexOf(chatdata),
-      tobemodified,
-      chatid,
-    );
-    return text.replaceAll("<","&lt").replaceAll(">","&gt");
-    } else {console.log("error"); return "Ai error"}
-  })
-}
-
-async function writeairesponse (response,chatid,promptid){
-  let chatdata = await getchatdatabyid(chatid);
-  writeData(
-    "ai",
-    "@ai",
-    await response,
-    true,
-    await promptid,
-    await chatdata,
-    chatid,
-  );
-}
 
 function generatechatid(listofcurrentids){
   //8 digit- meaning ~1bil ids
@@ -458,7 +318,7 @@ function createchat(user, chatname) {
     id: chatid,
     name: chatname,
     countaccess: 1,
-    ai_chat_history:[],
+    settings:{},
     data: [{"id":0,"username":"","type":"alert","value":`Chat Created by ${user}`,"date":new Date().toISOString(),"replying":false,"replyingtoID":null}],
   };
   console.log("created chat: "+chatname+"(id:"+chatid+")");
@@ -549,6 +409,7 @@ function checkaccess(chatid, pass, user) {
   if (chatdata.users.includes(user)) {
     return true;
   }
+  return false
 }
 
 function getchatdatabyid(id) {

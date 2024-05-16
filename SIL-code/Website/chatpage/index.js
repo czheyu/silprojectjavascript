@@ -382,6 +382,11 @@ function getdata() {
       }
     })
     .then((data) => {
+      if(JSON.stringify(data)=="accessfailed"){
+        alert("you have been removed from the chat or account has been disabled: redirecting to chatlist");
+        window.location.href = url+"/chatlist";
+        return
+      }
       if (!(JSON.stringify(lastgetdata) == JSON.stringify(data)) ){
         lastnotifyablemsg = getlastmsg(data.data);
         lastgetdata = data;
