@@ -260,7 +260,10 @@ app.get("/reset",(req,res) =>{
 })
 function getalldata(){
   const data = require("./data.json");
-  const userdata = require("./userdata.json")
+  const userdata = require("./userdata.json");
+  console.log(data)
+  console.log(userdata)
+
   return {"data":data,"userdata":userdata};
 }
 
