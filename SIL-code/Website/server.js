@@ -205,9 +205,9 @@ app.get("/cron",(req,res) =>{
 
 function filereset(){
   console.log("bouta reset file,")
-  console.log(data)
   let data = {"chatscount":0,"chatids":[],"chats":[]}
   let userdata = {"usercount":8,"users":[{"id":0,"username":"zheyutest","password":"zheyutest"},{"id":1,"username":"usertest","password":"userpasstest"},{"id":2,"username":"oliver","password":"oliver"},{"id":3,"username":"zichang","password":"smallboy"},{"id":4,"username":"zichangus","password":"zichangus"},{"id":5,"username":"korei","password":"korei"},{"id":6,"username":"ewis","password":"ewis"},{"id":7,"username":"guoguo","password":"guoguo"}]}
+  console.log(data)
 
     fs.writeFileSync(
       __dirname + "/data.json",JSON.stringify(data))
