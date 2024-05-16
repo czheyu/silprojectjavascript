@@ -230,7 +230,7 @@ app.get("/reset",(req,res) =>{
   filereset()
 
 
-  res.send(require("./data.json"));
+  //res.send(require("./data.json"));
   console.log("resettf")
   console.log(require("./data.json"))
 })
