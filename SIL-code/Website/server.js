@@ -643,7 +643,7 @@ function filtertext(text){
 
     text_to_be_altered = text_to_be_altered.replaceAll(regEx, replaceMask)
   }
-  return text
+  return text_to_be_altered
 }
 
 function handlePost(chatid, reqbody, res) {
