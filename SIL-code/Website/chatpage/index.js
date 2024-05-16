@@ -809,7 +809,7 @@ function getchatnamebyid(id){
   return;
 }
 
-function setEvents(){
+async function setEvents(){
   //var password = localStorage.getItem("password");
   var username = localStorage.getItem("username");
 
@@ -893,7 +893,7 @@ function setEvents(){
     deletechat();
   }
   
-  let participants = getparticipants();
+  let participants = await getparticipants();
   getusercanbeadded(participants);
 
   const hasFocus = ele => (ele === document.activeElement);
