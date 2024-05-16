@@ -259,11 +259,16 @@ app.get("/reset",(req,res) =>{
   res.send("reseted");
 })
 function getalldata(){
-  const data = require("./data.json");
-  const userdata = require("./userdata.json");
+  let data = require("./data.json");
+  let userdata = require("./userdata.json");
   console.log(data)
   console.log(userdata)
-
+  if (typeof(data) == "string"){
+    data = JSON.parse(data)
+  }
+  if (typeof(userdata) == "string"){
+    data = JSON.parse(userdata)
+  }
   return {"data":data,"userdata":userdata};
 }
 
@@ -285,12 +290,12 @@ console.log(process.env.data)
 console.log(JSON.stringify(JSON.parse(process.env.data).data))
 console.log(JSON.stringify(JSON.parse(process.env.data).userdata))
 
-fs.writeFileSync(
+/*fs.writeFileSync(
   __dirname + "/data.json",JSON.stringify(JSON.parse(process.env.data).data))
 
 fs.writeFileSync(
 __dirname + "/userdata.json",JSON.stringify(JSON.parse(process.env.data).userdata))
-
+*/
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
