@@ -209,10 +209,10 @@ function filereset(){
   let userdata = {"usercount":8,"users":[{"id":0,"username":"zheyutest","password":"zheyutest"},{"id":1,"username":"usertest","password":"userpasstest"},{"id":2,"username":"oliver","password":"oliver"},{"id":3,"username":"zichang","password":"smallboy"},{"id":4,"username":"zichangus","password":"zichangus"},{"id":5,"username":"korei","password":"korei"},{"id":6,"username":"ewis","password":"ewis"},{"id":7,"username":"guoguo","password":"guoguo"}]}
   console.log(data)
 
-    fs.writeFileSync(
+    fs.writeFile(
       __dirname + "/data.json",JSON.stringify(data))
 
-    fs.writeFileSync(
+    fs.writeFile(
       __dirname + "/userdata.json",JSON.stringify(userdata))
 
 }
@@ -220,10 +220,7 @@ function filereset(){
 app.get("/reset",(req,res) =>{
   
   filereset()
-  filereset()
-  filereset()
-  filereset()
-  filereset()
+
 
   res.send(require("./data.json"));
   console.log("resettf")
