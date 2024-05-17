@@ -243,7 +243,7 @@ function removeuser(username){
 
   for(let i=0;i<userdata.users.length;i++){
     if(userdata.users[i].username == username){
-      userdata.splice(i,1)
+      userdata.users.splice(i,1)
       break
     }  
   }
