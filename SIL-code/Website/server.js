@@ -203,37 +203,8 @@ app.get("/cron",(req,res) =>{
 
 
 
-function filereset(){
-  console.log("bouta reset file,")
-  let data = {"chatscount":0,"chatids":[],"chats":[]}
-  let userdata = {"usercount":8,"users":[{"id":0,"username":"zheyutest","password":"zheyutest"},{"id":1,"username":"usertest","password":"userpasstest"},{"id":2,"username":"oliver","password":"oliver"},{"id":3,"username":"zichang","password":"smallboy"},{"id":4,"username":"zichangus","password":"zichangus"},{"id":5,"username":"korei","password":"korei"},{"id":6,"username":"ewis","password":"ewis"},{"id":7,"username":"guoguo","password":"guoguo"}]}
-  console.log(data)
-
-    fs.writeFile(
-      __dirname + "/data.json",JSON.stringify(data),function(err){
-        if(err){
-          console.log(err)
-        }
-      })
-
-    fs.writeFile(
-      __dirname + "/userdata.json",JSON.stringify(userdata),function(err){
-        if(err){
-          console.log(err)
-        }
-      })
-
-}
-
-app.get("/reset",(req,res) =>{
-  
-  filereset()
 
 
-  //res.send(require("./data.json"));
-  console.log("resettf")
-  console.log(require("./data.json"))
-})
 function getalldata(){
   let data = require("./data.json");
   let userdata = require("./userdata.json");
@@ -261,17 +232,13 @@ app.post("/getalldata",(req,res) =>{
   }
 })
 
-
-console.log(process.env.data)
-console.log(JSON.stringify(JSON.parse(process.env.data).data))
-console.log(JSON.stringify(JSON.parse(process.env.data).userdata))
-
+/*
 fs.writeFileSync(
   __dirname + "/data.json",JSON.stringify(JSON.parse(process.env.data).data))
 
 fs.writeFileSync(
 __dirname + "/userdata.json",JSON.stringify(JSON.parse(process.env.data).userdata))
-
+*/
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

@@ -377,12 +377,13 @@ function getdata() {
   fetch(apiUrl, requestOptions)
     .then((response) => {
       if (response.ok) {
+  
         return response.json();
       } else {
       }
     })
     .then((data) => {
-      if((data)==["accessfailed"]){
+      if((JSON.stringify(data))=='["accessfailed"]'){
         alert("you have been removed from the chat or account has been disabled: redirecting to chatlist");
         window.location.href = url+"/chatlist";
         return
