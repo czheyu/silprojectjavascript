@@ -101,8 +101,41 @@ async function getcycle(){
   }
 }
 
+async function checkLogin(){
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+  const apiUrl = url + "/api/login";
+  const data = {
+    username: username,
+    password: password,
+  };
+
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+  console.log("starting to fetch")
+  return await fetch(apiUrl, requestOptions)
+    .then((response) => {
+      console.log("fetched")
+      return response.json();
+    }).then((data)=>{
+      console.log("got data")
+      if(data.result=="success"){
+        localStorage.setItem("username",username);
+        localStorage.setItem("password",password);
+      }else if (data.result == "failed") {
+        window.location.href = url + "/chat/login";
+      }
+    })
+}
+
 
 window.onload = function () {
+  
   if (
     localStorage.getItem("loggedin") == null ||
     localStorage.getItem("password") == null ||
@@ -111,6 +144,9 @@ window.onload = function () {
     window.location.href = url + "/chat/login";
   }
   console.log("page loaded.");
+
+  checkLogin()
+
   
   var username = localStorage.getItem("username");
 
