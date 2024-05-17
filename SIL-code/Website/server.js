@@ -214,7 +214,7 @@ function getalldata(){
     data = JSON.parse(data)
   }
   if (typeof(userdata) == "string"){
-    data = JSON.parse(userdata)
+    userdata = JSON.parse(userdata)
   }
   return {"data":data,"userdata":userdata};
 }
@@ -233,54 +233,41 @@ app.post("/getalldata",(req,res) =>{
 })
 
 function getdata(){
-  const http = require("https");
   
   const url = 'https://czheyuchatapp.onrender.com/getalldata';
   
-  const options = {
-      method: 'POST',
-      'Content-Type': 'application/json',
-  };
+  
   
   const data = '{"id":"skibidiwafaunnafinafsanjiafsnjifjn123j5ni21Yb2bBg1bgb31hu"}';
   
-  let result = '';
-  const req = http.request(url, options, (res) => {
-      console.log(res.statusCode);
-      if(res.statusCode != 200){
-          app.listen(port, () => {
-  console.log(`Server is running on port ${port}(reset)`);
-});
-        return
-      }
-      res.setEncoding('utf8');
-      res.on('data', (chunk) => {
-          result += chunk;
-      });
-  
-      res.on('end', () => {
+
+const customHeaders = {
+    "Content-Type": "application/json",
+}
+console.log("post requesting:")
+fetch(url, {
+    method: "POST",
+    headers: customHeaders,
+    body: data,
+})
+    .then((response) => response.json())
+    .then((result) => {
         console.log("got data:")
-        console.log(result)
+      
         
         fs.writeFileSync(
           __dirname + "/data.json",JSON.stringify(JSON.parse(result).data))
   
         fs.writeFileSync(
         __dirname + "/userdata.json",JSON.stringify(JSON.parse(result).userdata))
-      });
+      
       app.listen(port, () => {
   console.log(`Server is running on port ${port}(restored)`);
+      })
 });
-  });
-  
-  req.on('error', (e) => {
-      console.error(e);
-  });
-  
-  req.write(data);
-  req.end();
 
-}
+
+
 getdata();
 
 
