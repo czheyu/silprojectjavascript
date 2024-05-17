@@ -11,14 +11,45 @@ function createchatfunct(){
   document.getElementById('chatnamebox').value = "";
 }
 
+function deleteacc(){
+  if(confirm("Are you sure you want to delete your account?")){
+    fetch(url + "/chat/deleteacc", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: localStorage.getItem("username"),
+        password: localStorage.getItem("password"),
+      }),
+    }).then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          localStorage.clear();
+          window.location.href = url + "/chat/login";
+        } else {
+          alert("Error: " + data.error);
+        }
+      });
+  }
+}
+
+
+function truncateString(str, maxLength) { 
+    if (str.length > maxLength) { 
+        return str.slice(0, maxLength - 3) + '...'; 
+    } 
+    return str; 
+} 
+
 function format(data){
   //data is in array of ids [{id:1,name:"hi"}] etc
   let formatted = "";
   for(let i=0;i<data.length;i++){
     if(data[i].lastmessage.username){
-      formatted += `<div class="m-1 p-0 mw-100 d-flex border border-outline-light"><button type="button" class="w-100 btn btn-outline-light rounded" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}</h2>${data[i].lastmessage.username}: <strong>${data[i].lastmessage.value}</strong></div></button></div>`
+      formatted += `<div class="m-1 p-0 mw-100 d-flex border border-outline-light"><button type="button" class="w-100 btn btn-outline-light rounded" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}</h2>${data[i].lastmessage.username}: <strong>${truncateString(data[i].lastmessage.value,50)}</strong></div></button></div>`
     } else {
-      formatted += `<div class="m-1 p-0 mw-100 d-flex border border-outline-light"><button type="button" class="w-100 btn btn-outline-light rounded" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}</h2><strong>${data[i].lastmessage.value}</strong></div></button></div>`
+      formatted += `<div class="m-1 p-0 mw-100 d-flex border border-outline-light"><button type="button" class="w-100 btn btn-outline-light rounded" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}</h2><strong>${truncateString(data[i].lastmessage.value,50)}</strong></div></button></div>`
     }
   }
   return formatted

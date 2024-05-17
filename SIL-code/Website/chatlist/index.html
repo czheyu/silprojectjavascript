@@ -46,28 +46,52 @@
     </div>
 
     <!-- end of interactive modal-->
+    
+    <!-- start of interactive deleteacc modal-->
 
+    <div class="modal fade" id="deleteacc" tabindex="-1" >
+      <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+          <div class="modal-header bg-dark">
+            <h1 class="modal-title fs-5 text-light" id="Title">Create Chat</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="mb-3">
+                <p class="text-light">Click confirm to delete account <br> This action will delete all chats with no users left.</p>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <p class="text-danger">action is permanent</p>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="deleteacc()">confirm</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- end of interactive modal-->
     
     <div class="sticky-top container-fluid m-0 p-0 d-flex flex-row-reverse">
-      <div class="input-group mb-3 bg-dark p-2 d-flex justify-content-start border border-secondary-subtle rounded border-1">
-
+      <div class="justify-content-between input-group mb-3 bg-dark p-2 d-flex justify-content-start border border-secondary-subtle rounded border-1">
+        <div class="d-inline-flex">
         <p id="chatnamedisplay" class="m-1 p-1 fw-light text-white"><strong>ChatList</strong></p>
 
-        <p id="logindisplay" class="m-1 p-1 fw-light text-white">Logged in as user</p>
-
-        <button
-          class="btn m-1 p-1 btn-outline-light rounded"
-          type="button"
-          id="logoutbutton"
-        >
+        <p id="logindisplay" class="m-1 p-1 fw-light text-white">Logged in as <strong>zheyutest</strong></p>
+        </div><div>
+        <button class="btn m-1 p-1 btn-outline-light rounded" type="button" id="logoutbutton">
           logout
         </button>
+        <button class="btn m-1 p-1 btn-outline-danger
+            rounded" type="button" id="deleteaccountbutton">
+          delete account
+        </button></div>
 
 
 
 
-
-      </div>
+      </div>      
     </div>
     
     <div class="container-fluid bg-dark" id="chatlist">

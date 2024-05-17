@@ -196,6 +196,17 @@ app.post("/api/deletechat",(req,res) =>{
 
 });
 
+
+
+app.get("/api/removeuser",(req,res) =>{
+  if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"){
+    res.send(removeuser(req.body.username))
+  }else{
+    res.send("whatthesigma")
+  }
+});
+
+
 //for cronjob:
 app.get("/cron",(req,res) =>{
   res.send("cronjobed");
@@ -203,21 +214,6 @@ app.get("/cron",(req,res) =>{
 
 
 
-
-
-function getalldata(){
-  let data = require("./data.json");
-  let userdata = require("./userdata.json");
-  console.log(data)
-  console.log(userdata)
-  if (typeof(data) == "string"){
-    data = JSON.parse(data)
-  }
-  if (typeof(userdata) == "string"){
-    userdata = JSON.parse(userdata)
-  }
-  return {"data":data,"userdata":userdata};
-}
 
 app.post("/getalldata",(req,res) =>{
   console.log("alldata atempted")
@@ -232,14 +228,48 @@ app.post("/getalldata",(req,res) =>{
   }
 })
 
+
+
+////////////////////---------------------------------
+/////////////////
+getdata();
+/////////////////
+////////////////////---------------------------------
+
+
+function removeuser(username){
+  let userdata = require('./userdata.json')
+  let data = require('./data.json')
+
+  for(let i=0;i<userdata.users.length;i++){
+    if(userdata.users[i].username == username){
+      userdata.splice(i,1)
+      break
+    }  
+  }
+
+  for(let i=0;i<data.chats.length;i++){
+    if (data.chats[i].users.includes(username)){
+      data.chats[i].users.splice(data.chats[i].users.indexOf(username),1)
+      if(data.chats[i].users.length == 0){
+        data.chats.splice(i,1)
+      }
+    }
+  }
+
+  fs.writeFileSync('./userdata.json', JSON.stringify(userdata, null, 2));
+  fs.writeFileSync('./data.json', JSON.stringify(data, null, 2));
+  return '{"success":true}'
+}
+
 function getdata(){
-  
+
   const url = 'https://czheyuchatapp.onrender.com/getalldata';
-  
-  
-  
+
+
+
   const data = '{"id":"skibidiwafaunnafinafsanjiafsnjifjn123j5ni21Yb2bBg1bgb31hu"}';
-  
+
 
 const customHeaders = {
     "Content-Type": "application/json",
@@ -253,25 +283,33 @@ fetch(url, {
     .then((response) => response.json())
     .then((result) => {
         console.log("got data:")
-      
-        
+
+
         fs.writeFileSync(
-          __dirname + "/data.json",JSON.stringify(result.data))
-  
+          __dirname + "/data.json",JSON.stringify(result.data), null, 2)
+
         fs.writeFileSync(
-        __dirname + "/userdata.json",JSON.stringify(result.userdata))
-      
+        __dirname + "/userdata.json",JSON.stringify(result.userdata), null, 2)
+
       app.listen(port, () => {
   console.log(`Server is running on port ${port}(restored)`);
       })
     })
 }
 
-
-
-getdata();
-
-
+function getalldata(){
+  let data = require("./data.json");
+  let userdata = require("./userdata.json");
+  console.log(data)
+  console.log(userdata)
+  if (typeof(data) == "string"){
+    data = JSON.parse(data)
+  }
+  if (typeof(userdata) == "string"){
+    userdata = JSON.parse(userdata)
+  }
+  return {"data":data,"userdata":userdata};
+}
 
 function generatechatid(listofcurrentids){
   //8 digit- meaning ~1bil ids
@@ -294,7 +332,7 @@ function deletechat(chatid,username){
       data.chatids.splice(data.chatids.indexOf(chatid),1);
       data.chats.splice(i,1);
       data.chatscount -= 1;
-      fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
+      fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data, null, 2));
       return JSON.stringify({result: "success"})
     }
   }
@@ -321,7 +359,7 @@ function removefromchat(id,usernametoremove,username){
         data.chats[i].countaccess += 1;
 
         data.chats[i].data.push(alert);
-        fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
+        fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data, null, 2));
         console.log(`${username}removed ${usernametoremove} from chat: ${data.chats[i].name} (id:${data.chats[i].id})`);
       }
     }
@@ -346,7 +384,7 @@ function createchat(user, chatname) {
   entiredata.chatscount += 1;
 
   entiredata.chats.push(data);
-  fs.writeFileSync(__dirname+"/data.json", JSON.stringify(entiredata));
+  fs.writeFileSync(__dirname+"/data.json", JSON.stringify(entiredata, null, 2));
   return JSON.stringify({result: "success"});
 }
 
@@ -371,7 +409,7 @@ function invitetochat(chatid, usernametoinvite,user) {
 
       data.chats[i].data.push(alert);
       
-      fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data));
+      fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data, null, 2));
       console.log(`${user} added ${usernametoinvite} from chat: ${data.chats[i].name} (id:${data.chats[i].id})`);
     }
   }
@@ -404,7 +442,7 @@ function pushdatatochatbychatid(index, data, chatid) {
   const entiredata = require("./data.json");
   entiredata.chats[index] = data;
   //console.log("pushdatatochatbychatid: "+JSON.stringify(data))
-  fs.writeFileSync(__dirname + "/data.json", JSON.stringify(entiredata));
+  fs.writeFileSync(__dirname + "/data.json", JSON.stringify(entiredata, null, 2));
   return;
 }
 
@@ -499,7 +537,7 @@ function checkregis(pass, user) {
   jsonuserdata.usercount++;
   fs.writeFile(
     path.join(__dirname, "/userdata.json"),
-    JSON.stringify(jsonuserdata),
+    JSON.stringify(jsonuserdata, null, 2),
     (err) => {
       // Checking for errors
       if (err) throw err;
