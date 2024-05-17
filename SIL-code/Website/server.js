@@ -216,15 +216,15 @@ app.get("/cron",(req,res) =>{
 
 
 app.post("/getalldata",(req,res) =>{
-  console.log("alldata atempted")
-  console.log(req.body.id)
-  console.log(process.env.id)
+  //console.log("alldata atempted")
+  //console.log(req.body.id)
+  //console.log(process.env.id)
   if(req.body.id==process.env.id){
-    console.log("id is correct")
+    //console.log("id is correct")
     let getalldataresult = getalldata();
     res.send(getalldataresult);
-    console.log("alldata sent")
-    console.log(getalldataresult)
+    //console.log("alldata sent")
+    //console.log(getalldataresult)
   }
 })
 
@@ -259,6 +259,7 @@ function removeuser(username){
 
   fs.writeFileSync('./userdata.json', JSON.stringify(userdata, null, 2));
   fs.writeFileSync('./data.json', JSON.stringify(data, null, 2));
+  console.log(`%c User ${username}'s account has been deleted`, 'color: #de2f2f')
   return '{"success":true}'
 }
 
@@ -274,7 +275,7 @@ function getdata(){
 const customHeaders = {
     "Content-Type": "application/json",
 }
-console.log("post requesting:")
+console.log("post requesting.")
 fetch(url, {
     method: "POST",
     headers: customHeaders,
@@ -282,7 +283,7 @@ fetch(url, {
 })
     .then((response) => response.json())
     .then((result) => {
-        console.log("got data:")
+        console.log("%c got data.",'color:#19fc2c')
 
 
         fs.writeFileSync(
@@ -300,8 +301,8 @@ fetch(url, {
 function getalldata(){
   let data = require("./data.json");
   let userdata = require("./userdata.json");
-  console.log(data)
-  console.log(userdata)
+  //console.log(data)
+  //console.log(userdata)
   if (typeof(data) == "string"){
     data = JSON.parse(data)
   }
@@ -360,7 +361,7 @@ function removefromchat(id,usernametoremove,username){
 
         data.chats[i].data.push(alert);
         fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data, null, 2));
-        console.log(`${username}removed ${usernametoremove} from chat: ${data.chats[i].name} (id:${data.chats[i].id})`);
+        console.log(`${username} removed ${usernametoremove} from chat: ${data.chats[i].name} (id:${data.chats[i].id})`);
       }
     }
   return getusersinchat(id,username);
