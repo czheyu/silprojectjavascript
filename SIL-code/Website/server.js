@@ -232,7 +232,7 @@ app.post("/getalldata",(req,res) =>{
   }
 })
 
-async function getdata(){
+function getdata(){
   const http = require("https");
   
   const url = 'https://czheyuchatapp.onrender.com/getalldata';
@@ -245,9 +245,12 @@ async function getdata(){
   const data = '{"id":"skibidiwafaunnafinafsanjiafsnjifjn123j5ni21Yb2bBg1bgb31hu"}';
   
   let result = '';
-  const req = await http.request(url, options, (res) => {
+  const req = http.request(url, options, (res) => {
       console.log(res.statusCode);
       if(res.statusCode != 200){
+          app.listen(port, () => {
+  console.log(`Server is running on port ${port}(reset)`);
+});
         return
       }
       res.setEncoding('utf8');
@@ -265,6 +268,9 @@ async function getdata(){
         fs.writeFileSync(
         __dirname + "/userdata.json",JSON.stringify(JSON.parse(result).userdata))
       });
+      app.listen(port, () => {
+  console.log(`Server is running on port ${port}(restored)`);
+});
   });
   
   req.on('error', (e) => {
@@ -273,9 +279,7 @@ async function getdata(){
   
   req.write(data);
   req.end();
-  app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+
 }
 getdata();
 
