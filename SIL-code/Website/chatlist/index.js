@@ -13,7 +13,7 @@ function createchatfunct(){
 
 function deleteacc(){
   if(confirm("Are you sure you want to delete your account?")){
-    fetch(url + "/api/removeuser {
+    fetch(url + "/api/removeuser",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
