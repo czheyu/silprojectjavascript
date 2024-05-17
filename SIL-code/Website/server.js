@@ -232,7 +232,7 @@ app.post("/getalldata",(req,res) =>{
   }
 })
 
-function getdata(){
+async function getdata(){
   const http = require("https");
   
   const url = 'https://czheyuchatapp.onrender.com/getalldata';
@@ -245,7 +245,7 @@ function getdata(){
   const data = '{"id":"skibidiwafaunnafinafsanjiafsnjifjn123j5ni21Yb2bBg1bgb31hu"}';
   
   let result = '';
-  const req = http.request(url, options, (res) => {
+  const req = await http.request(url, options, (res) => {
       console.log(res.statusCode);
       if(res.statusCode != 200){
         return
@@ -273,11 +273,12 @@ function getdata(){
   
   req.write(data);
   req.end();
-}
-getdata();
-app.listen(port, () => {
+  app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+}
+getdata();
+
 
 
 function generatechatid(listofcurrentids){
