@@ -198,7 +198,7 @@ app.post("/api/deletechat",(req,res) =>{
 
 
 
-app.get("/api/removeuser",(req,res) =>{
+app.post("/api/removeuser",(req,res) =>{
   if(JSON.parse(checkuser(req.body.password,req.body.username)).result == "success"){
     res.send(removeuser(req.body.username))
   }else{
