@@ -909,6 +909,8 @@ async function setEvents(){
     sendinput.focus();
     } else if(event.key === "\\"&&!hasFocus(sendinput)){
       showdateunhover = !showdateunhover;
+      const showdateunhoverbutton = document.getElementById("showdateunhoverbutton");
+      if(showdateunhover){showdateunhoverbutton.innerHTML = 'Disable Simple Date Display'}else{showdateunhoverbutton.innerHTML = 'Enable Simple Date Display'}; 
       let formatted = format(lastgetdata);
       const chatContainer = document.getElementById("chat-container");
       chatContainer.innerHTML = formatted;

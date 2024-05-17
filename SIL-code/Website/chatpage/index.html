@@ -6,11 +6,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
+
       .container {
         height: 100%;
         width: 100%;
       }
       .modal-backdrop { z-index: -1; }
+      #message.form-control::placeholder {
+        color: white;
+      }
     </style>
   <script src="https://czheyuchatapp.onrender.com/chatapp/CHATIDREPLACE/index.js"></script>
     <script>
@@ -133,9 +137,10 @@
                 <button
                   class="btn m-1 p-1 btn-outline-light rounded"
                   type="button"
+                  id="showdateunhoverbutton"
                   onclick="showdateunhover = !showdateunhover;if(showdateunhover){this.innerHTML = 'Disable Simple Date Display'}else{this.innerHTML = 'Enable Simple Date Display'}; updateChat(lastgetdata);"
                 >
-                  enable show simple date
+                  Enable Simple Date Display
                 </button>
               </div>
           </div>
@@ -201,23 +206,22 @@
               </button>          
           </div>
           <div class="input-group m-2">
-            <input
-               autocomplete="false" 
-              type="text"
-              class="form-control "
-              id="message"
-              placeholder="message"
-            />
+          <input 
+            autocomplete="off" 
+            type="text"
+            class="form-control bg-dark text-light" 
+            id="message"
+            placeholder="message"
+          >
 
-            <button
-              class="btn btn-outline-light"
-              type="button"
-              id="sendbutton"
+          <button 
+            class="btn btn-outline-light" 
+            type="button"
+            id="sendbutton"
             >
-              send
-            </button>
-   
-          </div>
+            send
+          </button>
+
         </div>
       </div>
     </div>
