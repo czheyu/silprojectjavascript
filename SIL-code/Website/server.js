@@ -232,47 +232,47 @@ app.post("/getalldata",(req,res) =>{
   }
 })
 
-
-const http = require("https");
-
-const url = 'https://czheyuchatapp.onrender.com/getalldata';
-
-const options = {
-    method: 'POST',
-    'Content-Type': 'application/json',
-};
-
-const data = '{"id":"skibidiwafaunnafinafsanjiafsnjifjn123j5ni21Yb2bBg1bgb31hu"}';
-
-let result = '';
-const req = http.request(url, options, (res) => {
-    console.log(res.statusCode);
-
-    res.setEncoding('utf8');
-    res.on('data', (chunk) => {
-        result += chunk;
-    });
-
-    res.on('end', () => {
-      console.log("got data:")
-      console.log(result)
-
-      fs.writeFileSync(
-        __dirname + "/data.json",JSON.stringify(JSON.parse(result).data))
-
-      fs.writeFileSync(
-      __dirname + "/userdata.json",JSON.stringify(JSON.parse(result).userdata))
-    });
-});
-
-req.on('error', (e) => {
-    console.error(e);
-});
-
-req.write(data);
-req.end();
-
-
+  function getdata(){
+  const http = require("https");
+  
+  const url = 'https://czheyuchatapp.onrender.com/getalldata';
+  
+  const options = {
+      method: 'POST',
+      'Content-Type': 'application/json',
+  };
+  
+  const data = '{"id":"skibidiwafaunnafinafsanjiafsnjifjn123j5ni21Yb2bBg1bgb31hu"}';
+  
+  let result = '';
+  const req = http.request(url, options, (res) => {
+      console.log(res.statusCode);
+  
+      res.setEncoding('utf8');
+      res.on('data', (chunk) => {
+          result += chunk;
+      });
+  
+      res.on('end', () => {
+        console.log("got data:")
+        console.log(result)
+  
+        fs.writeFileSync(
+          __dirname + "/data.json",JSON.stringify(JSON.parse(result).data))
+  
+        fs.writeFileSync(
+        __dirname + "/userdata.json",JSON.stringify(JSON.parse(result).userdata))
+      });
+  });
+  
+  req.on('error', (e) => {
+      console.error(e);
+  });
+  
+  req.write(data);
+  req.end();
+}
+getdata();
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
