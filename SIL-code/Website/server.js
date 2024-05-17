@@ -232,7 +232,7 @@ app.post("/getalldata",(req,res) =>{
   }
 })
 
-  function getdata(){
+function getdata(){
   const http = require("https");
   
   const url = 'https://czheyuchatapp.onrender.com/getalldata';
@@ -247,7 +247,9 @@ app.post("/getalldata",(req,res) =>{
   let result = '';
   const req = http.request(url, options, (res) => {
       console.log(res.statusCode);
-  
+      if(res.statusCode != 200){
+        return
+      }
       res.setEncoding('utf8');
       res.on('data', (chunk) => {
           result += chunk;
@@ -256,7 +258,7 @@ app.post("/getalldata",(req,res) =>{
       res.on('end', () => {
         console.log("got data:")
         console.log(result)
-  
+        
         fs.writeFileSync(
           __dirname + "/data.json",JSON.stringify(JSON.parse(result).data))
   
