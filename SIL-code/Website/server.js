@@ -256,10 +256,10 @@ fetch(url, {
       
         
         fs.writeFileSync(
-          __dirname + "/data.json",JSON.stringify(JSON.parse(result).data))
+          __dirname + "/data.json",JSON.stringify(result.data))
   
         fs.writeFileSync(
-        __dirname + "/userdata.json",JSON.stringify(JSON.parse(result).userdata))
+        __dirname + "/userdata.json",JSON.stringify(result.userdata))
       
       app.listen(port, () => {
   console.log(`Server is running on port ${port}(restored)`);
