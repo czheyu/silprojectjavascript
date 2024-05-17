@@ -233,12 +233,12 @@ app.post("/getalldata",(req,res) =>{
 })
 
 
-fs.writeFileSync(
+/*fs.writeFileSync(
   __dirname + "/data.json",JSON.stringify(JSON.parse(process.env.data).data))
 
 fs.writeFileSync(
 __dirname + "/userdata.json",JSON.stringify(JSON.parse(process.env.data).userdata))
-
+*/
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
