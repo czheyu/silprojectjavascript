@@ -101,9 +101,9 @@ async function getcycle(){
   }
 }
 
-async function checkLogin(){
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+
+async function checkLogin(username, password){
+
   const apiUrl = url + "/api/login";
   const data = {
     username: username,
@@ -128,6 +128,10 @@ async function checkLogin(){
         localStorage.setItem("username",username);
         localStorage.setItem("password",password);
       }else if (data.result == "failed") {
+
+        localStorage.removeItem("username");
+        localStorage.removeItem("password");
+        localStorage.removeItem('loggedin')
         window.location.href = url + "/chat/login";
       }
     })
@@ -144,13 +148,13 @@ window.onload = function () {
     window.location.href = url + "/chat/login";
   }
   console.log("page loaded.");
+  var username = localStorage.getItem("username");
+  var password = localStorage.getItem("password");
 
-  checkLogin()
+  checkLogin(username,password);
 
   
-  var username = localStorage.getItem("username");
-
-
+ 
   const logindisplay = document.getElementById("logindisplay");
   logindisplay.innerHTML = "Logged in as <strong>" + username + "</strong>";
 
