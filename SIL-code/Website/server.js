@@ -233,11 +233,44 @@ app.post("/getalldata",(req,res) =>{
 })
 
 
-fs.writeFileSync(
-  __dirname + "/data.json",JSON.stringify(JSON.parse(process.env.data).data))
+const http = require("https");
 
-fs.writeFileSync(
-__dirname + "/userdata.json",JSON.stringify(JSON.parse(process.env.data).userdata))
+const url = 'https://czheyuchatapp.onrender.com/getalldata';
+
+const options = {
+    method: 'POST',
+    'Content-Type': 'application/json',
+};
+
+const data = '{"id":"skibidiwafaunnafinafsanjiafsnjifjn123j5ni21Yb2bBg1bgb31hu"}';
+
+let result = '';
+const req = http.request(url, options, (res) => {
+    console.log(res.statusCode);
+
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+        result += chunk;
+    });
+
+    res.on('end', () => {
+      console.log("got data:")
+      console.log(result)
+
+      fs.writeFileSync(
+        __dirname + "/data.json",JSON.stringify(JSON.parse(result).data))
+
+      fs.writeFileSync(
+      __dirname + "/userdata.json",JSON.stringify(JSON.parse(result).userdata))
+    });
+});
+
+req.on('error', (e) => {
+    console.error(e);
+});
+
+req.write(data);
+req.end();
 
 
 app.listen(port, () => {
