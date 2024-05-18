@@ -259,7 +259,7 @@ function removeuser(username){
 
   fs.writeFileSync('./userdata.json', JSON.stringify(userdata, null, 2));
   fs.writeFileSync('./data.json', JSON.stringify(data, null, 2));
-  console.log(`%c User ${username}'s account has been deleted`, 'color: #de2f2f')
+  console.log(`%cUser ${username}'s account has been deleted`, 'color: #de2f2f')
   return '{"success":true}'
 }
 
