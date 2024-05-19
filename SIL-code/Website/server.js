@@ -234,6 +234,10 @@ app.post("/getalldata",(req,res) =>{
 /////////////////
 if(process.env.getdata=="true"){
   getdata();
+}else{
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}(restart)`);
+        })
 }
 /////////////////
 ////////////////////---------------------------------
