@@ -531,7 +531,7 @@ function checkuser(pass, user) {
 }
 
 function checkregis(pass, user) {
-  if (user == "select user") {
+  if (user == "select user"||user.length>30) {
     return '{"result":"username taken"}';
   }
   let jsonuserdata = require("./userdata.json");
@@ -559,7 +559,8 @@ function checkregis(pass, user) {
       // Success
     },
   );
-  return '{"result":"success"}';
+  console.log(`|NOTICE|%cUser ${username}'s account has been created`, 'color: #de2f2f')
+    return '{"result":"success"}';
 }
 
 
