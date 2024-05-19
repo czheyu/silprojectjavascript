@@ -209,6 +209,7 @@ app.post("/api/removeuser",(req,res) =>{
 
 //for cronjob:
 app.get("/cron",(req,res) =>{
+  console.log("/cron called, status 200 sent.")
   res.sendStatus(200);
 });
 
