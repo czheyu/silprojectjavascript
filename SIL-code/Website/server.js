@@ -6,6 +6,7 @@ const port = process.env.PORT || 3001;
 const path = require("path");
 app.use(express.json());
 
+var healthchecks = [];
 var url = "https://czheyuchatapp.onrender.com";
 //url = "https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 
@@ -209,13 +210,15 @@ app.post("/api/removeuser",(req,res) =>{
 
 //for cronjob:
 app.get("/cron",(req,res) =>{
-  console.log("/cron called, status 200 sent.")
+  console.log("/cron called, status 200 sent.\nLast heathcheck: "+healthchecks[healthchecks.length-1])
+  console.log("Number of healthchecks: "+healthchecks.length)
   res.sendStatus(200);
 });
 
 //for healthcheck:
 app.get("/healthcheck",(req,res) =>{
-  console.log("/healthcheck called, status 200 sent.")
+  healthchecks.push({"time":new Date().getTime(),"status":200})
+  //console.log("/healthcheck called, status 200 sent.")
   res.sendStatus(200);
 });
 
