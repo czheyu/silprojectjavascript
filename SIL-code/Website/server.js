@@ -213,7 +213,11 @@ app.get("/cron",(req,res) =>{
   res.sendStatus(200);
 });
 
-
+//for healthcheck:
+app.get("/healthcheck",(req,res) =>{
+  console.log("/healthcheck called, status 200 sent.")
+  res.sendStatus(200);
+});
 
 
 app.post("/getalldata",(req,res) =>{
