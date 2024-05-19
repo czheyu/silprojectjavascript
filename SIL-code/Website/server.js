@@ -209,7 +209,7 @@ app.post("/api/removeuser",(req,res) =>{
 
 //for cronjob:
 app.get("/cron",(req,res) =>{
-  res.send("cronjobed");
+  res.sendStatus(200);
 });
 
 
