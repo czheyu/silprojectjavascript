@@ -272,7 +272,7 @@ function removeuser(username){
 
   fs.writeFileSync('./userdata.json', JSON.stringify(userdata, null, 2));
   fs.writeFileSync('./data.json', JSON.stringify(data, null, 2));
-  console.log(`|INFO|%cUser ${username}'s account has been deleted`, 'color: #de2f2f')
+  console.log(`|NOTICE|%cUser ${username}'s account has been deleted`, 'color: #de2f2f')
   return '{"success":true}'
 }
 
@@ -342,7 +342,7 @@ function deletechat(chatid,username){
   let data = require('./data.json');
   for(let i = 0; i<data.chats.length; i++){
     if(data.chats[i].id == chatid){
-      console.log("|INFO| "+username+" deleted chat: "+data.chats[i].name+"(id:"+data.chats[i].id+")");
+      console.log("|NOTICE| "+username+" deleted chat: "+data.chats[i].name+"(id:"+data.chats[i].id+")");
       data.chatids.splice(data.chatids.indexOf(chatid),1);
       data.chats.splice(i,1);
       data.chatscount -= 1;
@@ -374,7 +374,7 @@ function removefromchat(id,usernametoremove,username){
 
         data.chats[i].data.push(alert);
         fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data, null, 2));
-        console.log(`|INFO| ${username} removed ${usernametoremove} from chat: ${data.chats[i].name} (id:${data.chats[i].id})`);
+        console.log(`|NOTICE| ${username} removed ${usernametoremove} from chat: ${data.chats[i].name} (id:${data.chats[i].id})`);
       }
     }
   return getusersinchat(id,username);
@@ -392,7 +392,7 @@ function createchat(user, chatname) {
     settings:{},
     data: [{"id":0,"username":"","type":"alert","value":`Chat Created by ${user}`,"date":new Date().toISOString(),"replying":false,"replyingtoID":null}],
   };
-  console.log("|INFO| created chat: "+chatname+"(id:"+chatid+")");
+  console.log("|NOTICE| created chat: "+chatname+"(id:"+chatid+")");
 
   entiredata.chatids.push(chatid);
   entiredata.chatscount += 1;
@@ -424,7 +424,7 @@ function invitetochat(chatid, usernametoinvite,user) {
       data.chats[i].data.push(alert);
       
       fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data, null, 2));
-      console.log(`|INFO| ${user} added ${usernametoinvite} to chat: ${data.chats[i].name} (id:${data.chats[i].id})`);
+      console.log(`|NOTICE| ${user} added ${usernametoinvite} to chat: ${data.chats[i].name} (id:${data.chats[i].id})`);
     }
   }
   return getusersinchat(chatid,user);
