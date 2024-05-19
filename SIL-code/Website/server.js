@@ -210,7 +210,7 @@ app.post("/api/removeuser",(req,res) =>{
 
 //for cronjob:
 app.get("/cron",(req,res) =>{
-  console.log("|ALERT| /cron called, status 200 sent. Last heathcheck: "+JSON.stringify(healthchecks[healthchecks.length-1],null,2)+"Number of healthchecks: "+healthchecks.length)
+  console.log("|ALERT| /cron called, status 200 sent. Last heathcheck: "+JSON.stringify(healthchecks[healthchecks.length-1],null)+"Number of healthchecks: "+healthchecks.length)
   res.sendStatus(200);
 });
 
