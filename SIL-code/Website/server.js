@@ -210,6 +210,7 @@ app.post("/api/removeuser",(req,res) =>{
 
 //for cronjob:
 app.get("/cron",(req,res) =>{
+  savedata()
   console.log("|ALERT| /cron called, status 200 sent. Last heathcheck: "+JSON.stringify(healthchecks[healthchecks.length-1],null)+"Number of healthchecks: "+healthchecks.length)
   res.sendStatus(200);
 });
@@ -221,7 +222,7 @@ app.get("/healthcheck",(req,res) =>{
   res.sendStatus(200);
 });
 
-
+/*
 app.post("/getalldata",(req,res) =>{
   //console.log("alldata atempted")
   //console.log(req.body.id)
@@ -234,7 +235,7 @@ app.post("/getalldata",(req,res) =>{
     //console.log(getalldataresult)
   }
 })
-
+*/
 
 
 ////////////////////---------------------------------
@@ -249,6 +250,25 @@ if(process.env.getdata=="true"){
 /////////////////
 ////////////////////---------------------------------
 
+function savedata(){
+  const url = process.env.DB
+  const data = {
+    data:require("./data.json"),
+    userdata:require("./userdata.json"),
+  }
+  // Post request using fetch API
+  fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({data:JSON.stringify(data)}),
+      })
+      .catch(error => {
+          // Handle any errors that occur during the fetch
+          console.error('Error:', error);
+      });
+}
 
 function removeuser(username){
   let userdata = require('./userdata.json')
@@ -278,52 +298,36 @@ function removeuser(username){
 
 function getdata(){
 
-  const url = 'https://czheyuchatapp.onrender.com/getalldata';
-
-
-
-  const data = '{"id":"skibidiwafaunnafinafsanjiafsnjifjn123j5ni21Yb2bBg1bgb31hu"}';
-
-
-const customHeaders = {
-    "Content-Type": "application/json",
-}
-console.log("|ALERT| post requesting.")
-fetch(url, {
-    method: "POST",
-    headers: customHeaders,
-    body: data,
-})
-    .then((response) => response.json())
-    .then((result) => {
+  // Get request using fetch API
+  fetch(process.env.DB)
+      .then(response => response.json())
+      .then(data => {
         console.log("|ALERT| %c got data.",'color:#19fc2c')
 
-
+          // Handle the data from the response
+        let parseddata = JSON.parse(data.data)
+        let chatdata = parseddata.data
+        let userdata = parseddata.userdata
         fs.writeFileSync(
-          __dirname + "/data.json",JSON.stringify(result.data), null, 2)
-
+          __dirname + "/data.json",JSON.stringify(chatdata), null, 2)
         fs.writeFileSync(
-        __dirname + "/userdata.json",JSON.stringify(result.userdata), null, 2)
-
-      app.listen(port, () => {
-  console.log(`|ALERT| Server is running on port ${port}(restored)`);
+          __dirname + "/userdata.json",JSON.stringify(userdata), null, 2)
+        
+        app.listen(port, () => {
+          console.log(`|ALERT| Server is running on port ${port}(restored)`)
+              })    
       })
-    })
+      .catch(error => {
+          // Handle any errors that occur during the fetch
+          console.error('Error:', error);
+          console.log('error in getting data :'+error)
+          app.listen(port, () => {
+            console.log(`|ALERT| Server is running on port (errors)`)
+          })
+      });
+  
 }
 
-function getalldata(){
-  let data = require("./data.json");
-  let userdata = require("./userdata.json");
-  //console.log(data)
-  //console.log(userdata)
-  if (typeof(data) == "string"){
-    data = JSON.parse(data)
-  }
-  if (typeof(userdata) == "string"){
-    userdata = JSON.parse(userdata)
-  }
-  return {"data":data,"userdata":userdata};
-}
 
 function generatechatid(listofcurrentids){
   //8 digit- meaning ~1bil ids
