@@ -7,6 +7,7 @@ const path = require("path");
 app.use(express.json());
 
 var healthchecks = [];
+var time_cron = new Date().getTime()
 var url = "https://czheyuchatapp.onrender.com";
 //url = "https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 
@@ -213,6 +214,7 @@ app.get("/cron",(req,res) =>{
   savedata()
   console.log("|ALERT| /cron called, status 200 sent. Last heathcheck: "+JSON.stringify(healthchecks[healthchecks.length-1],null)+"Number of healthchecks: "+healthchecks.length)
   res.sendStatus(200);
+  time_cron = new Date().getTime()
 });
 
 //for healthcheck:
@@ -221,6 +223,13 @@ app.get("/healthcheck",(req,res) =>{
   //console.log("/healthcheck called, status 200 sent.")
   res.sendStatus(200);
 });
+
+app.get("/rollback",(req,res)=>{
+  getdata()
+  console.log("rolledback")
+  res.sendStatus(200);
+  res.send(`rolledback to last saved data( ${((new Date().getTime()-time_cron)/1000)} seconds ago / ${((new Date().getTime()-time_cron)/1000/60)} minutes ago)`)
+})
 
 /*
 app.post("/getalldata",(req,res) =>{
