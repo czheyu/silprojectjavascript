@@ -5,6 +5,7 @@ const port = process.env.PORT || 3001;
 
 const path = require("path");
 app.use(express.json());
+var listening = false
 
 var healthchecks = [];
 var time_cron = new Date().getTime()
@@ -227,7 +228,6 @@ app.get("/healthcheck",(req,res) =>{
 app.get("/rollback",(req,res)=>{
   getdata()
   console.log("rolledback")
-  res.sendStatus(200);
   res.send(`rolledback to last saved data( ${((new Date().getTime()-time_cron)/1000)} seconds ago / ${((new Date().getTime()-time_cron)/1000/60)} minutes ago)`)
 })
 
@@ -254,7 +254,9 @@ if(process.env.getdata=="true"){
 }else{
   app.listen(port, () => {
     console.log(`|ALERT| Server is running on port ${port}(restart)`);
-        })
+        listening = true
+
+  })
 }
 /////////////////
 ////////////////////---------------------------------
@@ -321,18 +323,26 @@ function getdata(){
           __dirname + "/data.json",JSON.stringify(chatdata), null, 2)
         fs.writeFileSync(
           __dirname + "/userdata.json",JSON.stringify(userdata), null, 2)
-        
-        app.listen(port, () => {
-          console.log(`|ALERT| Server is running on port ${port}(restored)`)
-              })    
+        if(!listening){
+          app.listen(port, () => {
+            console.log(`|ALERT| Server is running on port ${port}(restored)`)
+                listening = true
+
+          })    
+        }
       })
       .catch(error => {
           // Handle any errors that occur during the fetch
           console.error('Error:', error);
           console.log('error in getting data :'+error)
+        if(!listening){
+
           app.listen(port, () => {
             console.log(`|ALERT| Server is running on port (errors)`)
+            listening = true
           })
+          
+        }
       });
   
 }
