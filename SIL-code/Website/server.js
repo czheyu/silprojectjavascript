@@ -582,7 +582,7 @@ function checkregis(pass, user) {
       // Success
     },
   );
-  console.log(`|NOTICE|%cUser ${username}'s account has been created`, 'color: #de2f2f')
+  console.log(`|NOTICE|%cUser ${user}'s account has been created`, 'color: #de2f2f')
     return '{"result":"success"}';
 }
 
