@@ -541,7 +541,7 @@ function format(data) {
                 `<div class="d-flex m-1 p-0"><div class="text-wrap d-inline-flex m-0 p-1 rounded bg-primary text-white mw-100"><p class="text-light m-0 p-0 fs-6 text-break">` +
                 data.data[i].value +
                 `</p></div></div>`+
-            `'data-bs-toggle="modal" data-bs-target="#confirmdelete" class="btn m-0 p-0 btn-outline-danger" type="button">delete</button><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
+            `' data-bs-toggle="modal" data-bs-target="#confirmdelete" class="btn m-0 p-0 btn-outline-danger" type="button">delete</button><p class="text-light" style="display: flex;">${datewhennothover}</p><p class="text-light" style="display: none;">${datewhenhover}</p></div>\n`;
           
       }else{
           formated +=
