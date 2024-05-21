@@ -365,7 +365,7 @@ function deletechat(chatid,username){
   let data = require('./data.json');
   for(let i = 0; i<data.chats.length; i++){
     if(data.chats[i].id == chatid){
-      console.log("|NOTICE| "+username+" deleted chat: "+data.chats[i].name+"(id:"+data.chats[i].id+")");
+      console.log(`|NOTICE| ${username} deleted chat: ${data.chats[i].name}(id:${data.chats[i].id})`);
       data.chatids.splice(data.chatids.indexOf(chatid),1);
       data.chats.splice(i,1);
       data.chatscount -= 1;
@@ -415,7 +415,7 @@ function createchat(user, chatname) {
     settings:{},
     data: [{"id":0,"username":"","type":"alert","value":`Chat Created by ${user}`,"date":new Date().toISOString(),"replying":false,"replyingtoID":null}],
   };
-  console.log("|NOTICE| created chat: "+chatname+"(id:"+chatid+")");
+  console.log(`|NOTICE| ${user} created chat: ${chatname}(id:${chatid})`);
 
   entiredata.chatids.push(chatid);
   entiredata.chatscount += 1;
