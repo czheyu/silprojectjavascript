@@ -1,9 +1,9 @@
 [
   { "word": "roblox", "replacement": "######" },
-  { "word":"'", "replacement": "&apos;",
-  { "word":"<", "replacement": "&lt;",
-  { "word":">", "replacement": "&gt;",
-  { "word":"\"", "replacement": "&quot;",
-  { "word":"`", "replacement": "&#96;",
+  { "word":"'", "replacement": "&apos;"},
+  { "word":"<", "replacement": "&lt;"},
+  { "word":">", "replacement": "&gt;"},
+  { "word":"\"", "replacement": "&quot;"},
+  { "word":"`", "replacement": "&#96;"},
   { "word": "skibidi", "replacement": "si ke bi di che shuo" }
 ]
