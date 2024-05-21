@@ -273,7 +273,7 @@ function savedata(){
           headers: {
               'Content-Type': 'application/json',
           },
-          body: JSON.stringify({data:JSON.stringify(data)}),
+          body: JSON.stringify({data:JSON.stringify(data,null,2)}),
       })
       .catch(error => {
           // Handle any errors that occur during the fetch
