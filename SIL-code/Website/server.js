@@ -264,7 +264,7 @@ if(process.env.getdata=="true"){
 function resetunread(username,chatid){
   let chatdata = getchatdatabyid(chatid)
   if(chatdata!=null){
-    console.log(chatdata.unread)
+    //console.log(chatdata.unread)
     chatdata.unread[username] = 0
     fs.writeFileSync('./data.json', JSON.stringify(chatdata, null, 2));
 
@@ -429,7 +429,7 @@ function createchat(user, chatname) {
     data: [{"id":0,"username":"","type":"alert","value":`Chat Created by ${user}`,"date":new Date().toISOString(),"replying":false,"replyingtoID":null}],
   };
   data.unread[user] = 0;
-  console.log(data)
+  //console.log(data)
   console.log(`|NOTICE| ${user} created chat: ${chatname}(id:${chatid})`);
 
   entiredata.chatids.push(chatid);
@@ -460,9 +460,9 @@ function invitetochat(chatid, usernametoinvite,user) {
       data.chats[i].countaccess += 1;
 
       data.chats[i].data.push(alert);
-      console.log(data.chats[i].unread)
+      //console.log(data.chats[i].unread)
       data.chats[i].unread[usernametoinvite] = 0;
-      console.log(data.chats[i].unread)
+      //console.log(data.chats[i].unread)
 
       fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data, null, 2));
       console.log(`|NOTICE| ${user} added ${usernametoinvite} to chat: ${data.chats[i].name} (id:${data.chats[i].id})`);

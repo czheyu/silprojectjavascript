@@ -46,10 +46,14 @@ function format(data){
   //data is in array of ids [{id:1,name:"hi"}] etc
   let formatted = "";
   for(let i=0;i<data.length;i++){
+    let unreadhtml = "";
+    if (data[i].unread != 0){
+      unreadhtml = `<p class="text-primary">(${data[i].unread} unread)</p>`
+    }
     if(data[i].lastmessage.username){
-      formatted += `<button type="button" class="w-100 btn btn-outline-light rounded list-group-item list-group-item-action bg-dark text-light" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}<p class="text-primary">(${data[i].unread})</p></h2>${data[i].lastmessage.username}: <strong>${truncateString(data[i].lastmessage.value,50)}</strong></div></button>`
+      formatted += `<button type="button" class="w-100 btn btn-outline-light rounded list-group-item list-group-item-action bg-dark text-light" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}${unreadhtml}</h2>${data[i].lastmessage.username}: <strong>${truncateString(data[i].lastmessage.value,50)}</strong></div></button>`
     } else {
-      formatted += `<button type="button" class="w-100 btn btn-outline-light rounded list-group-item list-group-item-action bg-dark text-light" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}<p class="text-primary">(${data[i].unread})</p></h2><strong>${truncateString(data[i].lastmessage.value,50)}</strong></div></button>`    }
+      formatted += `<button type="button" class="w-100 btn btn-outline-light rounded list-group-item list-group-item-action bg-dark text-light" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}${unreadhtml}</h2><strong>${truncateString(data[i].lastmessage.value,50)}</strong></div></button>`    }
   }
   return formatted
 }
