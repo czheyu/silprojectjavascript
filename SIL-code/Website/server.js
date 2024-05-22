@@ -103,7 +103,9 @@ app.post("/api/messagesget", (req, res) => {
   ) {
     let chatdata = getchatdatabyid(req.body.chatid)
     if(chatdata!=null){
+      delete chatdata.unread;
       res.send(chatdata); //need
+      resetunread(req.body.username,req.body.chatid)
     }else{
       res.send(["accessfailed"])
     }
@@ -260,6 +262,14 @@ if(process.env.getdata=="true"){
 }
 /////////////////
 ////////////////////---------------------------------
+function resetunread(username,chatid){
+  let chatdata = getchatdatabyid(chatid)
+  if(chatdata!=null){
+    chatdata.unread[username] = 0
+    fs.writeFileSync('./data.json', JSON.stringify(chatdata, null, 2));
+
+  }
+}
 
 function savedata(){
   const url = process.env.DB
@@ -347,7 +357,6 @@ function getdata(){
   
 }
 
-
 function generatechatid(listofcurrentids){
   //8 digit- meaning ~1bil ids
   let newid;
@@ -391,6 +400,9 @@ function removefromchat(id,usernametoremove,username){
     for (let i = 0; i < data.chats.length; i++) {
       if (data.chats[i].id == id && data.chats[i].users.includes(username)&& data.chats[i].users.includes(usernametoremove)) {
         data.chats[i].users.splice(data.chats[i].users.indexOf(usernametoremove),1);
+
+        delete data.chats[i].unread[usernametoremove]
+        
         const alert = {"id":data.chats[i].countaccess,"type":"alert","value":`${usernametoremove} was removed by ${username}`};
 
         data.chats[i].countaccess += 1;
@@ -410,11 +422,13 @@ function createchat(user, chatname) {
   const data = {
     users: [user],
     id: chatid,
+    unread:{},
     name: chatname,
     countaccess: 1,
     settings:{},
     data: [{"id":0,"username":"","type":"alert","value":`Chat Created by ${user}`,"date":new Date().toISOString(),"replying":false,"replyingtoID":null}],
   };
+  data.unread[user] = 0;
   console.log(`|NOTICE| ${user} created chat: ${chatname}(id:${chatid})`);
 
   entiredata.chatids.push(chatid);
@@ -445,6 +459,7 @@ function invitetochat(chatid, usernametoinvite,user) {
       data.chats[i].countaccess += 1;
 
       data.chats[i].data.push(alert);
+      data.chats[i].unread[usernametoinvite] = 0;
       
       fs.writeFileSync(__dirname + "/data.json", JSON.stringify(data, null, 2));
       console.log(`|NOTICE| ${user} added ${usernametoinvite} to chat: ${data.chats[i].name} (id:${data.chats[i].id})`);
@@ -489,7 +504,7 @@ function getallchatsbyuser(username) {
   let listofchats = [];
   for (let i = 0; i < chats.length; i++) {
     if (chats[i].users.includes(username)) {
-      listofchats.push({id:chats[i].id,name:chats[i].name,lastmessage:chats[i].data[chats[i].data.length-1]});
+      listofchats.push({unread:chats[i].unread[username],id:chats[i].id,name:chats[i].name,lastmessage:chats[i].data[chats[i].data.length-1]});
     }
   } //return list of ids
   return listofchats;
@@ -642,6 +657,11 @@ function writeData(
     replyingtoID: replyingtoID,
   };
   dataarray["data"].push(dataadding);
+
+  for(let i in dataarray.unread){
+    dataarray.unread[i]++
+  } 
+  
   dataarray.countaccess++;
   pushdatatochatbychatid(
     require("./data.json").chats.indexOf(dataarray),

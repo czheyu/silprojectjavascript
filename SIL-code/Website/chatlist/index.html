@@ -98,19 +98,19 @@
     
     <div class="container-fluid" id="chatlist">
 
-      <ul class="list-group m-3 text-light bg-primary" id="chatlistdiv">
+      <ul class="list-group m-3 text-light border" id="chatlistdiv">
 
-                <button class="list-group-item list-group-item-action">
+                <button class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#createchat">
 
           <h2>Create a chat to start!</h2>
         </button>
       </ul>
     </div>
+
     <div class="fixed-bottom container-fluid bg-light">
         <div class="position-absolute bottom-0 end-0 p-3">
-            <button type="button" class="p-3 btn btn-outline-light rounded-5" data-bs-toggle="modal" data-bs-target="#createchat">create chat</button>
+            <button type="button" style="background-color: rgba(0,0,0,.5);" class="p-3 btn btn-outline-light rounded-5" data-bs-toggle="modal" data-bs-target="#createchat">create chat</button>
       </div>
     </div>
-
   </body>
 </html>
