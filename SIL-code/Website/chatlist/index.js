@@ -47,10 +47,9 @@ function format(data){
   let formatted = "";
   for(let i=0;i<data.length;i++){
     if(data[i].lastmessage.username){
-      formatted += `<div class="m-1 p-0 mw-100 d-flex border border-outline-light"><button type="button" class="w-100 btn btn-outline-light rounded" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}</h2>${data[i].lastmessage.username}: <strong>${truncateString(data[i].lastmessage.value,50)}</strong></div></button></div>`
+      formatted += `<button type="button" class="w-100 btn btn-outline-light rounded list-group-item list-group-item-action bg-dark text-light" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}</h2>${data[i].lastmessage.username}: <strong>${truncateString(data[i].lastmessage.value,50)}</strong></div></button>`
     } else {
-      formatted += `<div class="m-1 p-0 mw-100 d-flex border border-outline-light"><button type="button" class="w-100 btn btn-outline-light rounded" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}</h2><strong>${truncateString(data[i].lastmessage.value,50)}</strong></div></button></div>`
-    }
+      formatted += `<button type="button" class="w-100 btn btn-outline-light rounded list-group-item list-group-item-action bg-dark text-light" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}</h2><strong>${truncateString(data[i].lastmessage.value,50)}</strong></div></button>`    }
   }
   return formatted
 }

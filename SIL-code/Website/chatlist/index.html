@@ -74,18 +74,19 @@
 
     <!-- end of interactive modal-->
     
+
     <div class="sticky-top container-fluid m-0 p-0 d-flex flex-row-reverse">
-      <div class="justify-content-between input-group mb-3 bg-dark p-2 d-flex justify-content-start border border-secondary-subtle rounded border-1">
+      <div class="justify-content-between input-group mb-3 bg-dark p-2 d-flex justify-content-start border border-secondary-subtle border-1">
         <div class="d-inline-flex">
         <p id="chatnamedisplay" class="m-1 p-1 fw-light text-white"><strong>ChatList</strong></p>
 
         <p id="logindisplay" class="m-1 p-1 fw-light text-white">Logged in as <strong>zheyutest</strong></p>
         </div><div>
-        <button class="btn m-1 p-1 btn-outline-light rounded" type="button" id="logoutbutton">
+        <button class="btn btn-outline-light border-0" type="button" id="logoutbutton">
           logout
         </button>
-        <button class="btn m-1 p-1 btn-outline-danger
-            rounded" type="button" id="deleteaccountbutton" data-bs-toggle="modal" data-bs-target="#deleteacc">
+        <button class="btn btn-outline-danger
+            rounded border-0" type="button" id="deleteaccountbutton" data-bs-toggle="modal" data-bs-target="#deleteacc">
           delete account
         </button></div>
 
@@ -95,11 +96,21 @@
       </div>      
     </div>
     
-    <div class="container-fluid bg-dark" id="chatlist">
-      <button type="button" class="w-100 btn btn-outline-light rounded" data-bs-toggle="modal" data-bs-target="#createchat">create chat</button>
-      <div class="jumbotron bg-dark border border-outline-light m-2 p-2" id="chatlistdiv">
-      LOADING
+    <div class="container-fluid" id="chatlist">
+
+      <ul class="list-group m-3 text-light bg-primary" id="chatlistdiv">
+
+                <button class="list-group-item list-group-item-action">
+
+          <h2>Create a chat to start!</h2>
+        </button>
+      </ul>
+    </div>
+    <div class="fixed-bottom container-fluid bg-light">
+        <div class="position-absolute bottom-0 end-0 p-3">
+            <button type="button" class="p-3 btn btn-outline-light rounded-5" data-bs-toggle="modal" data-bs-target="#createchat">create chat</button>
       </div>
     </div>
+
   </body>
 </html>
