@@ -103,7 +103,6 @@ app.post("/api/messagesget", (req, res) => {
   ) {
     let chatdata = getchatdatabyid(req.body.chatid)
     if(chatdata!=null){
-      delete chatdata.unread;
       res.send(chatdata); //need
       resetunread(req.body.username,req.body.chatid)
     }else{
