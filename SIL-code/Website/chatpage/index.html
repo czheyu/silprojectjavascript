@@ -4,92 +4,119 @@
     <meta charset="UTF-8" />
     <title>Chat App</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-
       .container {
         height: 100%;
         width: 100%;
       }
-      .modal-backdrop { z-index: -1; }
+      .modal-backdrop {
+        z-index: -1;
+      }
       #message.form-control::placeholder {
         color: white;
       }
     </style>
-  <script src="https://czheyuchatapp.onrender.com/chatapp/CHATIDREPLACE/index.js"></script>
+    <!--script src="https://czheyuchatapp.onrender.com/chatapp/CHATIDREPLACE/index.js"></script-->
     <script>
       var chatID = CHATIDREPLACE;
-
     </script>
     <!--script src="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001/chatapp/CHATIDREPLACE/index.js"></script-->
-
   </head>
   <body class="bg-dark" id="body">
-
     <!-- start of interactive chat modal-->
 
-    <div class="modal fade" id="chat" tabindex="-1" >
+    <div class="modal fade" id="chat" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content bg-dark">
           <div class="modal-header bg-dark">
             <h1 class="modal-title fs-5 text-light" id="chatmenutitle">Chat</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
-              <div>
-                <p class="text-light" id="participantsdisplay">
-                </p>
-              </div>
+            <div>
+              <p class="text-light" id="participantsdisplay"></p>
+            </div>
+            <div class="dropdown-center">
+              <button
+                id="userchooseadd"
+                class="btn btn-secondary dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                choose user
+              </button>
+              <ul id="dropdownadd" class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action two</a></li>
+                <li><a class="dropdown-item" href="#">Action three</a></li>
+              </ul>
+              <button
+                class="btn m-1 p-1 btn-outline-light rounded"
+                type="button"
+                id="adduserbutton"
+                onclick="adduser()"
+              >
+                adduser
+              </button>
+            </div>
+            <div>
               <div class="dropdown-center">
-                <button id="userchooseadd" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <button
+                  id="userchooseremove"
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
                   choose user
                 </button>
-                <ul id="dropdownadd" class="dropdown-menu">
+                <ul id="dropdownremove" class="dropdown-menu">
                   <li><a class="dropdown-item" href="#">Action two</a></li>
                   <li><a class="dropdown-item" href="#">Action three</a></li>
                 </ul>
                 <button
                   class="btn m-1 p-1 btn-outline-light rounded"
                   type="button"
-                  id="adduserbutton"
-                  onclick="adduser()"
+                  id="removeuserbutton"
+                  onclick="console.log('not binded')"
                 >
-                  adduser
+                  removeuser
                 </button>
-
               </div>
-              <div>
-                <div class="dropdown-center">
-                  <button id="userchooseremove" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    choose user
-                  </button>
-                  <ul id="dropdownremove" class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action two</a></li>
-                    <li><a class="dropdown-item" href="#">Action three</a></li>
-                  </ul>
-                  <button
-                    class="btn m-1 p-1 btn-outline-light rounded"
-                    type="button"
-                    id="removeuserbutton"
-                    onclick="console.log('not binded')"
-                  >
-                    removeuser
-                  </button>
-                </div>
-              </div>
-          <button
-            class="btn m-1 p-1 btn-outline-danger rounded"
-            type="button"
-            id="deletechat"
-            onclick="console.log('not binded')"
-          >
-            delete chat
-          </button>
+            </div>
+            <button
+              class="btn m-1 p-1 btn-outline-danger rounded"
+              type="button"
+              id="deletechat"
+              onclick="console.log('not binded')"
+            >
+              delete chat
+            </button>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
           </div>
         </div>
       </div>
@@ -98,133 +125,210 @@
     <!-- end of interactive modal-->
     <!-- start of interactive settings modal-->
 
-    <div class="modal fade" id="settingsmodal" tabindex="-1" >
+    <div class="modal fade" id="settingsmodal" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content bg-dark">
           <div class="modal-header bg-dark">
             <h1 class="modal-title fs-5 text-light" id="Title">Settings</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
-              <div class="mb-3">
-                <p id="logindisplay" class="m-1 p-1 fw-light text-white">Logged in as user</p>
+            <div class="mb-3">
+              <p id="logindisplay" class="m-1 p-1 fw-light text-white">
+                Logged in as user
+              </p>
 
-                <button
-                  class="btn m-1 p-1 btn-outline-light rounded"
-                  type="button"
-                  id="logoutbutton"
-                >
-                  logout
-                </button>
-
+              <button
+                class="btn m-1 p-1 btn-outline-light rounded"
+                type="button"
+                id="logoutbutton"
+              >
+                logout
+              </button>
+            </div>
+            <div class="mb-3">
+              <input
+                type="range"
+                min="5"
+                max="50"
+                value="25"
+                class="w-auto px-1 mx-1"
+                id="getrange"
+              />
+              <p id="getrangedisplay" class="m-1 p-1 fw-light text-white">
+                Current get cooldown: 2.5s
+              </p>
+              <div class="progress" role="progressbar">
+                <div
+                  class="progress-bar progress-bar-striped progress-bar-animated"
+                  style="width: 0%; transition: none"
+                ></div>
               </div>
-              <div class="mb-3">
-                <input type="range" min="5" max="50" value="25" class="w-auto px-1 mx-1" id="getrange">
-                <p id="getrangedisplay" class="m-1 p-1 fw-light text-white">Current get cooldown: 2.5s</p>
-                <div class="progress" role="progressbar">
-                  <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%; transition: none;"></div>
-                </div>
-              </div>
-              <div class="mb-3">
-                <button
-                  class="btn m-1 p-1 btn-outline-light rounded"
-                  type="button"
-                  id="forcescrollbutton"
-                >
-                  Enable force scroll
-                </button>
-                
-              </div>
-              <div class="mb-3">
-                <button
-                  class="btn m-1 p-1 btn-outline-light rounded"
-                  type="button"
-                  id="showdateunhoverbutton"
-                  onclick="showdateunhover = !showdateunhover;if(showdateunhover){this.innerHTML = 'Disable Simple Date Display'}else{this.innerHTML = 'Enable Simple Date Display'}; updateChat(lastgetdata);"
-                >
-                  Enable Simple Date Display
-                </button>
-              </div>
+            </div>
+            <div class="mb-3">
+              <button
+                class="btn m-1 p-1 btn-outline-light rounded"
+                type="button"
+                id="forcescrollbutton"
+              >
+                Enable force scroll
+              </button>
+            </div>
+            <div class="mb-3">
+              <button
+                class="btn m-1 p-1 btn-outline-light rounded"
+                type="button"
+                id="showdateunhoverbutton"
+                onclick="showdateunhover = !showdateunhover;if(showdateunhover){this.innerHTML = 'Disable Simple Date Display'}else{this.innerHTML = 'Enable Simple Date Display'}; updateChat(lastgetdata);"
+              >
+                Enable Simple Date Display
+              </button>
+            </div>
           </div>
           <div class="modal-footer">
             <p class="text-light">silchatapp v1.01 - 2024/5/22</p>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
           </div>
         </div>
       </div>
     </div>
-    
+
     <!-- end of interactive modal-->
 
-
     <!-- Modal confirm -->
-    <div class="modal fade" id="confirmdelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="confirmdelete"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog bg-dark">
         <div class="modal-content bg-dark">
           <div class="modal-header">
-            <h1 class="modal-title fs-5 text-light" id="confirmtitle">Confirm delete</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h1 class="modal-title fs-5 text-light" id="confirmtitle">
+              Confirm delete
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <h2 class="text-warning">Confirm delete:</h2>
             <div id="confirmtext" class="confirmtext"></div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-            <button type="button" data-bs-dismiss="modal" class="deletebutton btn btn-warning" onclick="console.log('delete not set');">Delete</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              data-bs-dismiss="modal"
+              class="deletebutton btn btn-warning"
+              onclick="console.log('delete not set');"
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
     </div>
     <!--end of modal confirm-->
-    <div class="sticky-top container-fluid m-0 p-0 d-flex flex-row-reverse">
-      <div class="input-group mb-3 bg-dark p-2 d-flex justify-content-between border border-secondary-subtle rounded border-1">
-          <div class="d-inline p-2"><button type="button" onclick="window.location = url+'/chatlist'; " class="btn btn-outline-light rounded" >back</button></div>
-          <div class="d-inline p-2"><p id="chatnamedisplay" class="m-1 p-1 fw-light text-white">Chat: <strong>placeholderchatname</strong></p></div>
+    <div class="sticky-top">
+      <div class="input-group mb-3 d-flex">
+        <button
+          type="button"
+          onclick="window.location = url+'/chatlist'; "
+          class="fs-5 btn btn-outline-light text-light"
+        >
+          back
+        </button>
+        <button
+          id="chatnamedisplaybutton"
+          class="fs-5 flex-grow-1 d-block text-start bg-dark text-white input-group-text"
+          data-bs-toggle="modal"
+          data-bs-target="#chat"
+        >
+          <p id="chatnamedisplay" class="fs-2 p-0 m-0">Chatname</p>
 
-          <div class="d-block flex-row-reverse">
+          <p id="participantsmaindisplay" class="fs-5 p-0 m-0">
+            user,user,user,user
+          </p>
+        </button>
 
-            <div class="ms-auto p-2"><button id="userdisplay" type="button" class="btn btn-outline-light rounded" data-bs-toggle="modal" data-bs-target="#settingsmodal">user</button></div>
-        
-        </div>
+        <button
+          id="userdisplay"
+          type="button"
+          class="fs-5 btn btn-outline-light"
+          data-bs-toggle="modal"
+          data-bs-target="#settingsmodal"
+        >
+          <strong>User</strong>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="60"
+            fill="currentColor"
+            class="bi bi-person"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"
+            />
+          </svg>
+        </button>
       </div>
     </div>
     <div class="container-fluid">
       <div class="jumbotron">
-        <div class="chat-container" id="chat-container">
-          <h2 class="text-center text-light">loading...</h2>
-          <h2 class="text-light">If this page does not load, either: You are not in this chat, you are logged out, or there is a internal error. Click <a href="https://czheyuchatapp.onrender.com/chatlist">here</a> to go back to chatlist</h2>
-
-        </div>
-        <div class="fixed-bottom bg-dark border border-secondary-subtle rounded border-1"">
-          <div id="replydiv"  style="display: none;">
+        <div class="chat-container" id="chat-container">sigma</div>
+        <div
+          class="fixed-bottom bg-dark border p-1 border-secondary-subtle rounded-top border-1"
+        >
+          <div id="replydiv" style="display: none">
             <p id="replyp" class="m-1 p-1 fw-light text-white"></p>
-              <button
-                class="btn btn-outline-light"
-                type="button"
-                id="cancelbutton"
-                onclick="cancelReply();"
-              >
-                cancel
-              </button>          
-          </div>
-          <div class="input-group m-2">
-          <input 
-            autocomplete="off" 
-            type="text"
-            class="form-control bg-dark text-light" 
-            id="message"
-            placeholder="message"
-          >
-
-          <button 
-            class="btn btn-outline-light" 
-            type="button"
-            id="sendbutton"
+            <button
+              class="btn btn-outline-light"
+              type="button"
+              id="cancelbutton"
+              onclick="cancelReply();"
             >
-            send
-          </button>
+              cancel
+            </button>
+          </div>
+          <div class="input-group">
+            <input
+              autocomplete="off"
+              type="text"
+              class="form-control bg-dark text-light"
+              id="message"
+              placeholder="message"
+            />
 
+            <button class="btn btn-outline-light" type="button" id="sendbutton">
+              send
+            </button>
+          </div>
         </div>
       </div>
     </div>
