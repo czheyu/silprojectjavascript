@@ -227,7 +227,7 @@ async function getparticipants(){
         participantsdisplay.innerHTML = "Participants: <strong>" + data.result + "</strong>"
 
         const participantsmaindisplay = document.getElementById("participantsmaindisplay");
-        participantsmaindisplay.innerHTML = `${lastparticipants}`
+        participantsmaindisplay.innerHTML = `${lastparticipants.result}`
         
         displaytodropdownremove(data.result);
       }
@@ -815,7 +815,7 @@ function getchatnamebyid(id){
 
       
       const participantsmaindisplay = document.getElementById("participantsmaindisplay");
-      participantsmaindisplay.innerHTML = `${lastparticipants}`
+      participantsmaindisplay.innerHTML = `${lastparticipants.result}`
 
       
       chatnamedisplay.innerHTML = `<strong>${data.result}</strong><br>`;
