@@ -14,7 +14,7 @@ var url = "https://czheyuchatapp.onrender.com";
 
 app.get("/icon.png", (req, res) => {
   //console.log("GET / called");
-  res.sendFile(__dirname + "/assets/icon.png);
+  res.sendFile(__dirname + "/assets/icon.png");
 });
 
 app.get("/", (req, res) => {
