@@ -41,7 +41,7 @@ function submit(){
 
 
       showModal(
-        "Login Success, redirecting to chat page in 5 seconds.",
+        "Register Success, redirecting to login page in 5 seconds.",
         "Success",
       );
       await sleep(5000);
@@ -54,7 +54,7 @@ function submit(){
   enableAll();
 
   submitbutton.innerHTML = 
-    ``;
+    `register`;
 }
 
 function sleep(ms) {
