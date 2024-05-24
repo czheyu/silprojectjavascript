@@ -12,6 +12,11 @@ var time_cron = new Date().getTime()
 var url = "https://czheyuchatapp.onrender.com";
 //url = "https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 
+app.get("/icon.png", (req, res) => {
+  //console.log("GET / called");
+  res.sendFile(__dirname + "/assets/icon.png);
+});
+
 app.get("/", (req, res) => {
   //console.log("GET / called");
   res.sendFile(__dirname + "/home/index.html");
