@@ -6,10 +6,9 @@ var url = "https://czheyuchatapp.onrender.com";
 
 function submit(){
 
-  const loadingPlaceholder = document.getElementById("loadingPlaceholder");
+  const submitbutton = document.getElementById("submit");
 
-  loadingPlaceholder.innerHTML = 
-    `<div class="spinner-border" role="status"> <span class="visually-hidden">Loading...</span> </div>`;
+  submitbutton.innerHTML = ` <div class="spinner-border" style="height:20px;width:20px;" role="status"> <span class="visually-hidden">Loading...</span> </div>`;
 
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
@@ -34,23 +33,27 @@ function submit(){
       }
       return response.json();
     })
-  .then((data) => {
+  .then(async(data) => {
     if (data.result == "success") {
-      const loadingPlaceholder = document.getElementById("loadingPlaceholder");
+      const submitbutton = document.getElementById("submit");
 
-      loadingPlaceholder.innerHTML = 
-        ``;
-      appendAlert("Register Success, redirecting to login page in 5 seconds.", "success");
-      sleep(5000);
+      submitbutton.innerHTML = `register`;
+
+
+      showModal(
+        "Login Success, redirecting to chat page in 5 seconds.",
+        "Success",
+      );
+      await sleep(5000);
       window.location.href = url + "/chat/login";
     } else if (data.result == "username taken") {
-      appendAlert("Username is taken, try another username.", "danger");
+      showModal("Username is taken, try another username.", "Error");
     
     }
   });
   enableAll();
 
-  loadingPlaceholder.innerHTML = 
+  submitbutton.innerHTML = 
     ``;
 }
 
@@ -77,19 +80,14 @@ function enableAll(){
 }
 
 
-function appendAlert(message, type){
-  const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
+function showModal(message, title) {
+  const ModalLable = document.getElementById("ModalLable");
+  const ModalBody = document.getElementById("ModalBody");
+  ModalLable.innerText = title;
+  ModalBody.innerText = message;
 
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = [
-    `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-    `   <div>${message}</div>`,
-    '     <button type="button" onclick="this.parentNode.remove();" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-    "</div>",
-  ].join("");
-
-  alertPlaceholder.append(wrapper);
-};
+  document.getElementById("showmodal").click();
+}
 
 
 window.onload = function (){
@@ -98,7 +96,7 @@ window.onload = function (){
   sendbutton.onclick = function () {
     console.log("clicked")
     if (document.getElementById("username").value=="" || document.getElementById("password").value==""){
-      alert("username or password is empty");
+      showModal("Username or Password empty.", "error");
       return
     }
     disableAll();
@@ -108,6 +106,20 @@ window.onload = function (){
   login.onclick = function () {
     window.location.href = url + "/chat/login";
   };
+
+  const hasFocus = (ele) => ele === document.activeElement;
+  const usernameinput = document.getElementById("username");
+  const passwordinput = document.getElementById("password");
+  const registerbutton = document.getElementById("submit");
+  document.addEventListener("keydown", function (event) {
+    if (event.key == "Enter" && hasFocus(usernameinput)) {
+      event.preventDefault();
+      passwordinput.focus();
+    } else if (event.key == "Enter" && hasFocus(passwordinput)) {
+      event.preventDefault();
+        registerbutton.click();
+    }
+  });
 }
 
 

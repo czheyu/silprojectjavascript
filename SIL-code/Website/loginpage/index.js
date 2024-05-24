@@ -2,11 +2,10 @@ var url = "https://czheyuchatapp.onrender.com";
 //url ="https://9f385a7a-d4b2-4c35-b8fc-9937e0c39c58-00-zrl36mrg5918.picard.replit.dev:3001";
 
 function submit() {
-  const loadingPlaceholder = document.getElementById("loadingPlaceholder");
+  const submitbutton = document.getElementById("submit");
 
-  loadingPlaceholder.innerHTML = 
-    `<div class="spinner-border" role="status"> <span class="visually-hidden">Loading...</span> </div>`;
-  
+  submitbutton.innerHTML = ` <div class="spinner-border" style="height:20px;width:20px;" role="status"> <span class="visually-hidden">Loading...</span> </div>`;
+
   console.log("submit clicked");
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
@@ -23,41 +22,39 @@ function submit() {
     },
     body: JSON.stringify(data),
   };
-  console.log("starting to fetch")
-    fetch(apiUrl, requestOptions)
+  console.log("starting to fetch");
+  fetch(apiUrl, requestOptions)
     .then((response) => {
-      console.log("fetched")
+      console.log("fetched");
       return response.json();
     })
-    .then((data) => {
+    .then(async (data) => {
       if (data.result == "success") {
-        const loadingPlaceholder = document.getElementById("loadingPlaceholder");
+        const submitbutton = document.getElementById("submit");
 
-        loadingPlaceholder.innerHTML = 
-          ``;
+        submitbutton.innerHTML = `login`;
 
         localStorage.setItem("loggedin", true);
         localStorage.setItem("username", username);
         localStorage.setItem("password", password);
-        
-        appendAlert("Login Success, redirecting to chat page in 5 seconds.", "success");
-        sleep(5000);
+
+        showModal(
+          "Login Success, redirecting to chat page in 5 seconds.",
+          "Success",
+        );
+        await sleep(5000);
         window.location.href = url + "/chatlist";
       } else if (data.result == "failed") {
+        const submitbutton = document.getElementById("submit");
 
-        const loadingPlaceholder = document.getElementById("loadingPlaceholder");
-
-        loadingPlaceholder.innerHTML = 
-          ``;
-        appendAlert("Username or password is incorrect.", "danger");
+        submitbutton.innerHTML = `login`;
+        showModal("Username or password is incorrect.", "Error");
       }
     });
-    
+
   enableAll();
 
-
-  loadingPlaceholder.innerHTML = 
-    ``;
+  submitbutton.innerHTML = `login`;
 }
 
 function disableAll() {
@@ -82,37 +79,31 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function appendAlert(message, type){
-  const alertPlaceholder = document.getElementById("liveAlertPlaceholder");
+function showModal(message, title) {
+  const ModalLable = document.getElementById("ModalLable");
+  const ModalBody = document.getElementById("ModalBody");
+  ModalLable.innerText = title;
+  ModalBody.innerText = message;
 
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = [
-    `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-    `   <div>${message}</div>`,
-    '     <button type="button" onclick="this.parentNode.remove();" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-    "</div>",
-  ].join("");
-
-  alertPlaceholder.append(wrapper);
-};
+  document.getElementById("showmodal").click();
+}
 
 window.onload = function () {
-
   const sendbutton = document.getElementById("submit");
 
   const usernamebox = document.getElementById("username");
-const passwordbox = document.getElementById("password");
-usernamebox.value = localStorage.getItem("username");
-passwordbox.value = localStorage.getItem("password");
-sendbutton.onclick = function () {
-if (
+  const passwordbox = document.getElementById("password");
+  usernamebox.value = localStorage.getItem("username");
+  passwordbox.value = localStorage.getItem("password");
+  sendbutton.onclick = function () {
+    if (
       document.getElementById("username").value &&
       document.getElementById("password").value
     ) {
-
       disableAll();
       submit();
     } else {
+      showModal("Username or Password empty.", "error");
       console.log("user or pass empty");
     }
   };
@@ -121,7 +112,17 @@ if (
     window.location.href = url + "/chat/register";
   };
 
-  //for alerts
-
+  const hasFocus = (ele) => ele === document.activeElement;
+  const usernameinput = document.getElementById("username");
+  const passwordinput = document.getElementById("password");
+  const loginbutton = document.getElementById("submit");
+  document.addEventListener("keydown", function (event) {
+    if (event.key == "Enter" && hasFocus(usernameinput)) {
+      event.preventDefault();
+      passwordinput.focus();
+    } else if (event.key == "Enter" && hasFocus(passwordinput)) {
+      event.preventDefault();
+      loginbutton.click();
+    }
+  });
 };
-

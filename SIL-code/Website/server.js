@@ -17,16 +17,11 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/home/index.html");
 });
 
-app.get("/style.css", (req, res) => {
-  //console.log("GET /style.css called");
-
-  res.sendFile(__dirname + "/home/style.css");
-});
-
 app.get("/chatlist", (req, res) => {
   //console.log("GET /chatlist called");
   res.sendFile(__dirname + "/chatlist/index.html");
 });
+
 app.get("/chatlist/index.js", (req, res) => {
   //console.log("GET /chatlist/index.js called");
   res.sendFile(__dirname + "/chatlist/index.js");
