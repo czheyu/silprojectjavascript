@@ -83,8 +83,8 @@ function enableAll(){
 function showModal(message, title) {
   const ModalLable = document.getElementById("ModalLable");
   const ModalBody = document.getElementById("ModalBody");
-  ModalLable.innerText = title;
-  ModalBody.innerText = message;
+  ModalLable.innerHTML = title;
+  ModalBody.innerHTML = message;
 
   document.getElementById("showmodal").click();
 }
