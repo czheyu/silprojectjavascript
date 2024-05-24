@@ -80,9 +80,9 @@ function sleep(ms) {
 }
 
 function showModal(message, title) {
-  const ModalLable = document.getElementById("ModalLable");
+  const ModalLabel = document.getElementById("ModalLabel");
   const ModalBody = document.getElementById("ModalBody");
-  ModalLable.innerHTML = title;
+  ModalLabel.innerHTML = title;
   ModalBody.innerHTML = message;
 
   document.getElementById("showmodal").click();
