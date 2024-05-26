@@ -236,13 +236,13 @@ async function getparticipants(){
 }
 
 function sendClicked() {
+  const message = document.getElementById("message").value.trim();
   if (
     document.getElementById("message").value == "" ||
     localStorage.getItem("username") == ""
   ) {
     return;
   }
-  const message = document.getElementById("message").value;
 
   document.getElementById("message").value = "";
   const type = "message";

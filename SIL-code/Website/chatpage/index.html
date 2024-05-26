@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <title>Chat App</title>
-    <link rel="icon" type="image/x-icon" href="https://czheyuchatapp.onrender.com/icon.png">
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://czheyuchatapp.onrender.com/icon.png"
+    />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -40,7 +44,7 @@
       <div class="modal-dialog">
         <div class="modal-content bg-dark">
           <div class="modal-header bg-dark">
-            <h1 class="modal-title fs-5 text-light" id="chatmenutitle">Chat</h1>
+            <h1 class="modal-title fs-5 text-white" id="chatmenutitle">Chat</h1>
             <button
               type="button"
               class="btn-close"
@@ -50,7 +54,7 @@
           </div>
           <div class="modal-body">
             <div>
-              <p class="text-light" id="participantsdisplay"></p>
+              <p class="text-white" id="participantsdisplay"></p>
             </div>
             <div class="dropdown-center">
               <button
@@ -129,7 +133,7 @@
       <div class="modal-dialog">
         <div class="modal-content bg-dark">
           <div class="modal-header bg-dark">
-            <h1 class="modal-title fs-5 text-light" id="Title">Settings</h1>
+            <h1 class="modal-title fs-5 text-white" id="Title">Settings</h1>
             <button
               type="button"
               class="btn-close"
@@ -191,7 +195,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <p class="text-light">silchatapp v1.01 - 2024/5/22</p>
+            <p class="text-white">silchatapp v1.01 - 2024/5/22</p>
             <button
               type="button"
               class="btn btn-secondary"
@@ -219,7 +223,7 @@
       <div class="modal-dialog bg-dark">
         <div class="modal-content bg-dark">
           <div class="modal-header">
-            <h1 class="modal-title fs-5 text-light" id="confirmtitle">
+            <h1 class="modal-title fs-5 text-white" id="confirmtitle">
               Confirm delete
             </h1>
             <button
@@ -255,23 +259,25 @@
     </div>
     <!--end of modal confirm-->
     <div class="sticky-top">
-      <div class="input-group mb-3 d-flex">
+      <div class="input-group mb-3 py-0 d-flex">
         <button
           type="button"
           onclick="window.location = url+'/chatlist'; "
-          class="bg-dark fs-5 btn btn-outline-light text-light"
+          class="bg-dark fs-5 py-2 btn btn-outline-light text-white"
         >
           back
         </button>
         <button
           id="chatnamedisplaybutton"
-          class="fs-5 flex-grow-1 d-block text-start bg-dark text-white input-group-text"
+          class="py-2 flex-grow-1 d-block text-start bg-dark text-white input-group-text"
           data-bs-toggle="modal"
           data-bs-target="#chat"
         >
-          <p id="chatnamedisplay" class="fs-2 p-0 m-0">Chatname</p>
+          <p id="chatnamedisplay" class="fs-2 p-0 m-0">
+            <strong>chatname</strong>
+          </p>
 
-          <p id="participantsmaindisplay" class="fs-5 p-0 m-0">
+          <p id="participantsmaindisplay" class="p-0 m-0">
             user,user,user,user
           </p>
         </button>
@@ -279,16 +285,16 @@
         <button
           id="userdisplay"
           type="button"
-          class="bg-dark fs-5 btn btn-outline-light"
+          class="bg-dark text-white btn btn-outline-light py-2"
           data-bs-toggle="modal"
           data-bs-target="#settingsmodal"
         >
           <strong>User</strong>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="60"
-            fill="currentColor"
+            width="32"
+            height="32"
+            fill="white"
             class="bi bi-person"
             viewBox="0 0 16 16"
           >
@@ -303,9 +309,9 @@
       <div class="jumbotron">
         <div class="chat-container" id="chat-container">
           <div class="d-flex justify-content-center">
-              <div class="spinner-border" role="status" style="color: white">
-                <span class="visually-hidden">Loading...</span>
-              </div>
+            <div class="spinner-border" role="status" style="color: white">
+              <span class="visually-hidden">Loading...</span>
+            </div>
           </div>
         </div>
         <div
@@ -326,7 +332,7 @@
             <input
               autocomplete="off"
               type="text"
-              class="form-control bg-dark text-light"
+              class="form-control bg-dark text-white"
               id="message"
               placeholder="message"
             />
