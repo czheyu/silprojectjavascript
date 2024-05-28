@@ -35,7 +35,10 @@ function deleteacc(){
 }
 
 
-function truncateString(str, maxLength) { 
+function truncateString(str, maxLength) {
+  if(!str){
+    return "Deleted Message"
+  }
     if (str.length > maxLength) { 
         return str.slice(0, maxLength - 3) + '...'; 
     } 
@@ -48,7 +51,7 @@ function format(data){
   for(let i=0;i<data.length;i++){
     let unreadhtml = "";
     if (data[i].unread != 0){
-      unreadhtml = `<p class="text-primary">(${data[i].unread} unread)</p>`
+      unreadhtml = `<span class="badge text-bg-secondary">${data[i].unread}</span>`
     }
     if(data[i].lastmessage.username){
       formatted += `<button type="button" class="w-100 btn btn-outline-light rounded list-group-item list-group-item-action bg-dark text-light" onclick="window.location = '${url}/chatapp/${data[i].id}'"><div class="w-100 h-100"><h2>${data[i].name}${unreadhtml}</h2>${data[i].lastmessage.username}: <strong>${truncateString(data[i].lastmessage.value,50)}</strong></div></button>`
