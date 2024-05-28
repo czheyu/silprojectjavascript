@@ -41,7 +41,7 @@ function submit(){
 
 
       showModal(
-        "Register Success, redirecting to login page in 5 seconds.",
+        `Register Success, redirecting to login page in 5 seconds.\nClick <button type="button" class="btn btn-link" onclick="window.location.replace('https://czheyuchatapp.onrender.com/chat/login')">here</button> to redirect now.`,
         "Success",
       );
       await sleep(5000);

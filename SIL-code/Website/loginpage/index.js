@@ -39,7 +39,7 @@ function submit() {
         localStorage.setItem("password", password);
 
         showModal(
-          "Login Success, redirecting to chat page in 5 seconds.",
+          `Login Success, redirecting to chat page in 5 seconds.\nClick <button type="button" class="btn btn-link" onclick="window.location.replace('https://czheyuchatapp.onrender.com/chatlist')">here</button> to redirect now.`,
           "Success",
         );
         await sleep(5000);
