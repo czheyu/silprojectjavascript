@@ -34,7 +34,7 @@ app.get("/cow/index.js",(req,res)=>{
 app.get("/cow/cow.png",(req,res)=>{
   let max = 3
   let min = 0
-  let index = (Math.floor(Math.random() * (max - min + 1)) + min)
+  let index = Math.floor(Math.random() * (max - min + 1))
   res.sendFile(__dirname+"/cow/assets/cow"+index+".png")
 })
 
