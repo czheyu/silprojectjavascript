@@ -26,7 +26,6 @@ app.get("/cow",(req,res)=>{
   res.sendFile(__dirname+"/cow/index.html")
 })
 
-Math.floor(Math.random() * (max - min + 1)) + min
 
 app.get("/cow/index.js",(req,res)=>{
   res.sendFile(__dirname+"/cow/index.js")
