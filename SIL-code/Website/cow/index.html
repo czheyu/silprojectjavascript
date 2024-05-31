@@ -34,8 +34,9 @@
     ></script>
     <script src="https://czheyuchatapp.onrender.com/cow/index.js"></script>
     <style>
-      body {         user-select: none;
-}
+      body {
+        user-select: none;
+      }
       .cowparticle {
         position: absolute;
       }
@@ -96,9 +97,15 @@
         id="cowdisplay"
         class="py-2 text-center text-primary fw-bolder display-1"
       >
-        Cows: 0</h2>
+        Cows: 0
+      </h2>
 
-      <h3 id="moneydisplay"         class="py-2 text-center text-primary fw-bolder display-5">Money: 0</h3>
+      <h3
+        id="moneydisplay"
+        class="py-2 text-center text-primary fw-bolder display-5"
+      >
+        Money: 0
+      </h3>
       <hr class="gradient" />
 
       <header class="pb-5 row align-items-start" style="height: auto">
@@ -115,7 +122,8 @@
                     class="cowbtn border border-0 bg-transparent"
                     onclick="clicked()"
                   >
-                    <img class="cowimg"
+                    <img
+                      class="cowimg"
                       src="https://czheyuchatapp.onrender.com/cow/cow.png"
                     />
                   </button>
@@ -128,11 +136,13 @@
           class="flex-grow-1 col p-2 m-0 bg-secondary rounded rounded-3 border border-1"
           style="--bs-bg-opacity: 0.02"
         >
-          <div id="upgradeslist" style="height: 100%;" class=" fs-2 p-0 m-0">
+          <div id="upgradeslist" style="height: 100%" class="fs-2 p-0 m-0">
             <div
               class="m-0 rol container-fluid rounded d-flex justify-content-center"
-            > 
-                   <img width="20%" height="20%"
+            >
+              <img
+                width="20%"
+                height="20%"
                 src="https://czheyuchatapp.onrender.com/cow/cowfarm.png"
               />
               <p
@@ -141,87 +151,144 @@
               >
                 cowfarm(how much cows u get per click): 1
               </p>
-              <button class="btn btn-outline-dark" onclick="upgrade('farm')">buy: $500</button>
+              <button class="btn btn-outline-dark" onclick="upgrade('farm')">
+                buy: $500
+              </button>
             </div>
 
             <hr class="gradient" />
 
             <div
-
-              class="m-0 rol container-fluid  rounded d-flex justify-content-center"
-            ><img width="20%" height="20%"
+              class="m-0 rol container-fluid rounded d-flex justify-content-center"
+            >
+              <img
+                width="20%"
+                height="20%"
                 src="https://czheyuchatapp.onrender.com/cow/rawbeef.png"
               />
               <p
                 id="rawbeefdisplay"
-
                 class="m-0 flex-grow-1 fs-4 fw-bolder h-100 text-center text-primary"
               >
                 rawbeef: 0
               </p>
-              <button class="btn btn-outline-dark" onclick="butcher()">Butcher</button>
+              <button class="btn btn-outline-dark" onclick="butcher()">
+                Butcher
+              </button>
             </div>
             <hr class="gradient" />
 
-
             <div
-              class="m-0 rol container-fluid  rounded d-flex justify-content-center"
-            ><img width="20%" height="20%"
+              class="m-0 rol container-fluid rounded d-flex justify-content-center"
+            >
+              <img
+                width="20%"
+                height="20%"
                 src="https://czheyuchatapp.onrender.com/cow/steak.png"
               />
               <p
                 id="steakdisplay"
-
                 class="m-0 flex-grow-1 fs-4 fw-bolder h-100 text-center text-primary"
               >
                 steak: 0
               </p>
-              <button id="cook" class="btn btn-outline-dark" onclick="cook(this)">Cook</button>
-
+              <button
+                id="cook"
+                class="btn btn-outline-dark"
+                onclick="cook(this)"
+              >
+                Cook
+              </button>
             </div>
-            <div class="progress p-0 m-0" role="progressbar" style="height: 3px">
-              <div id="cookprogress" class="progress-bar p-0 m-0" style="width: 0% ;"></div>
+            <div
+              class="progress p-0 m-0"
+              role="progressbar"
+              style="height: 3px"
+            >
+              <div
+                id="cookprogress"
+                class="progress-bar p-0 m-0"
+                style="width: 0%"
+              ></div>
             </div>
             <hr class="gradient" />
             <div
-              class="m-0 rol container-fluid  rounded d-flex justify-content-center"
-            ><img width="20%" height="20%"
+              class="m-0 rol container-fluid rounded d-flex justify-content-center"
+            >
+              <img
+                width="20%"
+                height="20%"
                 src="https://czheyuchatapp.onrender.com/cow/shred.png"
               />
               <p
                 id="shredsdisplay"
-
                 class="m-0 flex-grow-1 fs-4 fw-bolder h-100 text-center text-primary"
               >
                 shreds of steak: 0
               </p>
-              <button class="btn btn-outline-dark" onclick="shred(this)">Shred</button>
-
+              <button class="btn btn-outline-dark" onclick="shred(this)">
+                Shred
+              </button>
             </div>
-            <div class="progress p-0 m-0" role="progressbar" style="height: 3px">
-              <div id="shredsprogress" class="progress-bar p-0 m-0" style="width: 0% ;"></div>
+            <div
+              class="progress p-0 m-0"
+              role="progressbar"
+              style="height: 3px"
+            >
+              <div
+                id="shredprogress"
+                class="progress-bar p-0 m-0"
+                style="width: 0%"
+              ></div>
             </div>
             <hr class="gradient" />
             <div
-              class="m-0 rol container-fluid  rounded d-flex justify-content-center"
-            ><img width="20%" height="20%"
+              class="m-0 rol container-fluid rounded d-flex justify-content-center"
+            >
+              <img
+                width="20%"
+                height="20%"
                 src="https://czheyuchatapp.onrender.com/cow/bubble.png"
               />
               <p
                 id="bubbledisplay"
-
                 class="m-0 flex-grow-1 fs-4 fw-bolder h-100 text-center text-primary"
               >
                 bubble cows: 0
               </p>
-              <button class="btn btn-outline-dark" onclick="craft()">Craft</button>
-
+              <button class="btn btn-outline-dark" onclick="craft()">
+                Craft
+              </button>
             </div>
             <hr class="gradient" />
 
-            <button class="btn btn-outline-dark" onclick="sell()"><p class="fs-2 fw-bolder text-center text-primary">Sell</p> 1$ per <img width="10%" height="10%" src="https://czheyuchatapp.onrender.com/cow/rawbeef.png"><br> 5$ per <img width="10%" height="10%" src="https://czheyuchatapp.onrender.com/cow/steak.png"></button>
-
-
+            <button class="btn btn-outline-dark" onclick="sell()">
+              <p class="fs-2 fw-bolder text-center text-primary">Sell</p>
+              1$ per
+              <img
+                width="10%"
+                height="10%"
+                src="https://czheyuchatapp.onrender.com/cow/rawbeef.png"
+              /><br />
+              5$ per
+              <img
+                width="10%"
+                height="10%"
+                src="https://czheyuchatapp.onrender.com/cow/steak.png"
+              /><br />
+              2$ per
+              <img
+                width="10%"
+                height="10%"
+                src="https://czheyuchatapp.onrender.com/cow/shred.png"
+              /><br />
+              20$ per
+              <img
+                width="10%"
+                height="10%"
+                src="https://czheyuchatapp.onrender.com/cow/bubble.png"
+              />
+            </button>
           </div>
         </div>
       </header>
@@ -240,11 +307,6 @@
       </section>
     </main>
 
-
-
-
-
-
     <!-- Footer-->
     <footer id="footer" class="bg-white py-4 mt-auto">
       <div class="container px-5">
@@ -253,7 +315,9 @@
         >
           <div class="col-auto container-fluid">
             <div class="small m-0">cow clicker 31/5/2024</div>
-            <button class="btn btn-outline-danger" onclick="reset()">reset</button>
+            <button class="btn btn-outline-danger" onclick="reset()">
+              reset
+            </button>
           </div>
         </div>
       </div>

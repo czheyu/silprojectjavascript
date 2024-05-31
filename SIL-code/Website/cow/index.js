@@ -99,7 +99,7 @@ async function shred(btn){
   cookaudio.play();
 
   btn.disabled = true;
-  btn.innerHTML = "shredding batch of "+cooking+" steak"
+  btn.innerHTML = "shredding batch of "+shredding+" steak"
   const progress = document.getElementById('shredprogress');
   for (let i = 0;i<50;i++){
     progress.style.width = i*2+"%";
