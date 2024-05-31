@@ -22,6 +22,41 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/home/index.html");
 });
 
+app.get("/cow",(req,res)=>{
+  res.sendFile(__dirname+"/cow/index.html")
+})
+
+Math.floor(Math.random() * (max - min + 1)) + min
+
+app.get("/cow/index.js",(req,res)=>{
+  res.sendFile(__dirname+"/cow/index.js")
+})
+
+app.get("/cow/cow.png",(req,res)=>{
+  let max = 3
+  let min = 0
+  res.sendFile(__dirname+"/cow/assets/cow"+Math.floor(Math.random() * (max - min + 1)) + min+".png")
+})
+
+app.get("/cow/cowfarm.png",(req,res)=>{
+  res.sendFile(__dirname+"/cow/assets/cowfarm.png")
+})
+app.get("/cow/steak.png",(req,res)=>{
+  res.sendFile(__dirname+"/cow/assets/steak.png")
+})
+app.get("/cow/rawbeef.png",(req,res)=>{
+  res.sendFile(__dirname+"/cow/assets/rawbeef.png")
+})
+app.get("/cow/moo.mp3",(req,res)=>{
+  res.sendFile(__dirname+"/cow/assets/moo.mp3")
+})
+app.get("/cow/slash.mp3",(req,res)=>{
+  res.sendFile(__dirname+"/cow/assets/slash.mp3")
+})
+app.get("/cow/steak.mp3",(req,res)=>{
+  res.sendFile(__dirname+"/cow/assets/steak.mp3")
+})
+
 app.get("/chatlist", (req, res) => {
   //console.log("GET /chatlist called");
   res.sendFile(__dirname + "/chatlist/index.html");
