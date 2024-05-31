@@ -4,7 +4,7 @@ var money;
 var rawbeef;
 var steak;
 var shredsofsteak
-
+var bubblecow
 
 
 var cowimgs = []
@@ -38,7 +38,11 @@ function updateSteakDisplay(){
 
 function updateShredsDisplay(){
   const shredsdisplay = document.getElementById("shredsdisplay");
-  shredsdisplay.innerHTML="shreds of steak: "+shreds.toLocaleString();
+  shredsdisplay.innerHTML="shreds of steak: "+shredsofsteak.toLocaleString();
+}
+function updateBubbleDisplay(){
+  const bubbledisplay = document.getElementById("bubbledisplay");
+  bubbledisplay.innerHTML="bubble cows: "+bubblecow.toLocaleString();
 }
 
 function butcher(){
@@ -88,7 +92,7 @@ async function shred(btn){
   if(steak<=0){return}
   let shredding = steak;
   steak = 0
-  updateSshredsDisplay()
+  updateShredsDisplay()
   updateSteakDisplay()
   const cookaudio = new Audio("https://czheyuchatapp.onrender.com/cow/shredding.mp3");
 
@@ -111,14 +115,30 @@ async function shred(btn){
   progress.style.width = "0%";
 }
 
+function craft(){
+  if(shredsofsteak<=0){return}
+
+
+  let remainder = shredsofsteak%3;
+  bubblecow += (shredsofsteak-remainder)/3;
+
+  shredsofsteak = remainder
+  updateBubbleDisplay();
+  updateShredsDisplay()
+
+}
+
 function sell(){
-  money+=rawbeef*1+steak*5;
+  money+=rawbeef*1+steak*5+shredsofsteak*2+bubblecow*20;
   rawbeef = 0
   steak= 0
+  shredsofsteak = 0
+  bubblecow = 0
   updateSteakDisplay()
   updateRawBeefDisplay()
   updateMoneyDisplay()
-
+updateShredsDisplay()
+  updateBubbleDisplay()
 }
 
 async function clicked(){
@@ -216,13 +236,14 @@ function reset(){
   rawbeef = 0
   steak = 0
   shredsofsteak = 0
-  
+  bubblecow = 0
   updateCowDisplay()
   updateCowFarmDisplay()
   updateMoneyDisplay()
   updateRawBeefDisplay()
   updateSteakDisplay()
-
+  updateShredsDisplay()
+  updateBubbleDisplay()
 }
 
 window.onload = function (){
@@ -235,6 +256,7 @@ window.onload = function (){
     rawbeef = 0
     steak = 0
     shredsofsteak = 0
+    bubblecow=0
   }else{
     let parsed_data = JSON.parse(data)
     cows = parsed_data.cows
@@ -243,13 +265,14 @@ window.onload = function (){
     rawbeef = parsed_data.rawbeef
     steak = parsed_data.steak
     shredsofsteak = parsed_data.shreadsofsteak
-
+    bubblecow = parsed_data.bubblecow
   }
   updateCowDisplay()
   updateCowFarmDisplay()
   updateMoneyDisplay()
   updateRawBeefDisplay()
   updateSteakDisplay()
-
-  setInterval(function(){localStorage.setItem("data",JSON.stringify({shreadsofsteak:shredsofsteak,money:money,cows:cows,cowmultiplier:cowmultiplier,rawbeef:rawbeef,steak:steak}))},1000)
+  updateShredsDisplay()
+  updateBubbleDisplay()
+  setInterval(function(){localStorage.setItem("data",JSON.stringify({bubblecow:bubblecow,shreadsofsteak:shredsofsteak,money:money,cows:cows,cowmultiplier:cowmultiplier,rawbeef:rawbeef,steak:steak}))},1000)
 }

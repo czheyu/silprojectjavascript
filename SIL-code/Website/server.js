@@ -50,6 +50,9 @@ app.get("/cow/rawbeef.png",(req,res)=>{
 app.get("/cow/shred.png",(req,res)=>{
   res.sendFile(__dirname+"/cow/assets/shred.png")
 })
+app.get("/cow/bubble.png",(req,res)=>{
+  res.sendFile(__dirname+"/cow/assets/bubble.png")
+})
 app.get("/cow/moo.mp3",(req,res)=>{
   res.sendFile(__dirname+"/cow/assets/moo.mp3")
 })
