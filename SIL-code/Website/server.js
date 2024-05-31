@@ -47,6 +47,9 @@ app.get("/cow/steak.png",(req,res)=>{
 app.get("/cow/rawbeef.png",(req,res)=>{
   res.sendFile(__dirname+"/cow/assets/rawbeef.png")
 })
+app.get("/cow/shred.png",(req,res)=>{
+  res.sendFile(__dirname+"/cow/assets/shred.png")
+})
 app.get("/cow/moo.mp3",(req,res)=>{
   res.sendFile(__dirname+"/cow/assets/moo.mp3")
 })
@@ -55,6 +58,9 @@ app.get("/cow/slash.mp3",(req,res)=>{
 })
 app.get("/cow/steak.mp3",(req,res)=>{
   res.sendFile(__dirname+"/cow/assets/steak.mp3")
+})
+app.get("/cow/shredding.mp3",(req,res)=>{
+  res.sendFile(__dirname+"/cow/assets/shredding.mp3")
 })
 
 app.get("/chatlist", (req, res) => {

@@ -3,7 +3,7 @@ var cowmultiplier;
 var money;
 var rawbeef;
 var steak;
-
+var shredsofsteak
 
 
 
@@ -36,6 +36,11 @@ function updateSteakDisplay(){
   steakdisplay.innerHTML="steak: "+steak.toLocaleString();
 }
 
+function updateShredsDisplay(){
+  const shredsdisplay = document.getElementById("shredsdisplay");
+  shredsdisplay.innerHTML="shreds of steak: "+shreds.toLocaleString();
+}
+
 function butcher(){
   if(cows<=0){return}
 
@@ -62,7 +67,7 @@ async function cook(btn){
   cookaudio.play();
 
   btn.disabled = true;
-  btn.innerHTML = "cooking batch of "+cooking
+  btn.innerHTML = "cooking batch of "+cooking+" rawbeef"
   const progress = document.getElementById('cookprogress');
   for (let i = 0;i<50;i++){
     progress.style.width = i*2+"%";
@@ -75,6 +80,34 @@ async function cook(btn){
   updateSteakDisplay()
   btn.disabled = false;
   btn.innerHTML = "Cook"
+  progress.style.width = "0%";
+}
+
+
+async function shred(btn){
+  if(steak<=0){return}
+  let shredding = steak;
+  steak = 0
+  updateSshredsDisplay()
+  updateSteakDisplay()
+  const cookaudio = new Audio("https://czheyuchatapp.onrender.com/cow/shredding.mp3");
+
+  cookaudio.play();
+
+  btn.disabled = true;
+  btn.innerHTML = "shredding batch of "+cooking+" steak"
+  const progress = document.getElementById('shredprogress');
+  for (let i = 0;i<50;i++){
+    progress.style.width = i*2+"%";
+    await sleep(14*1000/50)
+  }
+
+  shredsofsteak += shredding;
+
+  updateShredsDisplay()
+  updateSteakDisplay()
+  btn.disabled = false;
+  btn.innerHTML = "Shred"
   progress.style.width = "0%";
 }
 
@@ -182,6 +215,8 @@ function reset(){
   money = 0
   rawbeef = 0
   steak = 0
+  shredsofsteak = 0
+  
   updateCowDisplay()
   updateCowFarmDisplay()
   updateMoneyDisplay()
@@ -199,6 +234,7 @@ window.onload = function (){
     money= 0
     rawbeef = 0
     steak = 0
+    shredsofsteak = 0
   }else{
     let parsed_data = JSON.parse(data)
     cows = parsed_data.cows
@@ -206,6 +242,7 @@ window.onload = function (){
     money = parsed_data.money
     rawbeef = parsed_data.rawbeef
     steak = parsed_data.steak
+    shredsofsteak = parsed_data.shreadsofsteak
 
   }
   updateCowDisplay()
@@ -214,5 +251,5 @@ window.onload = function (){
   updateRawBeefDisplay()
   updateSteakDisplay()
 
-  setInterval(function(){localStorage.setItem("data",JSON.stringify({money:money,cows:cows,cowmultiplier:cowmultiplier,rawbeef:rawbeef,steak:steak}))},1000)
+  setInterval(function(){localStorage.setItem("data",JSON.stringify({shreadsofsteak:shredsofsteak,money:money,cows:cows,cowmultiplier:cowmultiplier,rawbeef:rawbeef,steak:steak}))},1000)
 }
