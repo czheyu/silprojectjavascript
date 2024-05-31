@@ -46,7 +46,7 @@ function butcher(){
 
   updateCowDisplay();
   updateRawBeefDisplay()
-  const slashaudio = new Audio("/slash.mp3");
+  const slashaudio = new Audio("https://czheyuchatapp.onrender.com/cow/slash.mp3");
 
   slashaudio.play();
 }
@@ -57,7 +57,7 @@ async function cook(btn){
   rawbeef = 0
   updateRawBeefDisplay()
   updateSteakDisplay()
-  const cookaudio = new Audio("/steak.mp3");
+  const cookaudio = new Audio("https://czheyuchatapp.onrender.com/cow/steak.mp3");
 
   cookaudio.play();
 
@@ -98,7 +98,7 @@ async function clicked(){
   }
   timelastclicked = Date.now()
   //console.log("registed")
-  const mooaudio = new Audio("/moo.mp3");
+  const mooaudio = new Audio("https://czheyuchatapp.onrender.com/cow/moo.mp3");
 
   mooaudio.play();
 
@@ -129,7 +129,7 @@ async function clickeffect(cowbtn){
         left: ${Math.floor(Math.random()*80)}%;
         top:${Math.floor(Math.random()*80)}%;
         width:${Math.floor(Math.random()*10)+5}%;">
-  <img src="/cow.png">
+  <img src="https://czheyuchatapp.onrender.com/cow/cow.png">
   </div>`
 
 
