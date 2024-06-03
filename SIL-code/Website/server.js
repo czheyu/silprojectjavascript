@@ -22,6 +22,21 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/home/index.html");
 });
 
+app.post("/ytapi",(req,res)=>{
+  console.log("POST /ytapi called"); 
+  let q = req.body.q;
+  if (!q){q="cow"}
+  //variable for your API_KEY
+  const YOUTUBE_API_KEY = process.env.ytapi;
+  //url from YouTube docs modified for my random term and API key,
+  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=100&q=${encodeURIComponent(q)}&key=${YOUTUBE_API_KEY}`;
+  //fetch function following the aforementioned process
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {res.send(JSON.stringify({id:data.items[Math.floor(Math.random() * data.items.length)].id}))});
+  
+})
+
 app.get("/cow",(req,res)=>{
   res.sendFile(__dirname+"/cow/index.html")
 })
