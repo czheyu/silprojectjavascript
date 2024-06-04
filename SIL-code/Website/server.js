@@ -37,7 +37,8 @@ app.post("/ytapi",(req,res)=>{
   //fetch function following the aforementioned process
   fetch(url)
     .then(response => response.json())
-    .then(data => {res.send(JSON.stringify({id:data.items[Math.floor(Math.random() * data.items.length)].id}))});
+    .then(data => {let item = data.items[Math.floor(Math.random() * data.items.length)];
+                   res.send(JSON.stringify({id:item.id,data:item}))});
   
 })
 
