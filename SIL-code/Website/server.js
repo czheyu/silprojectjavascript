@@ -41,7 +41,7 @@ app.post("/ytapi",(req,res)=>{
     .then(data => {
       let i = 0;
       let item = data.items[Math.floor(Math.random() * data.items.length)];
-      while (item.data.snippet.title.includes("#shorts")||item.data.snippet.description.includes("#shorts")){
+      while (item.snippet.title.includes("#shorts")||item.snippet.description.includes("#shorts")){
         item = data.items[Math.floor(Math.random() * data.items.length)];
         i++
         if(i>100){
