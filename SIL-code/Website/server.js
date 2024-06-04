@@ -67,6 +67,21 @@ app.get("/cow/cow.png",(req,res)=>{
   let index = Math.floor(Math.random() * (max - min + 1))
   res.sendFile(__dirname+"/cow/assets/cow"+index+".png")
 })
+app.get("/cow/cow0.png",(req,res)=>{
+  res.sendFile(__dirname+"/cow/assets/cow0.png")
+})
+
+app.get("/cow/cow1.png",(req,res)=>{
+  res.sendFile(__dirname+"/cow/assets/cow1.png")
+})
+
+app.get("/cow/cow2.png",(req,res)=>{
+  res.sendFile(__dirname+"/cow/assets/cow2.png")
+})
+
+app.get("/cow/cow3.png",(req,res)=>{
+  res.sendFile(__dirname+"/cow/assets/cow3.png")
+})
 
 app.get("/cow/cowfarm.png",(req,res)=>{
   res.sendFile(__dirname+"/cow/assets/cowfarm.png")
