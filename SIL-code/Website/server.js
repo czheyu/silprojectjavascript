@@ -2,7 +2,11 @@ const fs = require("fs");
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
+const cors = require('cors');
 
+
+
+app.use(cors())
 const path = require("path");
 app.use(express.json());
 var listening = false
