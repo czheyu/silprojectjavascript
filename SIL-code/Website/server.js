@@ -37,8 +37,18 @@ app.post("/ytapi",(req,res)=>{
   //fetch function following the aforementioned process
   fetch(url)
     .then(response => response.json())
-    .then(data => {let item = data.items[Math.floor(Math.random() * data.items.length)];
-                   res.send(JSON.stringify({id:item.id,data:item}))});
+    
+    .then(data => {
+      let i = 0;
+      let item = data.items[Math.floor(Math.random() * data.items.length)];
+      while (item.data.snippet.title.includes("#shorts")||item.data.snippet.description.includes("#shorts")){
+        item = data.items[Math.floor(Math.random() * data.items.length)];
+        i++
+        if(i>100){
+          break
+        }
+      }
+      res.send(JSON.stringify({id:item.id,data:item}))});
   
 })
 
